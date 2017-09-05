@@ -10,11 +10,14 @@ using System.Windows.Forms;
 
 namespace Athena2
 {
-    public partial class Form1 : Form
+    public partial class frmDownloader : Form
     {
-        public Form1()
+        public frmDownloader()
         {
             InitializeComponent();
         }
+
+
+        
     }
 }
