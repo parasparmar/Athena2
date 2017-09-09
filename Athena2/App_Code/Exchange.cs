@@ -22,8 +22,9 @@ namespace Athena2
                     if (theDate.DayOfWeek != DayOfWeek.Saturday && theDate.DayOfWeek != DayOfWeek.Sunday)
                     {
                         T.Add(theDate);
-                    }
 
+                    }
+                    theDate = theDate.AddDays(1);
                 }
             }
 

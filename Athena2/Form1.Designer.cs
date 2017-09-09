@@ -213,6 +213,7 @@
             this.tbDownloadLocation.Name = "tbDownloadLocation";
             this.tbDownloadLocation.Size = new System.Drawing.Size(257, 25);
             this.tbDownloadLocation.TabIndex = 49;
+            this.tbDownloadLocation.Click += new System.EventHandler(this.tbDownloadLocation_Click);
             // 
             // clbMarkets
             // 
@@ -236,6 +237,7 @@
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(121, 22);
             this.dtpFromDate.TabIndex = 47;
+            this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged);
             // 
             // lblFromDate
             // 
@@ -259,7 +261,7 @@
             // tsStatusText
             // 
             this.tsStatusText.Name = "tsStatusText";
-            this.tsStatusText.Size = new System.Drawing.Size(1134, 17);
+            this.tsStatusText.Size = new System.Drawing.Size(365, 17);
             this.tsStatusText.Spring = true;
             this.tsStatusText.Text = "Ready...";
             this.tsStatusText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -285,6 +287,7 @@
             this.btnReset.TabIndex = 51;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = false;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // StatusStrip1
             // 
@@ -307,6 +310,7 @@
             this.btnDownload.TabIndex = 50;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = false;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
             // frmDownloader
             // 

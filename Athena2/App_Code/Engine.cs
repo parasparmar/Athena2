@@ -59,8 +59,8 @@ namespace Athena2
                 case "BSE - Equity":
                     BSE A = new BSE();
                     currentTask = A.GetTask(individual_Day);
-
                     break;
+
                 case "AMFII - Mutual Funds":
 
                     // Main URL : http://www.amfiindia.com/nav-history-download
@@ -170,8 +170,8 @@ namespace Athena2
                     //</select>                 
 
 
-                    ServerFile_NameOnly = "NAVHistoryReport" + individual_Day.ToString("ddmmyy") + ".txt";
-                    ServerURI_WFileName = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf=9+frmdt=" + individual_Day.ToString("dd-MMM-YYYY") + "+todt=" + individual_Day.ToString("dd-MMM-YYYY");
+                    //FileNameOnServer = "NAVHistoryReport" + individual_Day.ToString("ddmmyy") + ".txt";
+                    //URIWithFileName = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf=9+frmdt=" + individual_Day.ToString("dd-MMM-YYYY") + "+todt=" + individual_Day.ToString("dd-MMM-YYYY");
 
                     break;
                 default:
@@ -191,7 +191,7 @@ namespace Athena2
             foreach (var Task in TaskList)
             {
                 //To Do : Task.Local_FileName is only the file name and not yet concatenated with fbdDownloadLocation.SelectedPath. 24 - 01 - 2016 13.27
-                DownloadLocation = LocalBasePathToDownload + "\\" + Task.MktBasedDownloadSubPath;
+                DownloadLocation = LocalBasePathToDownload + "\\" + Task.MarketFolder;
                 DownloadAgent(Task);
 
             }
@@ -210,7 +210,7 @@ namespace Athena2
             {
                 HttpWebRequest request;
                 HttpWebResponse response;
-                request = (HttpWebRequest)WebRequest.Create(CurrentTask.ServerURI_WFileName);
+                request = (HttpWebRequest)WebRequest.Create(CurrentTask.URIWithFileName);
                 request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
                 request.Accept = "text/html, application/xhtml+xml, */*";
                 ////.Connection = "Keep-Alive";
@@ -237,9 +237,11 @@ namespace Athena2
             }
             catch (Exception Ex)
             {
+                System.Windows.Forms.MessageBox.Show(Ex.Message.ToString());
                 return false;
             }
         }
+
 
         private bool DownloadWriter(ref HttpWebResponse response, ref Task currentTask)
         {
@@ -250,25 +252,28 @@ namespace Athena2
                 long intLen = response.ContentLength;
                 using (Stream stmResponse = response.GetResponseStream())
                 {
-
-                    //Byte buffer = new Byte(intLen);
-                    byte[] buffer = new byte[intLen];
-
-                    long bytesRead = 0; //15 - 08 - 2014 23.33 This caused me a lot of headaches.
-                    // Please make sure that the bytesread = 0 stays
-                    while (bytesRead <= intLen)
+                    Decimal  n = 0;
+                    Decimal numBytesRead = 0;
+                    Decimal numBytesToRead = (int)intLen;
+                    byte[] buffer = new byte[intLen];                   
+                    
+                    do
                     {
-                        bytesRead += stmResponse.Read(buffer, Convert.ToInt32(bytesRead), Convert.ToInt32(intLen - bytesRead));
-                    }
+
+                        n = stmResponse.Read(buffer, (int)numBytesRead, (Int32)numBytesToRead);
+                        numBytesRead += n;
+                        numBytesToRead -= n;
+                    } while (numBytesToRead > 0);
 
                     MemoryStream memStream = new MemoryStream(buffer);
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
-                    res = ZipExtracttoFile(memStream, LocalBasePathToDownload + "\\" + currentTask.MktBasedDownloadSubPath);
+                    res = ZipExtracttoFile(memStream, LocalBasePathToDownload + "\\" + currentTask.MarketFolder);
 
-                    string WhatIDownloaded = (LocalBasePathToDownload + "\\" + currentTask.MktBasedDownloadSubPath + "\\" + res).ToString();
+
+                    string WhatIDownloaded = (LocalBasePathToDownload + "\\" + currentTask.MarketFolder + "\\" + res).ToString();
                     WhatIDownloaded = WhatIDownloaded.Replace(".zip", "");
-                    string WhatToRenameTo = currentTask.LocalDeflatedFile_NameOnly;
+                    string WhatToRenameTo = (LocalBasePathToDownload + "\\" + currentTask.MarketFolder + "\\" + currentTask.FileNameAfterUnZip).ToString();
                     File.Move(WhatIDownloaded, WhatToRenameTo);
                     return true;
                 }
@@ -278,6 +283,8 @@ namespace Athena2
                 return false;
             }
         }
+
+ 
 
         private string ZipExtracttoFile(MemoryStream strm, string strDestDir)
         {
