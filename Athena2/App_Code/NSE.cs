@@ -11,7 +11,7 @@ namespace Athena2
 
         string ServerFile_NameOnly = string.Empty;
         string ServerURI_WFileName = string.Empty;
-        private string market = "NSE";
+        private string market = "NSE-Equity";
         private Task currentTask = new Task();
 
         public Task GetTask(DateTime individual_Day)

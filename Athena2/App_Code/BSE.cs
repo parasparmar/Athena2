@@ -10,7 +10,7 @@ namespace Athena2
     {
         string ServerFile_NameOnly = string.Empty;
         string ServerURI_WFileName = string.Empty;
-        private string market = "BSE";
+        private string market = "BSE-Equity";
         private Task currentTask = new Task();
 
 

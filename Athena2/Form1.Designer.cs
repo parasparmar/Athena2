@@ -28,11 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pbTwo = new System.Windows.Forms.ProgressBar();
             this.btnSubmit = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tsProgressBar1 = new System.Windows.Forms.ProgressBar();
             this.tbCustomDelimiter = new System.Windows.Forms.TextBox();
             this.tbMetastockPath = new System.Windows.Forms.TextBox();
             this.tbExcelPath = new System.Windows.Forms.TextBox();
@@ -44,7 +40,7 @@
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.lblDownloadPath = new System.Windows.Forms.Label();
             this.ofdSettings = new System.Windows.Forms.OpenFileDialog();
-            this.tbDownloadLocation = new System.Windows.Forms.TextBox();
+            this.tbLocation = new System.Windows.Forms.TextBox();
             this.clbMarkets = new System.Windows.Forms.CheckedListBox();
             this.dtpFromDate = new System.Windows.Forms.DateTimePicker();
             this.lblFromDate = new System.Windows.Forms.Label();
@@ -55,56 +51,35 @@
             this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
             this.btnDownload = new System.Windows.Forms.Button();
             this.fbdDownloadLocation = new System.Windows.Forms.FolderBrowserDialog();
+            this.tbOne = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pbOne = new System.Windows.Forms.ProgressBar();
+            this.pbTwo = new System.Windows.Forms.ProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbFilesPath = new System.Windows.Forms.TextBox();
+            this.cbMissingDates = new System.Windows.Forms.CheckBox();
             this.StatusStrip1.SuspendLayout();
+            this.tbOne.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // pbTwo
-            // 
-            this.pbTwo.Location = new System.Drawing.Point(101, 323);
-            this.pbTwo.Name = "pbTwo";
-            this.pbTwo.Size = new System.Drawing.Size(257, 14);
-            this.pbTwo.TabIndex = 5;
             // 
             // btnSubmit
             // 
-            this.btnSubmit.Location = new System.Drawing.Point(101, 343);
+            this.btnSubmit.Location = new System.Drawing.Point(120, 241);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(257, 23);
             this.btnSubmit.TabIndex = 7;
             this.btnSubmit.Text = "Submit";
             this.btnSubmit.UseVisualStyleBackColor = true;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.label1.Location = new System.Drawing.Point(68, 304);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "File";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.label2.Location = new System.Drawing.Point(50, 324);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Overall";
-            // 
-            // tsProgressBar1
-            // 
-            this.tsProgressBar1.Location = new System.Drawing.Point(101, 303);
-            this.tsProgressBar1.Name = "tsProgressBar1";
-            this.tsProgressBar1.Size = new System.Drawing.Size(257, 14);
-            this.tsProgressBar1.TabIndex = 66;
-            // 
             // tbCustomDelimiter
             // 
             this.tbCustomDelimiter.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbCustomDelimiter.Location = new System.Drawing.Point(101, 213);
+            this.tbCustomDelimiter.Location = new System.Drawing.Point(120, 151);
             this.tbCustomDelimiter.Name = "tbCustomDelimiter";
             this.tbCustomDelimiter.Size = new System.Drawing.Size(67, 22);
             this.tbCustomDelimiter.TabIndex = 65;
@@ -113,7 +88,7 @@
             // tbMetastockPath
             // 
             this.tbMetastockPath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbMetastockPath.Location = new System.Drawing.Point(101, 275);
+            this.tbMetastockPath.Location = new System.Drawing.Point(120, 213);
             this.tbMetastockPath.Name = "tbMetastockPath";
             this.tbMetastockPath.Size = new System.Drawing.Size(257, 22);
             this.tbMetastockPath.TabIndex = 64;
@@ -121,7 +96,7 @@
             // tbExcelPath
             // 
             this.tbExcelPath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbExcelPath.Location = new System.Drawing.Point(101, 244);
+            this.tbExcelPath.Location = new System.Drawing.Point(120, 182);
             this.tbExcelPath.Name = "tbExcelPath";
             this.tbExcelPath.Size = new System.Drawing.Size(257, 22);
             this.tbExcelPath.TabIndex = 63;
@@ -129,7 +104,7 @@
             // tbCustomPath
             // 
             this.tbCustomPath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbCustomPath.Location = new System.Drawing.Point(174, 213);
+            this.tbCustomPath.Location = new System.Drawing.Point(193, 151);
             this.tbCustomPath.Name = "tbCustomPath";
             this.tbCustomPath.Size = new System.Drawing.Size(184, 22);
             this.tbCustomPath.TabIndex = 62;
@@ -138,7 +113,7 @@
             // tbCsvPath
             // 
             this.tbCsvPath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbCsvPath.Location = new System.Drawing.Point(101, 185);
+            this.tbCsvPath.Location = new System.Drawing.Point(120, 123);
             this.tbCsvPath.Name = "tbCsvPath";
             this.tbCsvPath.Size = new System.Drawing.Size(257, 22);
             this.tbCsvPath.TabIndex = 61;
@@ -147,7 +122,7 @@
             // 
             this.CheckBox4.AutoSize = true;
             this.CheckBox4.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.CheckBox4.Location = new System.Drawing.Point(28, 215);
+            this.CheckBox4.Location = new System.Drawing.Point(47, 153);
             this.CheckBox4.Name = "CheckBox4";
             this.CheckBox4.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.CheckBox4.Size = new System.Drawing.Size(65, 17);
@@ -159,7 +134,7 @@
             // 
             this.checkBox5.AutoSize = true;
             this.checkBox5.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.checkBox5.Location = new System.Drawing.Point(14, 277);
+            this.checkBox5.Location = new System.Drawing.Point(33, 215);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.checkBox5.Size = new System.Drawing.Size(79, 17);
@@ -171,7 +146,7 @@
             // 
             this.checkBox6.AutoSize = true;
             this.checkBox6.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.checkBox6.Location = new System.Drawing.Point(42, 246);
+            this.checkBox6.Location = new System.Drawing.Point(61, 184);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.checkBox6.Size = new System.Drawing.Size(51, 17);
@@ -183,7 +158,7 @@
             // 
             this.checkBox7.AutoSize = true;
             this.checkBox7.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.checkBox7.Location = new System.Drawing.Point(47, 187);
+            this.checkBox7.Location = new System.Drawing.Point(66, 125);
             this.checkBox7.Name = "checkBox7";
             this.checkBox7.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.checkBox7.Size = new System.Drawing.Size(46, 17);
@@ -195,7 +170,7 @@
             // 
             this.lblDownloadPath.AutoSize = true;
             this.lblDownloadPath.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.lblDownloadPath.Location = new System.Drawing.Point(6, 20);
+            this.lblDownloadPath.Location = new System.Drawing.Point(25, 20);
             this.lblDownloadPath.Name = "lblDownloadPath";
             this.lblDownloadPath.Size = new System.Drawing.Size(87, 13);
             this.lblDownloadPath.TabIndex = 56;
@@ -205,15 +180,15 @@
             // 
             this.ofdSettings.FileName = "ofdSettings";
             // 
-            // tbDownloadLocation
+            // tbLocation
             // 
-            this.tbDownloadLocation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbDownloadLocation.Location = new System.Drawing.Point(101, 17);
-            this.tbDownloadLocation.Multiline = true;
-            this.tbDownloadLocation.Name = "tbDownloadLocation";
-            this.tbDownloadLocation.Size = new System.Drawing.Size(257, 25);
-            this.tbDownloadLocation.TabIndex = 49;
-            this.tbDownloadLocation.Click += new System.EventHandler(this.tbDownloadLocation_Click);
+            this.tbLocation.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbLocation.Location = new System.Drawing.Point(120, 17);
+            this.tbLocation.Multiline = true;
+            this.tbLocation.Name = "tbLocation";
+            this.tbLocation.Size = new System.Drawing.Size(257, 25);
+            this.tbLocation.TabIndex = 49;
+            this.tbLocation.Click += new System.EventHandler(this.tbLocation_Click);
             // 
             // clbMarkets
             // 
@@ -224,7 +199,7 @@
             "NSE - Equity",
             "BSE - Equity",
             "AMFII - Mutual Funds"});
-            this.clbMarkets.Location = new System.Drawing.Point(101, 48);
+            this.clbMarkets.Location = new System.Drawing.Point(120, 71);
             this.clbMarkets.Name = "clbMarkets";
             this.clbMarkets.Size = new System.Drawing.Size(257, 72);
             this.clbMarkets.TabIndex = 48;
@@ -232,7 +207,7 @@
             // dtpFromDate
             // 
             this.dtpFromDate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpFromDate.Location = new System.Drawing.Point(101, 126);
+            this.dtpFromDate.Location = new System.Drawing.Point(120, 149);
             this.dtpFromDate.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(121, 22);
@@ -243,7 +218,7 @@
             // 
             this.lblFromDate.AutoSize = true;
             this.lblFromDate.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.lblFromDate.Location = new System.Drawing.Point(57, 133);
+            this.lblFromDate.Location = new System.Drawing.Point(76, 156);
             this.lblFromDate.Name = "lblFromDate";
             this.lblFromDate.Size = new System.Drawing.Size(36, 13);
             this.lblFromDate.TabIndex = 53;
@@ -252,7 +227,7 @@
             // dtpToDate
             // 
             this.dtpToDate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpToDate.Location = new System.Drawing.Point(239, 126);
+            this.dtpToDate.Location = new System.Drawing.Point(258, 149);
             this.dtpToDate.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dtpToDate.Name = "dtpToDate";
             this.dtpToDate.Size = new System.Drawing.Size(119, 22);
@@ -261,7 +236,7 @@
             // tsStatusText
             // 
             this.tsStatusText.Name = "tsStatusText";
-            this.tsStatusText.Size = new System.Drawing.Size(365, 17);
+            this.tsStatusText.Size = new System.Drawing.Size(427, 17);
             this.tsStatusText.Spring = true;
             this.tsStatusText.Text = "Ready...";
             this.tsStatusText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -270,7 +245,7 @@
             // 
             this.lblDownloadData4Markets.AutoSize = true;
             this.lblDownloadData4Markets.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.lblDownloadData4Markets.Location = new System.Drawing.Point(45, 48);
+            this.lblDownloadData4Markets.Location = new System.Drawing.Point(64, 82);
             this.lblDownloadData4Markets.Name = "lblDownloadData4Markets";
             this.lblDownloadData4Markets.Size = new System.Drawing.Size(48, 13);
             this.lblDownloadData4Markets.TabIndex = 55;
@@ -280,7 +255,7 @@
             // 
             this.btnReset.BackColor = System.Drawing.SystemColors.Window;
             this.btnReset.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new System.Drawing.Point(101, 154);
+            this.btnReset.Location = new System.Drawing.Point(120, 217);
             this.btnReset.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(121, 25);
@@ -293,9 +268,9 @@
             // 
             this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsStatusText});
-            this.StatusStrip1.Location = new System.Drawing.Point(0, 381);
+            this.StatusStrip1.Location = new System.Drawing.Point(0, 333);
             this.StatusStrip1.Name = "StatusStrip1";
-            this.StatusStrip1.Size = new System.Drawing.Size(380, 22);
+            this.StatusStrip1.Size = new System.Drawing.Size(442, 22);
             this.StatusStrip1.TabIndex = 54;
             this.StatusStrip1.Text = "StatusStrip1";
             // 
@@ -303,7 +278,7 @@
             // 
             this.btnDownload.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnDownload.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDownload.Location = new System.Drawing.Point(239, 154);
+            this.btnDownload.Location = new System.Drawing.Point(258, 217);
             this.btnDownload.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(119, 25);
@@ -312,50 +287,149 @@
             this.btnDownload.UseVisualStyleBackColor = false;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
+            // tbOne
+            // 
+            this.tbOne.Controls.Add(this.tabPage1);
+            this.tbOne.Controls.Add(this.tabPage2);
+            this.tbOne.Location = new System.Drawing.Point(12, 12);
+            this.tbOne.Name = "tbOne";
+            this.tbOne.SelectedIndex = 0;
+            this.tbOne.Size = new System.Drawing.Size(415, 303);
+            this.tbOne.TabIndex = 67;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.cbMissingDates);
+            this.tabPage1.Controls.Add(this.pbOne);
+            this.tabPage1.Controls.Add(this.pbTwo);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.clbMarkets);
+            this.tabPage1.Controls.Add(this.lblDownloadPath);
+            this.tabPage1.Controls.Add(this.btnDownload);
+            this.tabPage1.Controls.Add(this.tbLocation);
+            this.tabPage1.Controls.Add(this.btnReset);
+            this.tabPage1.Controls.Add(this.lblDownloadData4Markets);
+            this.tabPage1.Controls.Add(this.dtpFromDate);
+            this.tabPage1.Controls.Add(this.dtpToDate);
+            this.tabPage1.Controls.Add(this.lblFromDate);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(407, 277);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Download";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // pbOne
+            // 
+            this.pbOne.Location = new System.Drawing.Point(120, 177);
+            this.pbOne.Name = "pbOne";
+            this.pbOne.Size = new System.Drawing.Size(257, 14);
+            this.pbOne.TabIndex = 70;
+            // 
+            // pbTwo
+            // 
+            this.pbTwo.Location = new System.Drawing.Point(120, 197);
+            this.pbTwo.Name = "pbTwo";
+            this.pbTwo.Size = new System.Drawing.Size(257, 14);
+            this.pbTwo.TabIndex = 67;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.label1.Location = new System.Drawing.Point(87, 178);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(25, 13);
+            this.label1.TabIndex = 68;
+            this.label1.Text = "File";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.label2.Location = new System.Drawing.Point(69, 198);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(43, 13);
+            this.label2.TabIndex = 69;
+            this.label2.Text = "Overall";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.label3);
+            this.tabPage2.Controls.Add(this.tbFilesPath);
+            this.tabPage2.Controls.Add(this.tbMetastockPath);
+            this.tabPage2.Controls.Add(this.tbCustomDelimiter);
+            this.tabPage2.Controls.Add(this.btnSubmit);
+            this.tabPage2.Controls.Add(this.tbExcelPath);
+            this.tabPage2.Controls.Add(this.tbCustomPath);
+            this.tabPage2.Controls.Add(this.checkBox7);
+            this.tabPage2.Controls.Add(this.tbCsvPath);
+            this.tabPage2.Controls.Add(this.checkBox6);
+            this.tabPage2.Controls.Add(this.CheckBox4);
+            this.tabPage2.Controls.Add(this.checkBox5);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(407, 277);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Convert";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.label3.Location = new System.Drawing.Point(25, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(87, 13);
+            this.label3.TabIndex = 67;
+            this.label3.Text = "Download Path";
+            // 
+            // tbFilesPath
+            // 
+            this.tbFilesPath.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbFilesPath.Location = new System.Drawing.Point(120, 17);
+            this.tbFilesPath.Multiline = true;
+            this.tbFilesPath.Name = "tbFilesPath";
+            this.tbFilesPath.Size = new System.Drawing.Size(257, 25);
+            this.tbFilesPath.TabIndex = 66;
+            // 
+            // cbMissingDates
+            // 
+            this.cbMissingDates.AutoSize = true;
+            this.cbMissingDates.Location = new System.Drawing.Point(120, 48);
+            this.cbMissingDates.Name = "cbMissingDates";
+            this.cbMissingDates.Size = new System.Drawing.Size(266, 17);
+            this.cbMissingDates.TabIndex = 71;
+            this.cbMissingDates.Text = "Downoad all Missing Dates at the given folder path";
+            this.cbMissingDates.UseVisualStyleBackColor = true;
+            this.cbMissingDates.CheckedChanged += new System.EventHandler(this.cbMissingDates_CheckedChanged);
+            // 
             // frmDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(380, 403);
-            this.Controls.Add(this.tsProgressBar1);
-            this.Controls.Add(this.tbCustomDelimiter);
-            this.Controls.Add(this.tbMetastockPath);
-            this.Controls.Add(this.tbExcelPath);
-            this.Controls.Add(this.tbCustomPath);
-            this.Controls.Add(this.tbCsvPath);
-            this.Controls.Add(this.CheckBox4);
-            this.Controls.Add(this.checkBox5);
-            this.Controls.Add(this.checkBox6);
-            this.Controls.Add(this.checkBox7);
-            this.Controls.Add(this.lblDownloadPath);
-            this.Controls.Add(this.tbDownloadLocation);
-            this.Controls.Add(this.clbMarkets);
-            this.Controls.Add(this.dtpFromDate);
-            this.Controls.Add(this.lblFromDate);
-            this.Controls.Add(this.dtpToDate);
-            this.Controls.Add(this.lblDownloadData4Markets);
-            this.Controls.Add(this.btnReset);
+            this.ClientSize = new System.Drawing.Size(442, 355);
+            this.Controls.Add(this.tbOne);
             this.Controls.Add(this.StatusStrip1);
-            this.Controls.Add(this.btnDownload);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnSubmit);
-            this.Controls.Add(this.pbTwo);
             this.Name = "frmDownloader";
-            this.Text = "Equity Bhav Copy Downloader";
+            this.Text = "The Downloader";
             this.StatusStrip1.ResumeLayout(false);
             this.StatusStrip1.PerformLayout();
+            this.tbOne.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.ProgressBar pbTwo;
         private System.Windows.Forms.Button btnSubmit;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        internal System.Windows.Forms.ProgressBar tsProgressBar1;
         internal System.Windows.Forms.TextBox tbCustomDelimiter;
         internal System.Windows.Forms.TextBox tbMetastockPath;
         internal System.Windows.Forms.TextBox tbExcelPath;
@@ -367,7 +441,7 @@
         internal System.Windows.Forms.CheckBox checkBox7;
         internal System.Windows.Forms.Label lblDownloadPath;
         internal System.Windows.Forms.OpenFileDialog ofdSettings;
-        internal System.Windows.Forms.TextBox tbDownloadLocation;
+        internal System.Windows.Forms.TextBox tbLocation;
         internal System.Windows.Forms.CheckedListBox clbMarkets;
         internal System.Windows.Forms.DateTimePicker dtpFromDate;
         internal System.Windows.Forms.Label lblFromDate;
@@ -378,6 +452,16 @@
         internal System.Windows.Forms.StatusStrip StatusStrip1;
         internal System.Windows.Forms.Button btnDownload;
         internal System.Windows.Forms.FolderBrowserDialog fbdDownloadLocation;
+        private System.Windows.Forms.TabControl tbOne;
+        private System.Windows.Forms.TabPage tabPage1;
+        internal System.Windows.Forms.ProgressBar pbOne;
+        private System.Windows.Forms.ProgressBar pbTwo;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TabPage tabPage2;
+        internal System.Windows.Forms.Label label3;
+        internal System.Windows.Forms.TextBox tbFilesPath;
+        private System.Windows.Forms.CheckBox cbMissingDates;
     }
 }
 

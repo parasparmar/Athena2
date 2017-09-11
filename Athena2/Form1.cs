@@ -61,6 +61,7 @@ namespace Athena2
 
             Exchange Exc = new Exchange();
             List<DateTime> AllMyDates = new List<DateTime>();
+
             AllMyDates = Exc.DateListGenerator(dtpFromDate.Value, dtpToDate.Value);
             if (AllMyDates.Count > 0)
             {
@@ -78,13 +79,13 @@ namespace Athena2
                 MyEngine.DownloadTaskList(ref T);
 
                 //// Done 5. On Download completion open MyFolder and show it to the user
-                System.Diagnostics.Process.Start("explorer", tbDownloadLocation.Text.ToString());
-                
+                System.Diagnostics.Process.Start("explorer", tbLocation.Text.ToString());
+
             }
 
         }
 
-        private void tbDownloadLocation_Click(object sender, EventArgs e)
+        private void tbLocation_Click(object sender, EventArgs e)
         {
 
             //0. Request the user to select a folder (MyFolder) where the downloaded files will be kept
@@ -94,17 +95,38 @@ namespace Athena2
                 string MyFolder = fbdDownloadLocation.SelectedPath.ToString();
                 MyEngine.LocalBasePathToDownload = MyFolder;
 
+
+
                 if (Directory.Exists(MyFolder))
                 {
-                    tbDownloadLocation.Text = MyFolder;
+                    tbLocation.Text = MyFolder;
                     btnDownload.Enabled = true;
+                    tbFilesPath.Text = MyFolder;
                 }
                 else
                 {
-                    tbDownloadLocation.Text = "Please select the folder to download at.";
+                    tbLocation.Text = "Please select the folder to download at.";
                 }
             }
 
+        }
+
+        private void cbMissingDates_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbMissingDates.Checked == true)
+            {
+                dtpToDate.Value = DateTime.Today.Date;
+                dtpToDate.Enabled = false;
+                List<DateTime> MissingDates = new List<DateTime>();
+                string P = Path.GetFullPath(tbLocation.Text.ToString());
+
+                List<string> Files =  Directory.EnumerateFiles(P,,SearchOption.AllDirectories).ToList<string>();
+
+            }
+            else
+            {
+                dtpToDate.Enabled = true;
+            }
         }
     }
 }
