@@ -53,6 +53,7 @@
             this.fbdDownloadLocation = new System.Windows.Forms.FolderBrowserDialog();
             this.tbOne = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.cbMissingDates = new System.Windows.Forms.CheckBox();
             this.pbOne = new System.Windows.Forms.ProgressBar();
             this.pbTwo = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
@@ -60,11 +61,16 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
             this.tbFilesPath = new System.Windows.Forms.TextBox();
-            this.cbMissingDates = new System.Windows.Forms.CheckBox();
+            this.dgvDetails = new System.Windows.Forms.DataGridView();
+            this.dgvtbDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvtbFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvtbFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvtbPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusStrip1.SuspendLayout();
             this.tbOne.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSubmit
@@ -268,7 +274,7 @@
             // 
             this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsStatusText});
-            this.StatusStrip1.Location = new System.Drawing.Point(0, 333);
+            this.StatusStrip1.Location = new System.Drawing.Point(0, 826);
             this.StatusStrip1.Name = "StatusStrip1";
             this.StatusStrip1.Size = new System.Drawing.Size(442, 22);
             this.StatusStrip1.TabIndex = 54;
@@ -320,6 +326,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Download";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // cbMissingDates
+            // 
+            this.cbMissingDates.AutoSize = true;
+            this.cbMissingDates.Location = new System.Drawing.Point(120, 48);
+            this.cbMissingDates.Name = "cbMissingDates";
+            this.cbMissingDates.Size = new System.Drawing.Size(266, 17);
+            this.cbMissingDates.TabIndex = 71;
+            this.cbMissingDates.Text = "Downoad all Missing Dates at the given folder path";
+            this.cbMissingDates.UseVisualStyleBackColor = true;
+            this.cbMissingDates.CheckedChanged += new System.EventHandler(this.cbMissingDates_CheckedChanged);
             // 
             // pbOne
             // 
@@ -396,22 +413,48 @@
             this.tbFilesPath.Size = new System.Drawing.Size(257, 25);
             this.tbFilesPath.TabIndex = 66;
             // 
-            // cbMissingDates
+            // dgvDetails
             // 
-            this.cbMissingDates.AutoSize = true;
-            this.cbMissingDates.Location = new System.Drawing.Point(120, 48);
-            this.cbMissingDates.Name = "cbMissingDates";
-            this.cbMissingDates.Size = new System.Drawing.Size(266, 17);
-            this.cbMissingDates.TabIndex = 71;
-            this.cbMissingDates.Text = "Downoad all Missing Dates at the given folder path";
-            this.cbMissingDates.UseVisualStyleBackColor = true;
-            this.cbMissingDates.CheckedChanged += new System.EventHandler(this.cbMissingDates_CheckedChanged);
+            this.dgvDetails.AllowUserToAddRows = false;
+            this.dgvDetails.AllowUserToDeleteRows = false;
+            this.dgvDetails.AllowUserToOrderColumns = true;
+            this.dgvDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvDetails.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgvtbDate,
+            this.dgvtbFile,
+            this.dgvtbFolder,
+            this.dgvtbPath});
+            this.dgvDetails.Location = new System.Drawing.Point(16, 322);
+            this.dgvDetails.Name = "dgvDetails";
+            this.dgvDetails.Size = new System.Drawing.Size(411, 489);
+            this.dgvDetails.TabIndex = 68;
+            // 
+            // dgvtbDate
+            // 
+            this.dgvtbDate.HeaderText = "Date";
+            this.dgvtbDate.Name = "dgvtbDate";
+            // 
+            // dgvtbFile
+            // 
+            this.dgvtbFile.HeaderText = "File";
+            this.dgvtbFile.Name = "dgvtbFile";
+            // 
+            // dgvtbFolder
+            // 
+            this.dgvtbFolder.HeaderText = "Folder";
+            this.dgvtbFolder.Name = "dgvtbFolder";
+            // 
+            // dgvtbPath
+            // 
+            this.dgvtbPath.HeaderText = "Path";
+            this.dgvtbPath.Name = "dgvtbPath";
             // 
             // frmDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 355);
+            this.ClientSize = new System.Drawing.Size(442, 848);
+            this.Controls.Add(this.dgvDetails);
             this.Controls.Add(this.tbOne);
             this.Controls.Add(this.StatusStrip1);
             this.Name = "frmDownloader";
@@ -423,6 +466,7 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -462,6 +506,11 @@
         internal System.Windows.Forms.Label label3;
         internal System.Windows.Forms.TextBox tbFilesPath;
         private System.Windows.Forms.CheckBox cbMissingDates;
+        private System.Windows.Forms.DataGridView dgvDetails;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbFile;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbFolder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbPath;
     }
 }
 

@@ -20,7 +20,6 @@ namespace Athena2
         {
             InitializeComponent();
         }
-
         private void dtpFromDate_ValueChanged(object sender, EventArgs e)
         {
             if (dtpFromDate.Value < DateTime.Today && dtpToDate.Value <= DateTime.Today)
@@ -36,14 +35,12 @@ namespace Athena2
                 tsStatusText.Text = "Please choose a From date before today" + dtpToDate.Value;
             }
         }
-
         private void btnReset_Click(object sender, EventArgs e)
         {
             // Reset From and To dates.
             dtpFromDate.Value = DateTime.Today.Date.AddDays(-1);
             dtpToDate.Value = DateTime.Today.Date;
         }
-
         private void btnDownload_Click(object sender, EventArgs e)
         {
             // Objective: btnDownload_Click event handling needs to take as ibpute GUI decisions and 
@@ -84,7 +81,6 @@ namespace Athena2
             }
 
         }
-
         private void tbLocation_Click(object sender, EventArgs e)
         {
 
@@ -110,24 +106,48 @@ namespace Athena2
             }
 
         }
-
         private void cbMissingDates_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbMissingDates.Checked == true)
+            if (cbMissingDates.Checked == true && tbLocation.Text.Length >1)
             {
                 dtpToDate.Value = DateTime.Today.Date;
                 dtpToDate.Enabled = false;
                 List<DateTime> MissingDates = new List<DateTime>();
                 string P = Path.GetFullPath(tbLocation.Text.ToString());
 
-                List<string> Files =  Directory.EnumerateFiles(P,,SearchOption.AllDirectories).ToList<string>();
 
+
+                List<string> Directories = Directory.EnumerateDirectories(P).ToList<string>();
+                List<string> Files = new List<string>();
+                foreach (string Folder in Directories)
+                {
+                    Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
+                }
+                int i = 0;
+                foreach (string File in Files)
+                {
+                    dgvDetails.Rows.Add(1);
+                    DataGridViewRow dr = dgvDetails.Rows[i];
+                    dr.Cells["dgvtbFolder"].Value = Path.GetDirectoryName(File);
+                    dr.Cells["dgvtbFile"].Value = Path.GetFileName(File);
+                    string FileNameWithoutExtension = Path.GetFileNameWithoutExtension(File);
+                    dr.Cells["dgvtbPath"].Value = FileNameWithoutExtension;
+                    DateTime myDate = new DateTime();
+                    if (DateTime.TryParse(FileNameWithoutExtension, out myDate))
+                    {
+                        dr.Cells["dgvtbDate"].Value = myDate;
+                    }
+
+                    i++;
+                }
             }
             else
             {
                 dtpToDate.Enabled = true;
             }
+
+
+
         }
     }
 }
-
