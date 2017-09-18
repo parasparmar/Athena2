@@ -58,7 +58,7 @@ namespace Athena2
 
             Exchange Exc = new Exchange();
             List<DateTime> AllMyDates = new List<DateTime>();
-
+            //D:\Desktop\StockData
             AllMyDates = Exc.DateListGenerator(dtpFromDate.Value, dtpToDate.Value);
             if (AllMyDates.Count > 0)
             {
@@ -108,38 +108,44 @@ namespace Athena2
         }
         private void cbMissingDates_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbMissingDates.Checked == true && tbLocation.Text.Length >1)
+            tbLocation.Text = @"D:\Desktop\StockData";
+            if (cbMissingDates.Checked == true && tbLocation.Text.Length > 1)
             {
                 dtpToDate.Value = DateTime.Today.Date;
                 dtpToDate.Enabled = false;
                 List<DateTime> MissingDates = new List<DateTime>();
                 string P = Path.GetFullPath(tbLocation.Text.ToString());
-
-
-
                 List<string> Directories = Directory.EnumerateDirectories(P).ToList<string>();
                 List<string> Files = new List<string>();
                 foreach (string Folder in Directories)
                 {
                     Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
-                }
-                int i = 0;
+                }                
+                List<DateTime> FoundDates = new List<DateTime>();
                 foreach (string File in Files)
-                {
-                    dgvDetails.Rows.Add(1);
-                    DataGridViewRow dr = dgvDetails.Rows[i];
-                    dr.Cells["dgvtbFolder"].Value = Path.GetDirectoryName(File);
-                    dr.Cells["dgvtbFile"].Value = Path.GetFileName(File);
-                    string FileNameWithoutExtension = Path.GetFileNameWithoutExtension(File);
-                    dr.Cells["dgvtbPath"].Value = FileNameWithoutExtension;
-                    DateTime myDate = new DateTime();
-                    if (DateTime.TryParse(FileNameWithoutExtension, out myDate))
+                {                    
+                    DateTime PathonDrive;
+                    if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(File), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out PathonDrive))
                     {
-                        dr.Cells["dgvtbDate"].Value = myDate;
-                    }
-
-                    i++;
+                        FoundDates.Add(PathonDrive);                        
+                    }                    
                 }
+                DateTime MaxDate = FoundDates.Max<DateTime>();
+                DateTime MinDate = FoundDates.Min<DateTime>();
+                Exchange Es = new Exchange();
+                List<DateTime> ValidDates = Es.DateListGenerator(MinDate, MaxDate);
+                int i = 0;
+                foreach (DateTime IndividualDate in ValidDates)
+                {                    
+                    if (!FoundDates.Contains(IndividualDate)) {
+                        dgvDetails.Rows.Add(1);
+                        DataGridViewRow dr = dgvDetails.Rows[i];
+
+                        //MissingDates.Add(IndividualDate);
+                        dr.Cells["dgvtbDate"].Value = IndividualDate.ToShortDateString();
+                    }                    
+                }
+                i++;
             }
             else
             {

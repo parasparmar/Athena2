@@ -66,11 +66,16 @@
             this.dgvtbFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvtbFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvtbPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.StatusStrip1.SuspendLayout();
             this.tbOne.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSubmit
@@ -274,9 +279,9 @@
             // 
             this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsStatusText});
-            this.StatusStrip1.Location = new System.Drawing.Point(0, 826);
+            this.StatusStrip1.Location = new System.Drawing.Point(0, 544);
             this.StatusStrip1.Name = "StatusStrip1";
-            this.StatusStrip1.Size = new System.Drawing.Size(442, 22);
+            this.StatusStrip1.Size = new System.Drawing.Size(1091, 22);
             this.StatusStrip1.TabIndex = 54;
             this.StatusStrip1.Text = "StatusStrip1";
             // 
@@ -297,7 +302,7 @@
             // 
             this.tbOne.Controls.Add(this.tabPage1);
             this.tbOne.Controls.Add(this.tabPage2);
-            this.tbOne.Location = new System.Drawing.Point(12, 12);
+            this.tbOne.Location = new System.Drawing.Point(3, 3);
             this.tbOne.Name = "tbOne";
             this.tbOne.SelectedIndex = 0;
             this.tbOne.Size = new System.Drawing.Size(415, 303);
@@ -332,9 +337,9 @@
             this.cbMissingDates.AutoSize = true;
             this.cbMissingDates.Location = new System.Drawing.Point(120, 48);
             this.cbMissingDates.Name = "cbMissingDates";
-            this.cbMissingDates.Size = new System.Drawing.Size(266, 17);
+            this.cbMissingDates.Size = new System.Drawing.Size(238, 17);
             this.cbMissingDates.TabIndex = 71;
-            this.cbMissingDates.Text = "Downoad all Missing Dates at the given folder path";
+            this.cbMissingDates.Text = "Download only the Missing Dates at this path";
             this.cbMissingDates.UseVisualStyleBackColor = true;
             this.cbMissingDates.CheckedChanged += new System.EventHandler(this.cbMissingDates_CheckedChanged);
             // 
@@ -424,9 +429,10 @@
             this.dgvtbFile,
             this.dgvtbFolder,
             this.dgvtbPath});
-            this.dgvDetails.Location = new System.Drawing.Point(16, 322);
+            this.dgvDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvDetails.Location = new System.Drawing.Point(0, 0);
             this.dgvDetails.Name = "dgvDetails";
-            this.dgvDetails.Size = new System.Drawing.Size(411, 489);
+            this.dgvDetails.Size = new System.Drawing.Size(639, 529);
             this.dgvDetails.TabIndex = 68;
             // 
             // dgvtbDate
@@ -449,13 +455,28 @@
             this.dgvtbPath.HeaderText = "Path";
             this.dgvtbPath.Name = "dgvtbPath";
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Location = new System.Drawing.Point(12, 12);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.tbOne);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.dgvDetails);
+            this.splitContainer1.Size = new System.Drawing.Size(1067, 529);
+            this.splitContainer1.SplitterDistance = 424;
+            this.splitContainer1.TabIndex = 69;
+            // 
             // frmDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 848);
-            this.Controls.Add(this.dgvDetails);
-            this.Controls.Add(this.tbOne);
+            this.ClientSize = new System.Drawing.Size(1091, 566);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.StatusStrip1);
             this.Name = "frmDownloader";
             this.Text = "The Downloader";
@@ -467,6 +488,10 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetails)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -511,6 +536,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbFile;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbFolder;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbPath;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
 
