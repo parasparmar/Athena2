@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\BSE.cs" />
+    <Compile Include="App_Code\Convertor.cs" />
     <Compile Include="App_Code\Engine.cs" />
     <Compile Include="App_Code\Exchange.cs" />
     <Compile Include="App_Code\Task.cs" />

@@ -19,6 +19,8 @@ namespace Athena2
         // TaskList = This tracks the success or failure of each individual download.
         List<Task> TaskList = new List<Task>();
 
+        
+
         // getURLFrom takes in a datearray  and returns a dictionary of filenames and urls from which to download individual files.
         public List<Task> CreateTaskList(List<String> MarketType, List<DateTime> DateList)
         {

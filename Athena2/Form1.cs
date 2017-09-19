@@ -108,7 +108,7 @@ namespace Athena2
         }
         private void cbMissingDates_CheckedChanged(object sender, EventArgs e)
         {
-            tbLocation.Text = @"D:\Desktop\StockData";
+            //tbLocation.Text = @"D:\Desktop\StockData";
             if (cbMissingDates.Checked == true && tbLocation.Text.Length > 1)
             {
                 dtpToDate.Value = DateTime.Today.Date;
@@ -143,9 +143,10 @@ namespace Athena2
 
                         //MissingDates.Add(IndividualDate);
                         dr.Cells["dgvtbDate"].Value = IndividualDate.ToShortDateString();
+                        i++;
                     }                    
                 }
-                i++;
+                
             }
             else
             {
