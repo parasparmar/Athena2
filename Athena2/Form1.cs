@@ -8,17 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using LumenWorks.Framework.IO.Csv;
 
 namespace Athena2
 {
     public partial class frmDownloader : Form
     {
+        DataTable dt = new DataTable();
         string FolderBrowserDialog;
         string MyFolder = string.Empty;
         Engine MyEngine = new Engine();
         public frmDownloader()
         {
             InitializeComponent();
+            
         }
         private void dtpFromDate_ValueChanged(object sender, EventArgs e)
         {
@@ -50,9 +53,7 @@ namespace Athena2
             // Output : ArrayList of Dates - strongly typed.
             // Status : Production
             // Production : 19-10-2015 17.55
-
             // Done 1: Collect the selected dates from clbFiles into an MyDatesArray
-
             // Done 2 :  Collect the selected markets from clbMarkets into a chosenMarketsArray
             // initiated 21-01-2015 17.12 and resolved 22-01-2016 10.46
 
@@ -63,23 +64,18 @@ namespace Athena2
             if (AllMyDates.Count > 0)
             {
                 //// DateList Generator gets an ArrayList of Weekday dates between the given from and to dates.
-
                 List<string> chosenMarketsArray = new List<string>();
                 foreach (var i in clbMarkets.CheckedItems)
                 {
                     chosenMarketsArray.Add(i.ToString());
                 }
-
                 //Done 3: Check for Internet Connectivity                
                 List<Task> T = new List<Task>();
                 T = MyEngine.CreateTaskList(chosenMarketsArray, AllMyDates);
                 MyEngine.DownloadTaskList(ref T);
-
                 //// Done 5. On Download completion open MyFolder and show it to the user
                 System.Diagnostics.Process.Start("explorer", tbLocation.Text.ToString());
-
             }
-
         }
         private void tbLocation_Click(object sender, EventArgs e)
         {
@@ -113,46 +109,41 @@ namespace Athena2
             {
                 dtpToDate.Value = DateTime.Today.Date;
                 dtpToDate.Enabled = false;
-                List<DateTime> MissingDates = new List<DateTime>();
-                string P = Path.GetFullPath(tbLocation.Text.ToString());
-                List<string> Directories = Directory.EnumerateDirectories(P).ToList<string>();
-                List<string> Files = new List<string>();
-                foreach (string Folder in Directories)
+                if (tbLocation.Text.Length > 0)
                 {
-                    Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
-                }                
-                List<DateTime> FoundDates = new List<DateTime>();
-                foreach (string File in Files)
-                {                    
-                    DateTime PathonDrive;
-                    if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(File), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out PathonDrive))
+                    List<DateTime> MissingDates = MyEngine.getMissingDates(tbLocation.Text.ToString());
+                    int i = 0;
+                    foreach (DateTime IndividualDate in MissingDates)
                     {
-                        FoundDates.Add(PathonDrive);                        
-                    }                    
-                }
-                DateTime MaxDate = FoundDates.Max<DateTime>();
-                DateTime MinDate = FoundDates.Min<DateTime>();
-                Exchange Es = new Exchange();
-                List<DateTime> ValidDates = Es.DateListGenerator(MinDate, MaxDate);
-                int i = 0;
-                foreach (DateTime IndividualDate in ValidDates)
-                {                    
-                    if (!FoundDates.Contains(IndividualDate)) {
                         dgvDetails.Rows.Add(1);
                         DataGridViewRow dr = dgvDetails.Rows[i];
-
-                        //MissingDates.Add(IndividualDate);
                         dr.Cells["dgvtbDate"].Value = IndividualDate.ToShortDateString();
                         i++;
-                    }                    
-                }
-                
-            }
-            else
-            {
-                dtpToDate.Enabled = true;
-            }
+                    }
 
+
+                }
+
+            }
+        }
+        private void tbCsvPath_TextChanged(object sender, EventArgs e)
+        {
+            fbdDownloadLocation.ShowDialog();
+            string FolderToScan = Path.GetFullPath(fbdDownloadLocation.SelectedPath);
+            List<string> Directories = Directory.EnumerateDirectories(FolderToScan).ToList<string>();
+            List<string> Files = new List<string>();
+            foreach (string Folder in Directories)
+            {
+                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
+            }
+            List<DateTime> FoundDates = new List<DateTime>();
+            Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
+            foreach (string File in Files)
+            {                
+                CachedCsvReader csv = new CachedCsvReader(new StreamReader(File), true);
+                string[] headers = csv.GetFieldHeaders();
+                // Field headers will automatically be used as column names
+            }
 
 
         }

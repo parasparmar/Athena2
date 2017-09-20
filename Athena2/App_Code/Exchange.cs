@@ -27,9 +27,9 @@ namespace Athena2
                     theDate = theDate.AddDays(1);
                 }
             }
-
-
             return T;
         }
+
+
     }
 }

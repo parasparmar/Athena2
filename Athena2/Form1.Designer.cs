@@ -56,8 +56,8 @@
             this.cbMissingDates = new System.Windows.Forms.CheckBox();
             this.pbOne = new System.Windows.Forms.ProgressBar();
             this.pbTwo = new System.Windows.Forms.ProgressBar();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblFile = new System.Windows.Forms.Label();
+            this.lblOverall = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
             this.tbFilesPath = new System.Windows.Forms.TextBox();
@@ -67,6 +67,7 @@
             this.dgvtbFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgvtbPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label1 = new System.Windows.Forms.Label();
             this.StatusStrip1.SuspendLayout();
             this.tbOne.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -128,6 +129,7 @@
             this.tbCsvPath.Name = "tbCsvPath";
             this.tbCsvPath.Size = new System.Drawing.Size(257, 22);
             this.tbCsvPath.TabIndex = 61;
+            this.tbCsvPath.TextChanged += new System.EventHandler(this.tbCsvPath_TextChanged);
             // 
             // CheckBox4
             // 
@@ -210,7 +212,7 @@
             "NSE - Equity",
             "BSE - Equity",
             "AMFII - Mutual Funds"});
-            this.clbMarkets.Location = new System.Drawing.Point(120, 71);
+            this.clbMarkets.Location = new System.Drawing.Point(120, 48);
             this.clbMarkets.Name = "clbMarkets";
             this.clbMarkets.Size = new System.Drawing.Size(257, 72);
             this.clbMarkets.TabIndex = 48;
@@ -218,7 +220,7 @@
             // dtpFromDate
             // 
             this.dtpFromDate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpFromDate.Location = new System.Drawing.Point(120, 149);
+            this.dtpFromDate.Location = new System.Drawing.Point(120, 126);
             this.dtpFromDate.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(121, 22);
@@ -229,7 +231,7 @@
             // 
             this.lblFromDate.AutoSize = true;
             this.lblFromDate.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.lblFromDate.Location = new System.Drawing.Point(76, 156);
+            this.lblFromDate.Location = new System.Drawing.Point(76, 126);
             this.lblFromDate.Name = "lblFromDate";
             this.lblFromDate.Size = new System.Drawing.Size(36, 13);
             this.lblFromDate.TabIndex = 53;
@@ -238,7 +240,7 @@
             // dtpToDate
             // 
             this.dtpToDate.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpToDate.Location = new System.Drawing.Point(258, 149);
+            this.dtpToDate.Location = new System.Drawing.Point(258, 126);
             this.dtpToDate.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dtpToDate.Name = "dtpToDate";
             this.dtpToDate.Size = new System.Drawing.Size(119, 22);
@@ -247,7 +249,7 @@
             // tsStatusText
             // 
             this.tsStatusText.Name = "tsStatusText";
-            this.tsStatusText.Size = new System.Drawing.Size(427, 17);
+            this.tsStatusText.Size = new System.Drawing.Size(1076, 17);
             this.tsStatusText.Spring = true;
             this.tsStatusText.Text = "Ready...";
             this.tsStatusText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -313,8 +315,8 @@
             this.tabPage1.Controls.Add(this.cbMissingDates);
             this.tabPage1.Controls.Add(this.pbOne);
             this.tabPage1.Controls.Add(this.pbTwo);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.lblFile);
+            this.tabPage1.Controls.Add(this.lblOverall);
             this.tabPage1.Controls.Add(this.clbMarkets);
             this.tabPage1.Controls.Add(this.lblDownloadPath);
             this.tabPage1.Controls.Add(this.btnDownload);
@@ -335,7 +337,7 @@
             // cbMissingDates
             // 
             this.cbMissingDates.AutoSize = true;
-            this.cbMissingDates.Location = new System.Drawing.Point(120, 48);
+            this.cbMissingDates.Location = new System.Drawing.Point(120, 154);
             this.cbMissingDates.Name = "cbMissingDates";
             this.cbMissingDates.Size = new System.Drawing.Size(238, 17);
             this.cbMissingDates.TabIndex = 71;
@@ -357,28 +359,29 @@
             this.pbTwo.Size = new System.Drawing.Size(257, 14);
             this.pbTwo.TabIndex = 67;
             // 
-            // label1
+            // lblFile
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.label1.Location = new System.Drawing.Point(87, 178);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 13);
-            this.label1.TabIndex = 68;
-            this.label1.Text = "File";
+            this.lblFile.AutoSize = true;
+            this.lblFile.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.lblFile.Location = new System.Drawing.Point(40, 177);
+            this.lblFile.Name = "lblFile";
+            this.lblFile.Size = new System.Drawing.Size(72, 13);
+            this.lblFile.TabIndex = 68;
+            this.lblFile.Text = "File Progress";
             // 
-            // label2
+            // lblOverall
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.label2.Location = new System.Drawing.Point(69, 198);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 13);
-            this.label2.TabIndex = 69;
-            this.label2.Text = "Overall";
+            this.lblOverall.AutoSize = true;
+            this.lblOverall.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.lblOverall.Location = new System.Drawing.Point(22, 197);
+            this.lblOverall.Name = "lblOverall";
+            this.lblOverall.Size = new System.Drawing.Size(90, 13);
+            this.lblOverall.TabIndex = 69;
+            this.lblOverall.Text = "Overall Progress";
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.tbFilesPath);
             this.tabPage2.Controls.Add(this.tbMetastockPath);
@@ -405,9 +408,9 @@
             this.label3.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.label3.Location = new System.Drawing.Point(25, 20);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(87, 13);
+            this.label3.Size = new System.Drawing.Size(89, 13);
             this.label3.TabIndex = 67;
-            this.label3.Text = "Download Path";
+            this.label3.Text = "Source Location";
             // 
             // tbFilesPath
             // 
@@ -471,6 +474,15 @@
             this.splitContainer1.SplitterDistance = 424;
             this.splitContainer1.TabIndex = 69;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(120, 104);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(109, 13);
+            this.label1.TabIndex = 68;
+            this.label1.Text = "Destination Locations";
+            // 
             // frmDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -525,8 +537,8 @@
         private System.Windows.Forms.TabPage tabPage1;
         internal System.Windows.Forms.ProgressBar pbOne;
         private System.Windows.Forms.ProgressBar pbTwo;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblFile;
+        private System.Windows.Forms.Label lblOverall;
         private System.Windows.Forms.TabPage tabPage2;
         internal System.Windows.Forms.Label label3;
         internal System.Windows.Forms.TextBox tbFilesPath;
@@ -537,6 +549,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbFolder;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbPath;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

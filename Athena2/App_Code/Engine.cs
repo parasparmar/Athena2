@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using Ionic.Zip;
-
+using Microsoft.VisualBasic;
 
 namespace Athena2
 {
@@ -19,7 +19,35 @@ namespace Athena2
         // TaskList = This tracks the success or failure of each individual download.
         List<Task> TaskList = new List<Task>();
 
-        
+
+        public List<DateTime> getMissingDates(string FolderToScan)
+        {
+
+            //List<DateTime> MissingDates = new List<DateTime>();
+            string P = Path.GetFullPath(FolderToScan);
+            List<string> Directories = Directory.EnumerateDirectories(P).ToList<string>();
+            List<string> Files = new List<string>();
+            foreach (string Folder in Directories)
+            {
+                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
+            }
+            List<DateTime> FoundDates = new List<DateTime>();
+            foreach (string File in Files)
+            {
+                DateTime PathonDrive;
+                if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(File), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out PathonDrive))
+                {
+                    FoundDates.Add(PathonDrive);
+                }
+            }
+            DateTime MaxDate = FoundDates.Max<DateTime>();
+            DateTime MinDate = FoundDates.Min<DateTime>();
+            Exchange Es = new Exchange();
+            List<DateTime> ValidDates = Es.DateListGenerator(MinDate, MaxDate);
+            IEnumerable<DateTime> MissingDates = ValidDates.Except(FoundDates);
+
+            return MissingDates.ToList<DateTime>();
+        }
 
         // getURLFrom takes in a datearray  and returns a dictionary of filenames and urls from which to download individual files.
         public List<Task> CreateTaskList(List<String> MarketType, List<DateTime> DateList)
@@ -338,5 +366,7 @@ namespace Athena2
             }
             return ExtractedFileName;
         }
+
+        
     }
 }
