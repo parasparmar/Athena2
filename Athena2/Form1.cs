@@ -142,6 +142,7 @@ namespace Athena2
             {                
                 CachedCsvReader csv = new CachedCsvReader(new StreamReader(File), true);
                 string[] headers = csv.GetFieldHeaders();
+                dgvDetails.DataSource = csv;
                 // Field headers will automatically be used as column names
             }
 

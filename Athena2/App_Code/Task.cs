@@ -9,9 +9,9 @@ namespace Athena2
     public class Task
     {
 
-        
-            // 0. MyDate = The date component of the associated downloaded file.
-            public DateTime MyDate;
+
+        // 0. MyDate = The date component of the associated downloaded file.
+        public DateTime MyDate;
             // 1. URIWithFileName = The complete download path and file name
             public String URIWithFileName;
             // 2. FileNameOnServer = Only the file name of the downloaded file.It will be concatenated with fbdDownloadLocation.SelectedPath to acheive the full path and file name of the local file.
