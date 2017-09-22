@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using LumenWorks.Framework.IO.Csv;
+
 
 namespace Athena2
 {
@@ -138,13 +138,13 @@ namespace Athena2
             }
             List<DateTime> FoundDates = new List<DateTime>();
             Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
-            foreach (string File in Files)
-            {                
-                CachedCsvReader csv = new CachedCsvReader(new StreamReader(File), true);
-                string[] headers = csv.GetFieldHeaders();
-                dgvDetails.DataSource = csv;
-                // Field headers will automatically be used as column names
-            }
+            //foreach (string File in Files)
+            //{                
+            //    CachedCsvReader csv = new CachedCsvReader(new StreamReader(File), true);
+            //    string[] headers = csv.GetFieldHeaders();
+            //    dgvDetails.DataSource = csv;
+            //    // Field headers will automatically be used as column names
+            //}
 
 
         }
