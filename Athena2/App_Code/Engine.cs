@@ -7,6 +7,7 @@ using System.Net;
 using System.IO;
 using Ionic.Zip;
 using Microsoft.VisualBasic;
+using System.Windows.Forms;
 
 namespace Athena2
 {
@@ -236,7 +237,8 @@ namespace Athena2
             {               
                 HttpWebRequest request;
                 HttpWebResponse response;
-                request = (HttpWebRequest)WebRequest.Create(CurrentTask.URIWithFileName);
+
+                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.URIWithFileName);
 
                 IWebProxy proxy = request.Proxy;
                 if (proxy != null)
@@ -273,11 +275,12 @@ namespace Athena2
             }
             catch (Exception Ex)
             {
-                //System.Windows.Forms.MessageBox.Show(Ex.Message.ToString());
+                MessageBox.Show(Ex.Message.ToString());
                 return false;
             }
         }
 
+       // private async Task<Task> DownloadAgent(Task CurrentTask) { }
         private bool DownloadWriter(ref HttpWebResponse response, ref Task currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.

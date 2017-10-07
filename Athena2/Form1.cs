@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-
+using CsvHelper;
 
 namespace Athena2
 {
@@ -21,7 +21,7 @@ namespace Athena2
         public frmDownloader()
         {
             InitializeComponent();
-            
+
         }
         private void dtpFromDate_ValueChanged(object sender, EventArgs e)
         {
@@ -82,13 +82,11 @@ namespace Athena2
 
             //0. Request the user to select a folder (MyFolder) where the downloaded files will be kept
             fbdDownloadLocation.ShowNewFolderButton = true;
-            if (fbdDownloadLocation.ShowDialog() == DialogResult.OK)
+            if (fbdDownloadLocation.ShowDialog() == DialogResult.OK || tbLocation.Text.Length > 0)
             {
                 string MyFolder = fbdDownloadLocation.SelectedPath.ToString();
+                if (MyFolder.Length == 0) { MyFolder = tbLocation.Text; }
                 MyEngine.LocalBasePathToDownload = MyFolder;
-
-
-
                 if (Directory.Exists(MyFolder))
                 {
                     tbLocation.Text = MyFolder;
@@ -111,15 +109,15 @@ namespace Athena2
                 dtpToDate.Enabled = false;
                 if (tbLocation.Text.Length > 0)
                 {
-                    List<DateTime> MissingDates = MyEngine.getMissingDates(tbLocation.Text.ToString());
-                    int i = 0;
-                    foreach (DateTime IndividualDate in MissingDates)
-                    {
-                        dgvDetails.Rows.Add(1);
-                        DataGridViewRow dr = dgvDetails.Rows[i];
-                        dr.Cells["dgvtbDate"].Value = IndividualDate.ToShortDateString();
-                        i++;
-                    }
+                    //List<DateTime> MissingDates = MyEngine.getMissingDates(tbLocation.Text.ToString());
+                    //int i = 0;
+                    //foreach (DateTime IndividualDate in MissingDates)
+                    //{
+                    //    dgvDetails.Rows.Add(1);
+                    //    DataGridViewRow dr = dgvDetails.Rows[i];
+                    //    dr.Cells["dgvtbDate"].Value = IndividualDate.ToShortDateString();
+                    //    i++;
+                    //}
 
 
                 }
@@ -148,5 +146,70 @@ namespace Athena2
 
 
         }
+
+        public void excelreader()
+        {
+                
+
+
+        }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+
+
+            string filename = @"D:\Desktop\StockData\NSE-Equity\20170925.csv";
+            FileStream fs = new FileStream(filename, FileMode.Open);
+            StreamReader textIn = new StreamReader(fs);
+            //while (textIn.Peek() != -1)
+            //{
+            string row = textIn.ReadLine();
+            string[] columns = row.Split(',');
+            int columncount = columns.Length;
+            foreach (string col in columns)
+            {
+                dgv1.Columns.Add(col, col);
+            }
+
+            for (int i = 0; i < 50; i++)
+            {
+                row = textIn.ReadLine();
+                columns = row.Split(',');
+                dgv1.Rows.Add();
+                for (int j = 0; j < columncount; j++)
+                {
+                    dgv1.Rows[i].Cells[j].Value = columns[j];
+                }
+            }
+
+            //}
+
+        }
+
+        private void tbFilesPath_TextChanged(object sender, EventArgs e)
+        {
+            fbdDownloadLocation.ShowDialog();
+            string ScanFolder = Path.GetFullPath(fbdDownloadLocation.SelectedPath);
+            List<string> Directories = Directory.EnumerateDirectories(ScanFolder).ToList<string>();
+            List<string> Files = new List<string>();
+            foreach (string Folder in Directories)
+            {
+                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
+            }
+            
+          
+        }
+
+        class CSVConversion
+        {
+            public string Folder { get; set; }
+            public string File { get; set; }
+            public string column { get; set;}
+
+
+
+        }
+
+
     }
 }

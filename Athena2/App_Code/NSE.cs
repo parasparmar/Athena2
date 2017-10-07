@@ -20,6 +20,7 @@ namespace Athena2
             // This function takes in a datearray  and returns a dictionary of filenames and urls from which to download individual files.
             // The target URL is of the format http://www.nseindia.com/content/historical/EQUITIES/<YYYY>/<MMM>/cm<dd><MMM><yyyy>bhav.csv.zip
             // for eg : http://www.nseindia.com/content/historical/EQUITIES/2014/JUL/cm31JUL2014bhav.csv.zip is a bhav copy for 31/Jul/2014
+            // https://www.nseindia.com/content/historical/EQUITIES/2017/SEP/cm27SEP2017bhav.csv.zip
             ServerFile_NameOnly = "cm" + individual_Day.ToString("dd") + individual_Day.ToString("MMM").ToUpper() + individual_Day.ToString("yyyy").ToUpper() + "bhav.csv.zip";
             ServerURI_WFileName = "http://www.nseindia.com/content/historical/EQUITIES/" + individual_Day.Year.ToString() + "/" + individual_Day.ToString("MMM").ToUpper() + "/" + ServerFile_NameOnly;
             // 0. onDate = The date component of the associated downloaded file.

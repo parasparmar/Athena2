@@ -14,7 +14,7 @@ namespace Athena2
         public List<DateTime> DateListGenerator(DateTime FromDate, DateTime ToDate)
         {
             List<DateTime> T = new List<DateTime>();
-            if (FromDate <= ToDate)
+            if (FromDate.Date <= ToDate.Date)
             {
                 DateTime theDate = FromDate;
                 while (theDate <= ToDate)
