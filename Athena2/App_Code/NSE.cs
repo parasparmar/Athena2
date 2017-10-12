@@ -36,5 +36,18 @@ namespace Athena2
             currentTask.MarketFolder = market;
             return currentTask;
         }
+
+        public bool NeededHeaders(ref string[] AllHeadersInCSV)
+        {
+            bool result = true;
+            string[] NeededHeaders = { "SYMBOL", "TIMESTAMP", "OPEN", "HIGH", "LOW", "CLOSE", "TOTTRDQTY" };
+            foreach (string header in NeededHeaders)
+            {
+              result = result && AllHeadersInCSV.Contains<string>(header);
+              
+            }
+            AllHeadersInCSV = NeededHeaders;
+            return result;
+        }
     }
 }

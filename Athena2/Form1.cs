@@ -14,29 +14,33 @@ namespace Athena2
 {
     public partial class frmDownloader : Form
     {
-        DataTable dt = new DataTable();
-        string FolderBrowserDialog;
+
         string MyFolder = string.Empty;
         Engine MyEngine = new Engine();
+
         public frmDownloader()
         {
             InitializeComponent();
-
+            dtpFromDate.MaxDate = DateTime.Today;
+            dtpToDate.MaxDate = DateTime.Today.AddDays(1);
         }
-        private void dtpFromDate_ValueChanged(object sender, EventArgs e)
+        private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
-            if (dtpFromDate.Value < DateTime.Today && dtpToDate.Value <= DateTime.Today)
+            DateTime FromDate = dtpFromDate.Value;
+            DateTime ToDate = dtpToDate.Value;
+            if (FromDate > ToDate)
             {
-                if (DateTime.Today.Hour >= 15)
-                {
-                    dtpToDate.Value = DateTime.Today.Date;
-                }
-                else
-                {
-                    dtpToDate.Value = DateTime.Today.AddDays(-1).Date;
-                }
-                tsStatusText.Text = "Please choose a From date before today" + dtpToDate.Value;
+                dtpFromDate.Value = ToDate;
+                dtpToDate.Value = FromDate;
+                FromDate = dtpFromDate.Value;
+                ToDate = dtpToDate.Value;
             }
+            // Day's Bhav Copies release at 16.38.
+            if (ToDate.Hour < 16 && ToDate.Minute < 38)
+            {
+                dtpToDate.Value = DateTime.Today.AddDays(-1);
+            }
+
         }
         private void btnReset_Click(object sender, EventArgs e)
         {
@@ -57,10 +61,10 @@ namespace Athena2
             // Done 2 :  Collect the selected markets from clbMarkets into a chosenMarketsArray
             // initiated 21-01-2015 17.12 and resolved 22-01-2016 10.46
 
-            Exchange Exc = new Exchange();
+            Exchange Ex = new Exchange();
             List<DateTime> AllMyDates = new List<DateTime>();
             //D:\Desktop\StockData
-            AllMyDates = Exc.DateListGenerator(dtpFromDate.Value, dtpToDate.Value);
+            AllMyDates = Ex.DateListGenerator(dtpFromDate.Value, dtpToDate.Value);
             if (AllMyDates.Count > 0)
             {
                 //// DateList Generator gets an ArrayList of Weekday dates between the given from and to dates.
@@ -136,28 +140,42 @@ namespace Athena2
             }
             List<DateTime> FoundDates = new List<DateTime>();
             Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
-            //foreach (string File in Files)
-            //{                
-            //    CachedCsvReader csv = new CachedCsvReader(new StreamReader(File), true);
-            //    string[] headers = csv.GetFieldHeaders();
-            //    dgvDetails.DataSource = csv;
-            //    // Field headers will automatically be used as column names
-            //}
+
 
 
         }
 
         public void excelreader()
         {
-                
+            String myPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
+            if (File.Exists(myPath))
+            {
+                CsvReader csv = new CsvReader(new StreamReader(myPath));
 
+                if (csv.ReadHeader())
+                {
+                    string[] headers = csv.FieldHeaders;
+                    BSE b = new BSE();
+                    if (b.NeededHeaders(ref headers))
+                    {
+                        List<string> columns = headers.ToList<string>();
+                        dgv1.Columns.Clear();
+                        foreach (string col in headers)
+                        {
+                            dgv1.Columns.Add(col, col);
 
+                        }
+                        dgv1.DataSource = columns;
+                    }
+
+                }
+            }
         }
+
+        //public sealed class MyMap: CSVClassMap<NSE>
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-
-
             string filename = @"D:\Desktop\StockData\NSE-Equity\20170925.csv";
             FileStream fs = new FileStream(filename, FileMode.Open);
             StreamReader textIn = new StreamReader(fs);
@@ -196,20 +214,21 @@ namespace Athena2
             {
                 Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
             }
-            
-          
+
+
+
         }
 
         class CSVConversion
         {
             public string Folder { get; set; }
             public string File { get; set; }
-            public string column { get; set;}
-
-
-
+            public string column { get; set; }
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            excelreader();
+        }
     }
 }

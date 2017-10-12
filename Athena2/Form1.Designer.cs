@@ -34,6 +34,7 @@
             this.fbdDownloadLocation = new System.Windows.Forms.FolderBrowserDialog();
             this.tbOne = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.cbMissingDates = new System.Windows.Forms.CheckBox();
             this.pbOne = new System.Windows.Forms.ProgressBar();
             this.pbTwo = new System.Windows.Forms.ProgressBar();
@@ -104,6 +105,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.cbMissingDates);
             this.tabPage1.Controls.Add(this.pbOne);
             this.tabPage1.Controls.Add(this.pbTwo);
@@ -125,6 +127,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Download";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(120, 248);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(121, 23);
+            this.button1.TabIndex = 72;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // cbMissingDates
             // 
@@ -249,7 +261,7 @@
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(121, 22);
             this.dtpFromDate.TabIndex = 47;
-            this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged);
+            this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
             // 
             // dtpToDate
             // 
@@ -259,7 +271,7 @@
             this.dtpToDate.Name = "dtpToDate";
             this.dtpToDate.Size = new System.Drawing.Size(119, 22);
             this.dtpToDate.TabIndex = 52;
-            this.dtpToDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged);
+            this.dtpToDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
             // 
             // lblFromDate
             // 
@@ -443,7 +455,7 @@
             this.Controls.Add(this.tbOne);
             this.Controls.Add(this.StatusStrip1);
             this.Name = "frmDownloader";
-            this.Text = "The Downloader";
+            this.Text = " ";
             this.StatusStrip1.ResumeLayout(false);
             this.StatusStrip1.PerformLayout();
             this.tbOne.ResumeLayout(false);
@@ -493,6 +505,7 @@
         internal System.Windows.Forms.CheckBox CheckBox4;
         internal System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.DataGridView dgv1;
+        private System.Windows.Forms.Button button1;
     }
 }
 
