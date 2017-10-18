@@ -43,11 +43,24 @@ namespace Athena2
             string[] NeededHeaders = { "SYMBOL", "TIMESTAMP", "OPEN", "HIGH", "LOW", "CLOSE", "TOTTRDQTY" };
             foreach (string header in NeededHeaders)
             {
-              result = result && AllHeadersInCSV.Contains<string>(header);
-              
+                result = result && AllHeadersInCSV.Contains<string>(header);
+
             }
             AllHeadersInCSV = NeededHeaders;
             return result;
         }
+
+    }
+
+    class NSEHeaders
+    {
+        public string SYMBOL { get; set; }
+        public string TIMESTAMP { get; set; }
+        public string SERIES { get; set; }
+        public string OPEN { get; set; }
+        public string HIGH { get; set; }
+        public string LOW { get; set; }
+        public string CLOSE { get; set; }
+        public string TOTTRDQTY { get; set; }
     }
 }

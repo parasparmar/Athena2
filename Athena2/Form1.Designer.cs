@@ -78,7 +78,7 @@
             // tsStatusText
             // 
             this.tsStatusText.Name = "tsStatusText";
-            this.tsStatusText.Size = new System.Drawing.Size(1140, 17);
+            this.tsStatusText.Size = new System.Drawing.Size(775, 17);
             this.tsStatusText.Spring = true;
             this.tsStatusText.Text = "Ready...";
             this.tsStatusText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -87,9 +87,9 @@
             // 
             this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsStatusText});
-            this.StatusStrip1.Location = new System.Drawing.Point(0, 612);
+            this.StatusStrip1.Location = new System.Drawing.Point(0, 324);
             this.StatusStrip1.Name = "StatusStrip1";
-            this.StatusStrip1.Size = new System.Drawing.Size(1155, 22);
+            this.StatusStrip1.Size = new System.Drawing.Size(790, 22);
             this.StatusStrip1.TabIndex = 54;
             this.StatusStrip1.Text = "StatusStrip1";
             // 
@@ -333,7 +333,7 @@
             this.tbFilesPath.Name = "tbFilesPath";
             this.tbFilesPath.Size = new System.Drawing.Size(257, 25);
             this.tbFilesPath.TabIndex = 66;
-            this.tbFilesPath.TextChanged += new System.EventHandler(this.tbFilesPath_TextChanged);
+            this.tbFilesPath.Click += new System.EventHandler(this.tbFilesPath_TextChanged);
             // 
             // tbMetastockPath
             // 
@@ -441,16 +441,16 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv1.Location = new System.Drawing.Point(434, 34);
+            this.dgv1.Location = new System.Drawing.Point(429, 34);
             this.dgv1.Name = "dgv1";
-            this.dgv1.Size = new System.Drawing.Size(709, 575);
+            this.dgv1.Size = new System.Drawing.Size(349, 281);
             this.dgv1.TabIndex = 69;
             // 
             // frmDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1155, 634);
+            this.ClientSize = new System.Drawing.Size(790, 346);
             this.Controls.Add(this.dgv1);
             this.Controls.Add(this.tbOne);
             this.Controls.Add(this.StatusStrip1);

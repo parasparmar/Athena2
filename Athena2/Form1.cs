@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using CsvHelper;
+using System.Collections;
 
 namespace Athena2
 {
@@ -21,8 +22,8 @@ namespace Athena2
         public frmDownloader()
         {
             InitializeComponent();
-            dtpFromDate.MaxDate = DateTime.Today;
-            dtpToDate.MaxDate = DateTime.Today.AddDays(1);
+            // dtpFromDate.Value = DateTime.Today.Date.AddDays(-1);
+            // dtpToDate.Value = DateTime.Today.Date;
         }
         private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
@@ -35,10 +36,11 @@ namespace Athena2
                 FromDate = dtpFromDate.Value;
                 ToDate = dtpToDate.Value;
             }
+
             // Day's Bhav Copies release at 16.38.
             if (ToDate.Hour < 16 && ToDate.Minute < 38)
             {
-                dtpToDate.Value = DateTime.Today.AddDays(-1);
+                dtpToDate.Value = ToDate.AddDays(-1);
             }
 
         }
@@ -113,15 +115,15 @@ namespace Athena2
                 dtpToDate.Enabled = false;
                 if (tbLocation.Text.Length > 0)
                 {
-                    //List<DateTime> MissingDates = MyEngine.getMissingDates(tbLocation.Text.ToString());
-                    //int i = 0;
-                    //foreach (DateTime IndividualDate in MissingDates)
-                    //{
-                    //    dgvDetails.Rows.Add(1);
-                    //    DataGridViewRow dr = dgvDetails.Rows[i];
-                    //    dr.Cells["dgvtbDate"].Value = IndividualDate.ToShortDateString();
-                    //    i++;
-                    //}
+                    List<DateTime> MissingDates = MyEngine.getMissingDates(tbLocation.Text.ToString());
+                    int i = 0;
+                    foreach (DateTime IndividualDate in MissingDates)
+                    {
+                        dgv1.Rows.Add(1);
+                        DataGridViewRow dr = dgv1.Rows[i];
+                        dr.Cells["dgvtbDate"].Value = IndividualDate.ToShortDateString();
+                        i++;
+                    }
 
 
                 }
@@ -150,24 +152,62 @@ namespace Athena2
             String myPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
             if (File.Exists(myPath))
             {
-                CsvReader csv = new CsvReader(new StreamReader(myPath));
 
-                if (csv.ReadHeader())
+                using (var sr = new StreamReader(myPath))
                 {
-                    string[] headers = csv.FieldHeaders;
-                    BSE b = new BSE();
-                    if (b.NeededHeaders(ref headers))
+                    using (var sw = new StreamWriter(myPath +"output"))
                     {
-                        List<string> columns = headers.ToList<string>();
-                        dgv1.Columns.Clear();
-                        foreach (string col in headers)
+                        var reader = new CsvReader(sr);
+                        var writer = new CsvWriter(sw);
+                        DateTime TheDate;
+                        if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(myPath), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out TheDate))
                         {
-                            dgv1.Columns.Add(col, col);
+                            reader.Configuration.HeaderValidated = null;
+                            //CSVReader will now read the whole file into an enumerable
+                            IEnumerable records = reader.GetRecords<BSEHeaders>().ToList();
 
+                            //Write the entire contents of the CSV file into another
+                            writer.WriteRecords(records);
+
+                            //Now we will write the data into the same output file but will do it 
+                            //Using two methods.  The first is writing the entire record.  The second
+                            //method writes individual fields.  Note you must call NextRecord method after 
+                            //using Writefield to terminate the record.
+
+                            //Note that WriteRecords will write a header record for you automatically.  If you 
+                            //are not using the WriteRecords method and you want to a header, you must call the 
+                            //Writeheader method like the following:
+                            //
+                            writer.WriteHeader<BSEHeaders>();
+                            //
+                            //Do not use WriteHeader as WriteRecords will have done that already.
+
+                            foreach (BSEHeaders record in records)
+                            {
+                                //Write entire current record
+                                // writer.WriteRecord(record);
+
+
+                                //write record field by field
+                                writer.WriteField(record.SC_CODE);
+                                writer.WriteField(record.SC_NAME);
+                                
+                                writer.WriteField(TheDate.ToString());
+                                writer.WriteField(record.OPEN);
+                                writer.WriteField(record.HIGH);
+                                writer.WriteField(record.LOW);
+                                writer.WriteField(record.CLOSE);
+                                writer.WriteField(record.NO_OF_SHRS);
+                                writer.WriteField(record.SC_TYPE);
+                                //ensure you write end of record when you are using WriteField method
+                                writer.NextRecord();
+                            }
                         }
-                        dgv1.DataSource = columns;
-                    }
 
+
+
+
+                    }
                 }
             }
         }
@@ -206,16 +246,6 @@ namespace Athena2
 
         private void tbFilesPath_TextChanged(object sender, EventArgs e)
         {
-            fbdDownloadLocation.ShowDialog();
-            string ScanFolder = Path.GetFullPath(fbdDownloadLocation.SelectedPath);
-            List<string> Directories = Directory.EnumerateDirectories(ScanFolder).ToList<string>();
-            List<string> Files = new List<string>();
-            foreach (string Folder in Directories)
-            {
-                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
-            }
-
-
 
         }
 
@@ -230,5 +260,7 @@ namespace Athena2
         {
             excelreader();
         }
+
+
     }
 }

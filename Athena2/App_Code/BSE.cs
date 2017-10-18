@@ -46,7 +46,7 @@ namespace Athena2
         public bool NeededHeaders(ref string[] AllHeadersInCSV)
         {
             bool result = true;
-            string[] NeededHeaders = { "SC_NAME", "OPEN", "HIGH", "LOW", "CLOSE", "NO_OF_SHRS" };
+            string[] NeededHeaders = { "SC_CODE", "SC_NAME", "SC_TYPE", "OPEN", "HIGH", "LOW", "CLOSE", "NO_OF_SHRS" };
             foreach (string header in NeededHeaders)
             {
                 result = result && AllHeadersInCSV.Contains<string>(header);
@@ -55,6 +55,22 @@ namespace Athena2
             return result;
         }
 
+
+
+
+    }
+
+    class BSEHeaders
+    {
+        public string SC_CODE { get; set; }
+        public string SC_NAME { get; set; }
+        public string SC_TYPE { get; set; }
+        //public string DATE { get; set; }
+        public string OPEN { get; set; }
+        public string HIGH { get; set; }
+        public string LOW { get; set; }
+        public string CLOSE { get; set; }
+        public string NO_OF_SHRS { get; set; }
 
     }
 
