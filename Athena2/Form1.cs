@@ -25,22 +25,20 @@ namespace Athena2
             // dtpFromDate.Value = DateTime.Today.Date.AddDays(-1);
             // dtpToDate.Value = DateTime.Today.Date;
         }
-        private void dtpDate_ValueChanged(object sender, EventArgs e)
+        private void dtpDate_ValueChanged()
         {
-            DateTime FromDate = dtpFromDate.Value;
-            DateTime ToDate = dtpToDate.Value;
-            if (FromDate > ToDate)
-            {
-                dtpFromDate.Value = ToDate;
-                dtpToDate.Value = FromDate;
-                FromDate = dtpFromDate.Value;
-                ToDate = dtpToDate.Value;
+            DateTime temp = dtpToDate.Value;
+           
+            if (dtpFromDate.Value >= dtpToDate.Value)
+            {                
+                dtpToDate.Value = dtpFromDate.Value;
+                dtpFromDate.Value = temp;                
             }
 
             // Day's Bhav Copies release at 16.38.
-            if (ToDate.Hour < 16 && ToDate.Minute < 38)
+            if (dtpToDate.Value.Hour < 16 && dtpToDate.Value.Minute < 38)
             {
-                dtpToDate.Value = ToDate.AddDays(-1);
+                dtpToDate.Value = dtpToDate.Value.AddDays(-1);
             }
 
         }
@@ -142,20 +140,18 @@ namespace Athena2
             }
             List<DateTime> FoundDates = new List<DateTime>();
             Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
-
-
-
         }
 
         public void excelreader()
         {
             String myPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
+            
             if (File.Exists(myPath))
             {
-
-                using (var sr = new StreamReader(myPath))
+                var fs = new FileStream(myPath, FileMode.Open, FileAccess.Read);
+                using (var sr = new StreamReader(fs))
                 {
-                    using (var sw = new StreamWriter(myPath +"output"))
+                    using (var sw = new StreamWriter(Path.GetFileNameWithoutExtension(myPath) + "_output.csv")) 
                     {
                         var reader = new CsvReader(sr);
                         var writer = new CsvWriter(sw);
@@ -163,11 +159,12 @@ namespace Athena2
                         if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(myPath), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out TheDate))
                         {
                             reader.Configuration.HeaderValidated = null;
+                            reader.Configuration.MissingFieldFound = null;
                             //CSVReader will now read the whole file into an enumerable
                             IEnumerable records = reader.GetRecords<BSEHeaders>().ToList();
 
                             //Write the entire contents of the CSV file into another
-                            writer.WriteRecords(records);
+                            //writer.WriteRecords(records);
 
                             //Now we will write the data into the same output file but will do it 
                             //Using two methods.  The first is writing the entire record.  The second
@@ -191,8 +188,8 @@ namespace Athena2
                                 //write record field by field
                                 writer.WriteField(record.SC_CODE);
                                 writer.WriteField(record.SC_NAME);
-                                
-                                writer.WriteField(TheDate.ToString());
+                                record.DATE = TheDate.ToString();
+                                writer.WriteField(record.DATE);
                                 writer.WriteField(record.OPEN);
                                 writer.WriteField(record.HIGH);
                                 writer.WriteField(record.LOW);
@@ -211,6 +208,9 @@ namespace Athena2
                 }
             }
         }
+
+        
+
 
         //public sealed class MyMap: CSVClassMap<NSE>
 
@@ -249,18 +249,20 @@ namespace Athena2
 
         }
 
-        class CSVConversion
-        {
-            public string Folder { get; set; }
-            public string File { get; set; }
-            public string column { get; set; }
-        }
-
+   
         private void button1_Click(object sender, EventArgs e)
         {
             excelreader();
         }
 
+        private void dtpFromDate_ValueChanged(object sender, EventArgs e)
+        {
+           
+        }
 
+        private void dtpToDate_ValueChanged(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

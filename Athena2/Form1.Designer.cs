@@ -134,7 +134,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(121, 23);
             this.button1.TabIndex = 72;
-            this.button1.Text = "button1";
+            this.button1.Text = "Excel Reader";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -261,7 +261,7 @@
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(121, 22);
             this.dtpFromDate.TabIndex = 47;
-            this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
+            this.dtpFromDate.ValueChanged += new System.EventHandler(this.dtpFromDate_ValueChanged);
             // 
             // dtpToDate
             // 
@@ -271,7 +271,7 @@
             this.dtpToDate.Name = "dtpToDate";
             this.dtpToDate.Size = new System.Drawing.Size(119, 22);
             this.dtpToDate.TabIndex = 52;
-            this.dtpToDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
+            this.dtpToDate.ValueChanged += new System.EventHandler(this.dtpToDate_ValueChanged);
             // 
             // lblFromDate
             // 

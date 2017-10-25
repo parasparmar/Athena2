@@ -8,12 +8,10 @@ namespace Athena2
 {
     class NSE : Exchange
     {
-
         string ServerFile_NameOnly = string.Empty;
         string ServerURI_WFileName = string.Empty;
         private string market = "NSE-Equity";
         private Task currentTask = new Task();
-
         public Task GetTask(DateTime individual_Day)
         {
             // Status : In Production 09 - 08 - 2014 13.20
@@ -36,7 +34,6 @@ namespace Athena2
             currentTask.MarketFolder = market;
             return currentTask;
         }
-
         public bool NeededHeaders(ref string[] AllHeadersInCSV)
         {
             bool result = true;
@@ -51,7 +48,6 @@ namespace Athena2
         }
 
     }
-
     class NSEHeaders
     {
         public string SYMBOL { get; set; }

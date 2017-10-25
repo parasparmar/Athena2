@@ -9,8 +9,6 @@ namespace Athena2
         string ServerURI_WFileName = string.Empty;
         private string market = "BSE-Equity";
         private Task currentTask = new Task();
-
-
         public Task GetTask(DateTime individual_Day)
         {
 
@@ -42,7 +40,6 @@ namespace Athena2
             return currentTask;
 
         }
-
         public bool NeededHeaders(ref string[] AllHeadersInCSV)
         {
             bool result = true;
@@ -54,10 +51,6 @@ namespace Athena2
             AllHeadersInCSV = NeededHeaders;
             return result;
         }
-
-
-
-
     }
 
     class BSEHeaders
@@ -65,7 +58,7 @@ namespace Athena2
         public string SC_CODE { get; set; }
         public string SC_NAME { get; set; }
         public string SC_TYPE { get; set; }
-        //public string DATE { get; set; }
+        public string DATE { get; set; }
         public string OPEN { get; set; }
         public string HIGH { get; set; }
         public string LOW { get; set; }
@@ -73,6 +66,4 @@ namespace Athena2
         public string NO_OF_SHRS { get; set; }
 
     }
-
-
 }
