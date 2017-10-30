@@ -176,28 +176,29 @@ namespace Athena2
                             //Writeheader method like the following:
                             //
                             writer.WriteHeader<BSEHeaders>();
-                            //
-                            //Do not use WriteHeader as WriteRecords will have done that already.
+                            ////
+                            ////Do not use WriteHeader as WriteRecords will have done that already.
 
                             foreach (BSEHeaders record in records)
                             {
+                                record.DATE = TheDate.ToString();
                                 //Write entire current record
-                                // writer.WriteRecord(record);
+                                writer.WriteRecord(record);
 
 
                                 //write record field by field
-                                writer.WriteField(record.SC_CODE);
-                                writer.WriteField(record.SC_NAME);
-                                record.DATE = TheDate.ToString();
-                                writer.WriteField(record.DATE);
-                                writer.WriteField(record.OPEN);
-                                writer.WriteField(record.HIGH);
-                                writer.WriteField(record.LOW);
-                                writer.WriteField(record.CLOSE);
-                                writer.WriteField(record.NO_OF_SHRS);
-                                writer.WriteField(record.SC_TYPE);
-                                //ensure you write end of record when you are using WriteField method
-                                writer.NextRecord();
+                                //writer.WriteField(record.SC_CODE);
+                                //writer.WriteField(record.SC_NAME);
+                                //record.DATE = TheDate.ToString();
+                                //writer.WriteField(record.DATE);
+                                //writer.WriteField(record.OPEN);
+                                //writer.WriteField(record.HIGH);
+                                //writer.WriteField(record.LOW);
+                                //writer.WriteField(record.CLOSE);
+                                //writer.WriteField(record.NO_OF_SHRS);
+                                //writer.WriteField(record.SC_TYPE);
+                                ////ensure you write end of record when you are using WriteField method
+                                //writer.NextRecord();
                             }
                         }
 
