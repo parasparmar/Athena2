@@ -22,17 +22,16 @@ namespace Athena2
         public frmDownloader()
         {
             InitializeComponent();
-            // dtpFromDate.Value = DateTime.Today.Date.AddDays(-1);
-            // dtpToDate.Value = DateTime.Today.Date;
+
         }
         private void dtpDate_ValueChanged()
         {
             DateTime temp = dtpToDate.Value;
-           
+
             if (dtpFromDate.Value >= dtpToDate.Value)
-            {                
+            {
                 dtpToDate.Value = dtpFromDate.Value;
-                dtpFromDate.Value = temp;                
+                dtpFromDate.Value = temp;
             }
 
             // Day's Bhav Copies release at 16.38.
@@ -142,76 +141,7 @@ namespace Athena2
             Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
         }
 
-        public void excelreader()
-        {
-            String myPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
-            
-            if (File.Exists(myPath))
-            {
-                var fs = new FileStream(myPath, FileMode.Open, FileAccess.Read);
-                using (var sr = new StreamReader(fs))
-                {
-                    using (var sw = new StreamWriter(Path.GetFileNameWithoutExtension(myPath) + "_output.csv")) 
-                    {
-                        var reader = new CsvReader(sr);
-                        var writer = new CsvWriter(sw);
-                        DateTime TheDate;
-                        if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(myPath), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out TheDate))
-                        {
-                            reader.Configuration.HeaderValidated = null;
-                            reader.Configuration.MissingFieldFound = null;
-                            //CSVReader will now read the whole file into an enumerable
-                            IEnumerable records = reader.GetRecords<BSEHeaders>().ToList();
-
-                            //Write the entire contents of the CSV file into another
-                            //writer.WriteRecords(records);
-
-                            //Now we will write the data into the same output file but will do it 
-                            //Using two methods.  The first is writing the entire record.  The second
-                            //method writes individual fields.  Note you must call NextRecord method after 
-                            //using Writefield to terminate the record.
-
-                            //Note that WriteRecords will write a header record for you automatically.  If you 
-                            //are not using the WriteRecords method and you want to a header, you must call the 
-                            //Writeheader method like the following:
-                            //
-                            writer.WriteHeader<BSEHeaders>();
-                            ////
-                            ////Do not use WriteHeader as WriteRecords will have done that already.
-
-                            foreach (BSEHeaders record in records)
-                            {
-                                record.DATE = TheDate.ToString();
-                                //Write entire current record
-                                writer.WriteRecord(record);
-
-
-                                //write record field by field
-                                //writer.WriteField(record.SC_CODE);
-                                //writer.WriteField(record.SC_NAME);
-                                //record.DATE = TheDate.ToString();
-                                //writer.WriteField(record.DATE);
-                                //writer.WriteField(record.OPEN);
-                                //writer.WriteField(record.HIGH);
-                                //writer.WriteField(record.LOW);
-                                //writer.WriteField(record.CLOSE);
-                                //writer.WriteField(record.NO_OF_SHRS);
-                                //writer.WriteField(record.SC_TYPE);
-                                ////ensure you write end of record when you are using WriteField method
-                                //writer.NextRecord();
-                            }
-                        }
-
-
-
-
-                    }
-                }
-            }
-        }
-
-        
-
+       
 
         //public sealed class MyMap: CSVClassMap<NSE>
 
@@ -250,20 +180,21 @@ namespace Athena2
 
         }
 
-   
+
         private void button1_Click(object sender, EventArgs e)
         {
-            excelreader();
+            
+            BSE.BSEParser(@"D:\Desktop\StockData\BSE-Equity\20170925.csv");
         }
 
         private void dtpFromDate_ValueChanged(object sender, EventArgs e)
         {
-           
+
         }
 
         private void dtpToDate_ValueChanged(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

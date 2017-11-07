@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Linq;
 using CsvHelper.Configuration;
+using System.IO;
+using CsvHelper;
+using System.Collections;
+
 namespace Athena2
 {
     class BSE : Exchange
     {
         string ServerFile_NameOnly = string.Empty;
         string ServerURI_WFileName = string.Empty;
-        private string market = "BSE-Equity";
+        public string market { get; set; } = "BSE-Equity";
         private Task currentTask = new Task();
         public Task GetTask(DateTime individual_Day)
         {
@@ -51,7 +55,71 @@ namespace Athena2
             AllHeadersInCSV = NeededHeaders;
             return result;
         }
+        public static void BSEParser(string InputPath)
+        {
+           
+
+            if (File.Exists(InputPath))
+            {
+                InputPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
+                string OutputPath = Path.GetDirectoryName(InputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(InputPath) + "_output.csv";
+                using (var sr = new StreamReader(InputPath))
+                {
+                    using (var sw = new StreamWriter(OutputPath))
+                    {
+                        var reader = new CsvReader(sr);
+                        var writer = new CsvWriter(sw);
+                        DateTime TheDate;
+                        if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(InputPath), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out TheDate))
+                        {
+                            reader.Configuration.HeaderValidated = null;
+                            reader.Configuration.MissingFieldFound = null;
+                            //CSVReader will now read the whole file into an enumerable
+                            IEnumerable records = reader.GetRecords<BSEHeaders>().ToList();
+
+                            //Write the entire contents of the CSV file into another
+                            //writer.WriteRecords(records);
+
+
+                            //Now we will write the data into the same output file but will do it 
+                            //Using two methods.  The first is writing the entire record.  The second
+                            //method writes individual fields.  Note you must call NextRecord method after 
+                            //using Writefield to terminate the record.
+
+                            //Note that WriteRecords will write a header record for you automatically.  If you 
+                            //are not using the WriteRecords method and you want to a header, you must call the 
+                            //Writeheader method like the following:
+                            //
+                            writer.WriteHeader<BSEHeaders>();
+                            //
+                            //Do not use WriteHeader as WriteRecords will have done that already.
+                            string DateString = TheDate.ToString("yyyyMMdd");
+                            foreach (BSEHeaders record in records)
+                            {
+                                //write record field by field
+                                writer.WriteField(record.SC_CODE);
+                                writer.WriteField(record.SC_NAME);
+                                writer.WriteField(record.SC_TYPE);
+                                record.DATE = DateString;
+                                writer.WriteField(record.DATE);
+                                writer.WriteField(record.OPEN);
+                                writer.WriteField(record.HIGH);
+                                writer.WriteField(record.LOW);
+                                writer.WriteField(record.CLOSE);
+                                writer.WriteField(record.NO_OF_SHRS);
+                                //ensure you write end of record when you are using WriteField method
+                                writer.NextRecord();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+
+  
+
+
 
     class BSEHeaders
     {
