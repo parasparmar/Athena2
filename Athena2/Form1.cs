@@ -184,6 +184,15 @@ namespace Athena2
         private void button1_Click(object sender, EventArgs e)
         {
             
+            string FolderToScan = Path.GetFullPath(fbdDownloadLocation.SelectedPath);
+            List<string> Directories = Directory.EnumerateDirectories(FolderToScan).ToList<string>();
+            List<string> Files = new List<string>();
+            foreach (string Folder in Directories)
+            {
+                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
+            }
+            List<DateTime> FoundDates = new List<DateTime>();
+            Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
             BSE.BSEParser(@"D:\Desktop\StockData\BSE-Equity\20170925.csv");
         }
 
