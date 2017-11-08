@@ -4,6 +4,7 @@ using CsvHelper.Configuration;
 using System.IO;
 using CsvHelper;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Athena2
 {
@@ -55,9 +56,21 @@ namespace Athena2
             AllHeadersInCSV = NeededHeaders;
             return result;
         }
+
+
+
         public static void BSEParser(string InputPath)
         {
-           
+            
+            string FolderToScan = Path.GetFullPath(InputPath);
+            List<string> Directories = Directory.EnumerateDirectories(FolderToScan).ToList<string>();
+            List<string> Files = new List<string>();
+            foreach (string Folder in Directories)
+            {
+                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
+            }
+            List<DateTime> FoundDates = new List<DateTime>();
+            Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
 
             if (File.Exists(InputPath))
             {
