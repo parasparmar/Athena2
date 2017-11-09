@@ -34,7 +34,7 @@
             this.fbdDownloadLocation = new System.Windows.Forms.FolderBrowserDialog();
             this.tbOne = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnStandardFormats = new System.Windows.Forms.Button();
             this.cbMissingDates = new System.Windows.Forms.CheckBox();
             this.pbOne = new System.Windows.Forms.ProgressBar();
             this.pbTwo = new System.Windows.Forms.ProgressBar();
@@ -105,7 +105,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.btnStandardFormats);
             this.tabPage1.Controls.Add(this.cbMissingDates);
             this.tabPage1.Controls.Add(this.pbOne);
             this.tabPage1.Controls.Add(this.pbTwo);
@@ -128,15 +128,15 @@
             this.tabPage1.Text = "Download";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btnStandardFormats
             // 
-            this.button1.Location = new System.Drawing.Point(120, 248);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(121, 23);
-            this.button1.TabIndex = 72;
-            this.button1.Text = "Excel Reader";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnStandardFormats.Location = new System.Drawing.Point(120, 248);
+            this.btnStandardFormats.Name = "btnStandardFormats";
+            this.btnStandardFormats.Size = new System.Drawing.Size(121, 23);
+            this.btnStandardFormats.TabIndex = 72;
+            this.btnStandardFormats.Text = "Standardize Formats";
+            this.btnStandardFormats.UseVisualStyleBackColor = true;
+            this.btnStandardFormats.Click += new System.EventHandler(this.btnStandardizeFormats_Click);
             // 
             // cbMissingDates
             // 
@@ -505,7 +505,7 @@
         internal System.Windows.Forms.CheckBox CheckBox4;
         internal System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.DataGridView dgv1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnStandardFormats;
     }
 }
 

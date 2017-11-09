@@ -60,21 +60,10 @@ namespace Athena2
 
 
         public static void BSEParser(string InputPath)
-        {
-            
-            string FolderToScan = Path.GetFullPath(InputPath);
-            List<string> Directories = Directory.EnumerateDirectories(FolderToScan).ToList<string>();
-            List<string> Files = new List<string>();
-            foreach (string Folder in Directories)
-            {
-                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
-            }
-            List<DateTime> FoundDates = new List<DateTime>();
-            Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
-
+        {    
             if (File.Exists(InputPath))
             {
-                InputPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
+                //InputPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
                 string OutputPath = Path.GetDirectoryName(InputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(InputPath) + "_output.csv";
                 using (var sr = new StreamReader(InputPath))
                 {
