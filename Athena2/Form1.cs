@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using CsvHelper;
 using System.Collections;
+using System.Globalization;
 
 namespace Athena2
 {
@@ -141,37 +142,10 @@ namespace Athena2
             Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
         }
 
-       
 
-        //public sealed class MyMap: CSVClassMap<NSE>
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            string filename = @"D:\Desktop\StockData\NSE-Equity\20170925.csv";
-            FileStream fs = new FileStream(filename, FileMode.Open);
-            StreamReader textIn = new StreamReader(fs);
-            //while (textIn.Peek() != -1)
-            //{
-            string row = textIn.ReadLine();
-            string[] columns = row.Split(',');
-            int columncount = columns.Length;
-            foreach (string col in columns)
-            {
-                dgv1.Columns.Add(col, col);
-            }
-
-            for (int i = 0; i < 50; i++)
-            {
-                row = textIn.ReadLine();
-                columns = row.Split(',');
-                dgv1.Rows.Add();
-                for (int j = 0; j < columncount; j++)
-                {
-                    dgv1.Rows[i].Cells[j].Value = columns[j];
-                }
-            }
-
-            //}
 
         }
 
@@ -180,20 +154,50 @@ namespace Athena2
 
         }
 
-
-        private void button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Standardize Formats takes the BSE Files, parses their contents so that only 
+        /// scrips of type Q (Equity) remain. It appends the filename with _output.csv to differentiate
+        /// the source and converted files.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnStandardizeFormats_Click(object sender, EventArgs e)
         {
+            string FolderToScan = Path.GetFullPath(tbLocation.Text);
             
-            string FolderToScan = Path.GetFullPath(fbdDownloadLocation.SelectedPath);
-            List<string> Directories = Directory.EnumerateDirectories(FolderToScan).ToList<string>();
-            List<string> Files = new List<string>();
-            foreach (string Folder in Directories)
+            if (FolderToScan.Length > 0)
             {
-                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
+                IEnumerable<string> BSE_Dir = Directory.EnumerateDirectories(FolderToScan, "*BSE*", SearchOption.AllDirectories);
+                if (BSE_Dir.Count<string>() > 0)
+                {
+                    string BSEPath = Directory.CreateDirectory(BSE_Dir + "_output").ToString();
+                    List<string> BSE_InputFiles = new List<string>();
+
+                    foreach (var dir in BSE_Dir)
+                    {
+                        BSE_InputFiles.AddRange(Directory.GetFiles(dir, "*.csv"));
+
+                    }
+                    DateTime dtFile;
+                    foreach (var file in BSE_InputFiles)
+                    {
+                        if (!DateTime.TryParseExact(file.Replace(".csv", ""), "yyyymmdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFile))
+                        {
+                            //File.Delete(file+ ".csv");
+                            BSE_InputFiles.Remove(file + ".csv");
+
+                        }
+                    }
+                    
+                    foreach (var f in BSE_InputFiles)
+                    {
+                        
+                        BSE.BSEParser(f, BSEPath);
+                    }
+                }
             }
-            List<DateTime> FoundDates = new List<DateTime>();
-            Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
-            BSE.BSEParser(@"D:\Desktop\StockData\BSE-Equity\20170925.csv");
+
+
         }
 
         private void dtpFromDate_ValueChanged(object sender, EventArgs e)

@@ -56,39 +56,26 @@ namespace Athena2
             AllHeadersInCSV = NeededHeaders;
             return result;
         }
-
-
-
-        public static void BSEParser(string InputPath)
-        {
-            
-            string FolderToScan = Path.GetFullPath(InputPath);
-            List<string> Directories = Directory.EnumerateDirectories(FolderToScan).ToList<string>();
-            List<string> Files = new List<string>();
-            foreach (string Folder in Directories)
+        
+        public static void BSEParser(string InputFile, string OutputDirectory)
+        {    
+            if (File.Exists(InputFile)&& Directory.Exists(OutputDirectory))
             {
-                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
-            }
-            List<DateTime> FoundDates = new List<DateTime>();
-            Files.AddRange(Directory.GetFiles(@"D:\Desktop\StockData\BSE - Equity", "*.csv").ToList<string>());
-
-            if (File.Exists(InputPath))
-            {
-                InputPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
-                string OutputPath = Path.GetDirectoryName(InputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(InputPath) + "_output.csv";
-                using (var sr = new StreamReader(InputPath))
+               
+                OutputDirectory = Path.GetDirectoryName(InputFile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(InputFile) + "_output.csv";
+                using (var sr = new StreamReader(InputFile))
                 {
-                    using (var sw = new StreamWriter(OutputPath))
+                    using (var sw = new StreamWriter(OutputDirectory))
                     {
                         var reader = new CsvReader(sr);
                         var writer = new CsvWriter(sw);
                         DateTime TheDate;
-                        if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(InputPath), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out TheDate))
+                        if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(InputFile), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out TheDate))
                         {
                             reader.Configuration.HeaderValidated = null;
                             reader.Configuration.MissingFieldFound = null;
                             //CSVReader will now read the whole file into an enumerable
-                            IEnumerable records = reader.GetRecords<BSEHeaders>().ToList();
+                            IEnumerable records = reader.GetRecords<BSEHeaders>().Where(i => i.SC_TYPE == "Q").ToList();
 
                             //Write the entire contents of the CSV file into another
                             //writer.WriteRecords(records);
@@ -104,6 +91,7 @@ namespace Athena2
                             //Writeheader method like the following:
                             //
                             writer.WriteHeader<BSEHeaders>();
+                            writer.NextRecord();
                             //
                             //Do not use WriteHeader as WriteRecords will have done that already.
                             string DateString = TheDate.ToString("yyyyMMdd");
@@ -129,10 +117,6 @@ namespace Athena2
             }
         }
     }
-
-  
-
-
 
     class BSEHeaders
     {
