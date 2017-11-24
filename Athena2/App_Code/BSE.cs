@@ -56,16 +56,20 @@ namespace Athena2
             AllHeadersInCSV = NeededHeaders;
             return result;
         }
-        
-        public static void BSEParser(string InputFile, string OutputDirectory)
-        {    
-            if (File.Exists(InputFile)&& Directory.Exists(OutputDirectory))
+
+        public static void BSEParser(string InputFile, string OutputDir)
+        {
+            
+
+            
+            if (File.Exists(InputFile))
             {
-               
-                OutputDirectory = Path.GetDirectoryName(InputFile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(InputFile) + "_output.csv";
+
+                // The 
+                String OutputFile = OutputDir + Path.GetFileName(InputFile);
                 using (var sr = new StreamReader(InputFile))
                 {
-                    using (var sw = new StreamWriter(OutputDirectory))
+                    using (var sw = new StreamWriter(OutputFile))
                     {
                         var reader = new CsvReader(sr);
                         var writer = new CsvWriter(sw);
@@ -100,7 +104,7 @@ namespace Athena2
                                 //write record field by field
                                 writer.WriteField(record.SC_CODE);
                                 writer.WriteField(record.SC_NAME);
-                                writer.WriteField(record.SC_TYPE);
+                                //writer.WriteField(record.SC_TYPE);
                                 record.DATE = DateString;
                                 writer.WriteField(record.DATE);
                                 writer.WriteField(record.OPEN);
