@@ -154,6 +154,7 @@ namespace Athena2
 
         }
 
+
         /// <summary>
         /// Standardize Formats takes the BSE Files, parses their contents so that only 
         /// scrips of type Q (Equity) remain. It appends the filename with _output.csv to differentiate
@@ -227,6 +228,43 @@ namespace Athena2
             //Get Path to Scan.
             string FolderToScan = Path.GetFullPath(PathToScan);
 
+=======
+
+        private void btnStandardizeFormats_Click(object sender, EventArgs e)
+        {
+
+            string FolderToScan = Path.GetFullPath(tbLocation.Text);
+            IEnumerable<string> BSE_Dir = Directory.EnumerateDirectories(FolderToScan, "*BSE*", SearchOption.AllDirectories);
+            if (BSE_Dir.Count<string>() > 0)
+            {
+                List<string> BSE_InputFiles = new List<string>();
+
+                foreach (var dir in BSE_Dir)
+                {
+                    BSE_InputFiles.AddRange(Directory.GetFiles(dir, "*.csv"));
+
+                }
+                DateTime dtFile;
+                foreach (var file in BSE_InputFiles)
+                {
+                    if (!DateTime.TryParseExact(file.Replace(".csv",""), "yyyymmdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFile))
+                    {
+                        //File.Delete(file+ ".csv");
+                        BSE_InputFiles.Remove(file + ".csv");
+                    }
+                }
+
+
+                //BSE_InputFiles.RemoveAll(i => i.Contains("copy"));
+                //BSE_InputFiles.RemoveAll(i => i.Contains("_output"));
+
+                foreach (var f in BSE_InputFiles)
+                {
+                    BSE.BSEParser(f);
+                }
+            }
+
+>>>>>>> master
         }
 
         private void dtpFromDate_ValueChanged(object sender, EventArgs e)

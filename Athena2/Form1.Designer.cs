@@ -106,7 +106,10 @@
             // 
             // tabPage1
             // 
+<<<<<<< HEAD
             this.tabPage1.Controls.Add(this.cbBackup);
+=======
+>>>>>>> master
             this.tabPage1.Controls.Add(this.btnStandardFormats);
             this.tabPage1.Controls.Add(this.cbMissingDates);
             this.tabPage1.Controls.Add(this.pbOne);
@@ -520,7 +523,10 @@
         internal System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.DataGridView dgv1;
         private System.Windows.Forms.Button btnStandardFormats;
+<<<<<<< HEAD
         private System.Windows.Forms.CheckBox cbBackup;
+=======
+>>>>>>> master
     }
 }
 

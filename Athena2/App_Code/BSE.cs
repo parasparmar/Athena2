@@ -57,6 +57,7 @@ namespace Athena2
             return result;
         }
 
+<<<<<<< HEAD
         public static void BSEParser(string InputFile, string OutputDir)
         {
             
@@ -68,6 +69,17 @@ namespace Athena2
                 // The 
                 String OutputFile = OutputDir + Path.GetFileName(InputFile);
                 using (var sr = new StreamReader(InputFile))
+=======
+
+
+        public static void BSEParser(string InputPath)
+        {    
+            if (File.Exists(InputPath))
+            {
+                //InputPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
+                string OutputPath = Path.GetDirectoryName(InputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(InputPath) + "_output.csv";
+                using (var sr = new StreamReader(InputPath))
+>>>>>>> master
                 {
                     using (var sw = new StreamWriter(OutputFile))
                     {
