@@ -23,7 +23,7 @@ namespace Athena2
         public frmDownloader()
         {
             InitializeComponent();
-
+            tbLocation.Text = @"D:\Desktop\StockData";
         }
         private void dtpDate_ValueChanged()
         {
@@ -155,6 +155,81 @@ namespace Athena2
         }
 
 
+        /// <summary>
+        /// Standardize Formats takes the BSE Files, parses their contents so that only 
+        /// scrips of type Q (Equity) remain. It appends the filename with _output.csv to differentiate
+        /// the source and converted files.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnStandardizeFormats_Click(object sender, EventArgs e)
+        {
+
+
+
+            //Convert each File in original location to new parsed file using BSEPARSER. Delete original, keep new.
+            //Get Path to Scan.
+            string FolderToScan = Path.GetFullPath(tbLocation.Text);
+
+            if (FolderToScan.Length > 0)
+            {
+                //Check How many confirm to the BSE Equity Pattern
+                IEnumerable<string> BSE_Dir = Directory.EnumerateDirectories(FolderToScan, "*bse*eq*", SearchOption.AllDirectories);
+                int i = 0;
+                foreach (string dir in BSE_Dir)
+                {
+                    //If Backup is checked, copy/backup the files to a peer folder suffixed with _Backup
+                    DirectoryInfo d = new DirectoryInfo(dir);
+                    //string backupLocation = d.Parent.FullName;
+                    //string backupFile = d.Name;
+                    string backupFullPath = d.Parent.FullName + Path.DirectorySeparatorChar + d.Name + "_backup";
+                    if (!Directory.Exists(backupFullPath)) { Directory.CreateDirectory(backupFullPath); }
+
+
+                    //List<string> BSE_InputFiles = new List<string>();
+                    //BSE_InputFiles.AddRange(Directory.GetFiles(dir, "*.csv"));
+                    //DateTime dtFile;
+                    //foreach (var file in BSE_InputFiles)
+                    //{
+                    //    if (!DateTime.TryParseExact(file.Replace(".csv", ""), "yyyymmdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out dtFile))
+                    //    {
+                    //        BSE_InputFiles.Remove(file + ".csv");
+                    //    }
+                    //}
+
+                    //// The Output path is where the input files should be backed up.
+                    ////String OutputDirectory = Directory.CreateDirectory(Path.GetDirectoryName(InputFile) + Path.DirectorySeparatorChar + "backup").ToString();    
+                    //DirectoryInfo d = new DirectoryInfo(dir);
+                    //if (i == 0)
+                    //{
+                    //    d = Directory.CreateDirectory(Directory.GetParent(dir).FullName.ToString() + Path.DirectorySeparatorChar + Directory.GetParent(dir).Name+ " Backup");
+
+                    //}
+                    //else
+                    //{
+                    //    d = new DirectoryInfo(Directory.GetParent(dir).ToString() + Path.DirectorySeparatorChar + Directory.GetParent(dir).Name + " Backup");
+                    //}
+                    //string OutputDir = d.FullName;
+
+                    //foreach (var f in BSE_InputFiles)
+                    //{
+                    //    BSE.BSEParser(f, OutputDir);
+                    //}
+                    //i++;
+                }
+            }
+
+
+        }
+
+        private void backupFiles(string PathToScan)
+        {
+            //Convert each File in original location to new parsed file using BSEPARSER. Delete original, keep new.
+            //Get Path to Scan.
+            string FolderToScan = Path.GetFullPath(PathToScan);
+
+=======
+
         private void btnStandardizeFormats_Click(object sender, EventArgs e)
         {
 
@@ -189,6 +264,7 @@ namespace Athena2
                 }
             }
 
+>>>>>>> master
         }
 
         private void dtpFromDate_ValueChanged(object sender, EventArgs e)

@@ -57,6 +57,19 @@ namespace Athena2
             return result;
         }
 
+<<<<<<< HEAD
+        public static void BSEParser(string InputFile, string OutputDir)
+        {
+            
+
+            
+            if (File.Exists(InputFile))
+            {
+
+                // The 
+                String OutputFile = OutputDir + Path.GetFileName(InputFile);
+                using (var sr = new StreamReader(InputFile))
+=======
 
 
         public static void BSEParser(string InputPath)
@@ -66,18 +79,19 @@ namespace Athena2
                 //InputPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
                 string OutputPath = Path.GetDirectoryName(InputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(InputPath) + "_output.csv";
                 using (var sr = new StreamReader(InputPath))
+>>>>>>> master
                 {
-                    using (var sw = new StreamWriter(OutputPath))
+                    using (var sw = new StreamWriter(OutputFile))
                     {
                         var reader = new CsvReader(sr);
                         var writer = new CsvWriter(sw);
                         DateTime TheDate;
-                        if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(InputPath), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out TheDate))
+                        if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(InputFile), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out TheDate))
                         {
                             reader.Configuration.HeaderValidated = null;
                             reader.Configuration.MissingFieldFound = null;
                             //CSVReader will now read the whole file into an enumerable
-                            IEnumerable records = reader.GetRecords<BSEHeaders>().ToList();
+                            IEnumerable records = reader.GetRecords<BSEHeaders>().Where(i => i.SC_TYPE == "Q").ToList();
 
                             //Write the entire contents of the CSV file into another
                             //writer.WriteRecords(records);
@@ -93,6 +107,7 @@ namespace Athena2
                             //Writeheader method like the following:
                             //
                             writer.WriteHeader<BSEHeaders>();
+                            writer.NextRecord();
                             //
                             //Do not use WriteHeader as WriteRecords will have done that already.
                             string DateString = TheDate.ToString("yyyyMMdd");
@@ -101,7 +116,7 @@ namespace Athena2
                                 //write record field by field
                                 writer.WriteField(record.SC_CODE);
                                 writer.WriteField(record.SC_NAME);
-                                writer.WriteField(record.SC_TYPE);
+                                //writer.WriteField(record.SC_TYPE);
                                 record.DATE = DateString;
                                 writer.WriteField(record.DATE);
                                 writer.WriteField(record.OPEN);
@@ -118,10 +133,6 @@ namespace Athena2
             }
         }
     }
-
-  
-
-
 
     class BSEHeaders
     {

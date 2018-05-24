@@ -64,6 +64,7 @@
             this.CheckBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.dgv1 = new System.Windows.Forms.DataGridView();
+            this.cbBackup = new System.Windows.Forms.CheckBox();
             this.StatusStrip1.SuspendLayout();
             this.tbOne.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -105,6 +106,10 @@
             // 
             // tabPage1
             // 
+<<<<<<< HEAD
+            this.tabPage1.Controls.Add(this.cbBackup);
+=======
+>>>>>>> master
             this.tabPage1.Controls.Add(this.btnStandardFormats);
             this.tabPage1.Controls.Add(this.cbMissingDates);
             this.tabPage1.Controls.Add(this.pbOne);
@@ -143,31 +148,31 @@
             this.cbMissingDates.AutoSize = true;
             this.cbMissingDates.Location = new System.Drawing.Point(120, 154);
             this.cbMissingDates.Name = "cbMissingDates";
-            this.cbMissingDates.Size = new System.Drawing.Size(238, 17);
+            this.cbMissingDates.Size = new System.Drawing.Size(167, 17);
             this.cbMissingDates.TabIndex = 71;
-            this.cbMissingDates.Text = "Download only the Missing Dates at this path";
+            this.cbMissingDates.Text = "Download Missing Dates Only";
             this.cbMissingDates.UseVisualStyleBackColor = true;
             this.cbMissingDates.CheckedChanged += new System.EventHandler(this.cbMissingDates_CheckedChanged);
             // 
             // pbOne
             // 
-            this.pbOne.Location = new System.Drawing.Point(120, 177);
+            this.pbOne.Location = new System.Drawing.Point(118, 189);
             this.pbOne.Name = "pbOne";
-            this.pbOne.Size = new System.Drawing.Size(257, 14);
+            this.pbOne.Size = new System.Drawing.Size(257, 8);
             this.pbOne.TabIndex = 70;
             // 
             // pbTwo
             // 
-            this.pbTwo.Location = new System.Drawing.Point(120, 197);
+            this.pbTwo.Location = new System.Drawing.Point(118, 202);
             this.pbTwo.Name = "pbTwo";
-            this.pbTwo.Size = new System.Drawing.Size(257, 14);
+            this.pbTwo.Size = new System.Drawing.Size(257, 8);
             this.pbTwo.TabIndex = 67;
             // 
             // lblFile
             // 
             this.lblFile.AutoSize = true;
             this.lblFile.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.lblFile.Location = new System.Drawing.Point(40, 177);
+            this.lblFile.Location = new System.Drawing.Point(40, 184);
             this.lblFile.Name = "lblFile";
             this.lblFile.Size = new System.Drawing.Size(72, 13);
             this.lblFile.TabIndex = 68;
@@ -447,6 +452,18 @@
             this.dgv1.Size = new System.Drawing.Size(349, 281);
             this.dgv1.TabIndex = 69;
             // 
+            // cbBackup
+            // 
+            this.cbBackup.AutoSize = true;
+            this.cbBackup.Checked = true;
+            this.cbBackup.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbBackup.Location = new System.Drawing.Point(258, 252);
+            this.cbBackup.Name = "cbBackup";
+            this.cbBackup.Size = new System.Drawing.Size(102, 17);
+            this.cbBackup.TabIndex = 73;
+            this.cbBackup.Text = "Create Backups";
+            this.cbBackup.UseVisualStyleBackColor = true;
+            // 
             // frmDownloader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -507,6 +524,10 @@
         internal System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.DataGridView dgv1;
         private System.Windows.Forms.Button btnStandardFormats;
+<<<<<<< HEAD
+        private System.Windows.Forms.CheckBox cbBackup;
+=======
+>>>>>>> master
     }
 }
 
