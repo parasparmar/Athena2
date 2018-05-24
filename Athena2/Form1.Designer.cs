@@ -196,6 +196,7 @@
             this.clbMarkets.Name = "clbMarkets";
             this.clbMarkets.Size = new System.Drawing.Size(257, 72);
             this.clbMarkets.TabIndex = 48;
+            this.clbMarkets.SelectedIndexChanged += new System.EventHandler(this.clbMarkets_SelectedIndexChanged);
             // 
             // lblDownloadPath
             // 

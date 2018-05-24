@@ -200,5 +200,10 @@ namespace Athena2
         {
 
         }
+
+        private void clbMarkets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

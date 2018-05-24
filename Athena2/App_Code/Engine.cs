@@ -275,7 +275,7 @@ namespace Athena2
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message.ToString());
+                Console.Write    (Ex.Message.ToString());
                 return false;
             }
         }
