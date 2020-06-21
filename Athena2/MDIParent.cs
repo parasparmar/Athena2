@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Athena2
+namespace Athena
 {
     public partial class mdiAthena : Form
     {

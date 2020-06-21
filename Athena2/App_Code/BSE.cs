@@ -5,14 +5,18 @@ using System.IO;
 using CsvHelper;
 using System.Collections;
 using System.Collections.Generic;
+using Athena.Models;
 
-namespace Athena2
+namespace Athena
 {
     class BSE : Exchange
     {
         string ServerFile_NameOnly = string.Empty;
         string ServerURI_WFileName = string.Empty;
         public string market { get; set; } = "BSE-Equity";
+        public static Stream OutputFile { get; private set; }
+        public static string InputFile { get; private set; }
+
         private Task currentTask = new Task();
         public Task GetTask(DateTime individual_Day)
         {
@@ -56,35 +60,30 @@ namespace Athena2
             AllHeadersInCSV = NeededHeaders;
             return result;
         }
-
-<<<<<<< HEAD
         public static void BSEParser(string InputFile, string OutputDir)
         {
-            
-
-            
             if (File.Exists(InputFile))
             {
-
-                // The 
                 String OutputFile = OutputDir + Path.GetFileName(InputFile);
                 using (var sr = new StreamReader(InputFile))
-=======
+                {
 
+                }
 
+            }
+        }
         public static void BSEParser(string InputPath)
-        {    
+        {
             if (File.Exists(InputPath))
             {
                 //InputPath = @"D:\Desktop\StockData\BSE-Equity\20170925.csv";
                 string OutputPath = Path.GetDirectoryName(InputPath) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(InputPath) + "_output.csv";
                 using (var sr = new StreamReader(InputPath))
->>>>>>> master
                 {
                     using (var sw = new StreamWriter(OutputFile))
                     {
-                        var reader = new CsvReader(sr);
-                        var writer = new CsvWriter(sw);
+                        var reader = new CsvReader((IParser)sr);
+                        var writer = new CsvWriter((ISerializer)sw);
                         DateTime TheDate;
                         if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(InputFile), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out TheDate))
                         {
@@ -134,17 +133,5 @@ namespace Athena2
         }
     }
 
-    class BSEHeaders
-    {
-        public string SC_CODE { get; set; }
-        public string SC_NAME { get; set; }
-        public string SC_TYPE { get; set; }
-        public string DATE { get; set; }
-        public string OPEN { get; set; }
-        public string HIGH { get; set; }
-        public string LOW { get; set; }
-        public string CLOSE { get; set; }
-        public string NO_OF_SHRS { get; set; }
 
-    }
 }

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Athena2")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Athena")]
+[assembly: AssemblyDescription("End of Day Data downloader  from public data sources")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Athena2")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("Created by Paras Parmar (parasparmar@gmail.com)")]
+[assembly: AssemblyProduct("Athena")]
+[assembly: AssemblyCopyright("Copyright ©  2017 - 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

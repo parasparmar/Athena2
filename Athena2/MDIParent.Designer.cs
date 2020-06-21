@@ -1,4 +1,4 @@
-﻿namespace Athena2
+﻿namespace Athena
 {
     partial class mdiAthena
     {

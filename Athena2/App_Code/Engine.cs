@@ -9,7 +9,7 @@ using Ionic.Zip;
 using Microsoft.VisualBasic;
 using System.Windows.Forms;
 
-namespace Athena2
+namespace Athena
 {
     class Engine
     {
