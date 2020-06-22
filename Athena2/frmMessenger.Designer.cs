@@ -132,6 +132,7 @@
             // 
             // clbTaskList
             // 
+            this.clbTaskList.AllowDrop = true;
             this.clbTaskList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.clbTaskList.CheckOnClick = true;
@@ -149,6 +150,7 @@
             this.clbTaskList.Size = new System.Drawing.Size(268, 319);
             this.clbTaskList.TabIndex = 8;
             this.clbTaskList.SelectedIndexChanged += new System.EventHandler(this.clbTaskList_SelectedIndexChanged);
+            this.clbTaskList.DragEnter += new System.Windows.Forms.DragEventHandler(this.clbTaskList_DragEnter);
             // 
             // groupBoxTask1
             // 

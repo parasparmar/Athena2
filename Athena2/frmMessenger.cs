@@ -95,5 +95,21 @@ namespace Athena
                 }
             }
         }
+
+        private void clbTaskList_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.Text))
+            {
+                e.Effect = DragDropEffects.Copy;
+                var a = e.Data.GetData(DataFormats.Text).ToString();
+                MessageBox.Show($"Drag and drop of {a}");
+
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+                MessageBox.Show("Invalid type for drag and drop.");
+            }
+        }
     }
 }
