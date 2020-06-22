@@ -221,7 +221,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 457);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 378);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(888, 22);
             this.statusStrip1.TabIndex = 4;
@@ -231,11 +231,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(888, 479);
+            this.ClientSize = new System.Drawing.Size(888, 400);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Name = "frmMessenger";
-            this.Text = "frmMessenger";
+            this.Text = "Financial Markets - Data Downloader";
             this.tabControl1.ResumeLayout(false);
             this.tbpDownload.ResumeLayout(false);
             this.groupBoxTask1.ResumeLayout(false);

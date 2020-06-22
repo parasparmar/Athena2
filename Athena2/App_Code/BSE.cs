@@ -18,7 +18,7 @@ namespace Athena
         public static string InputFile { get; private set; }
 
         private DownloadTask currentTask = new DownloadTask();
-        public DownloadTask GetBSETask(DateTime individual_Day)
+        public DownloadTask CreateBSETask(DateTime individual_Day)
         {
 
             // BSE India Bhav Copy http://www.bseindia.com/download/BhavCopy/Equity/EQ141015_CSV.ZIP

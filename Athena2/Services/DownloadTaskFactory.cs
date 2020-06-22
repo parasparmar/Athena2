@@ -9,7 +9,12 @@ namespace Athena.Services
 {
     class DownloadTaskFactory
     {
-        public static DownloadTask CreateNSETask(DateTime individual_Day)
+        string ServerFile_NameOnly = string.Empty;
+        string ServerURI_WFileName = string.Empty;
+        private string market = "NSE-Equity";
+        private DownloadTask currentTask = new DownloadTask();
+
+        public DownloadTask CreateNSETask(DateTime individual_Day)
         {
             // Status : In Production 09 - 08 - 2014 13.20
             // This function takes in a datearray  and returns a dictionary of filenames and urls from which to download individual files.
@@ -28,7 +33,7 @@ namespace Athena.Services
             // 3. LocalFile_NameOnly = The eventually Deflated(unzipped) file name.
             currentTask.FileNameAfterUnZip = individual_Day.ToString("yyyyMMdd") + ".csv";
             // 4. MarketFolder = The individual path to which each Market's file should be downloaded to.
-            currentTask.MarketFolder = market;
+            currentTask.Destination = market;
             return currentTask;
         }
 
@@ -62,13 +67,13 @@ namespace Athena.Services
             switch (market)
             {
                 case "NSE - Equity":
-                    NSE M = new NSE();
-                    currentTask = M.GetTask(individual_Day);
+                    
+                    currentTask = CreateNSETask(individual_Day);
                     break;
 
                 case "BSE - Equity":
                     BSE A = new BSE();
-                    currentTask = A.GetBSETask(individual_Day);
+                    currentTask = A.CreateBSETask(individual_Day);
                     break;
 
                 case "AMFII - Mutual Funds":

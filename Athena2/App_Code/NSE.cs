@@ -10,10 +10,7 @@ namespace Athena
 {
     class NSE
     {
-        string ServerFile_NameOnly = string.Empty;
-        string ServerURI_WFileName = string.Empty;
-        private string market = "NSE-Equity";
-        private DownloadTask currentTask = new DownloadTask();
+        
         
         public bool NeededHeaders(ref string[] AllHeadersInCSV)
         {
