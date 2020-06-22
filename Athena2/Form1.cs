@@ -11,6 +11,8 @@ using System.IO;
 using CsvHelper;
 using System.Collections;
 using System.Globalization;
+using Athena.Services;
+using Athena.Models;
 
 namespace Athena
 {
@@ -61,10 +63,10 @@ namespace Athena
             // Done 2 :  Collect the selected markets from clbMarkets into a chosenMarketsArray
             // initiated 21-01-2015 17.12 and resolved 22-01-2016 10.46
 
-            Exchange Ex = new Exchange();
+         
             List<DateTime> AllMyDates = new List<DateTime>();
             //D:\Desktop\StockData
-            AllMyDates = Ex.DateListGenerator(dtpFromDate.Value, dtpToDate.Value);
+            AllMyDates = BusinessDay.DateListGenerator(dtpFromDate.Value, dtpToDate.Value);
             if (AllMyDates.Count > 0)
             {
                 //// DateList Generator gets an ArrayList of Weekday dates between the given from and to dates.
@@ -74,8 +76,9 @@ namespace Athena
                     chosenMarketsArray.Add(i.ToString());
                 }
                 //Done 3: Check for Internet Connectivity                
-                List<Task> T = new List<Task>();
-                T = MyEngine.CreateTaskList(chosenMarketsArray, AllMyDates);
+                List<DownloadTask> T = new List<DownloadTask>();
+                DownloadTaskFactory a = new DownloadTaskFactory();
+                T = a.CreateTaskList(chosenMarketsArray, AllMyDates);
                 MyEngine.DownloadTaskList(ref T);
                 //// Done 5. On Download completion open MyFolder and show it to the user
                 System.Diagnostics.Process.Start("explorer", tbLocation.Text.ToString());
@@ -113,7 +116,7 @@ namespace Athena
                 dtpToDate.Enabled = false;
                 if (tbLocation.Text.Length > 0)
                 {
-                    List<DateTime> MissingDates = MyEngine.getMissingDates(tbLocation.Text.ToString());
+                    List<DateTime> MissingDates = BusinessDay.getMissingDates(tbLocation.Text.ToString());
                     int i = 0;
                     foreach (DateTime IndividualDate in MissingDates)
                     {

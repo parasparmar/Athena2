@@ -32,6 +32,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbpDownload = new System.Windows.Forms.TabPage();
+            this.clbTaskList = new System.Windows.Forms.CheckedListBox();
             this.groupBoxTask1 = new System.Windows.Forms.GroupBox();
             this.progressBarTask1 = new System.Windows.Forms.ProgressBar();
             this.tbTaskName = new System.Windows.Forms.TextBox();
@@ -46,7 +47,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.saveToFile = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.tabControl1.SuspendLayout();
             this.tbpDownload.SuspendLayout();
             this.groupBoxTask1.SuspendLayout();
@@ -81,7 +81,7 @@
             // 
             // tbpDownload
             // 
-            this.tbpDownload.Controls.Add(this.checkedListBox1);
+            this.tbpDownload.Controls.Add(this.clbTaskList);
             this.tbpDownload.Controls.Add(this.groupBoxTask1);
             this.tbpDownload.Controls.Add(this.btnDownload);
             this.tbpDownload.Location = new System.Drawing.Point(4, 22);
@@ -91,6 +91,22 @@
             this.tbpDownload.TabIndex = 0;
             this.tbpDownload.Text = "Download";
             this.tbpDownload.UseVisualStyleBackColor = true;
+            // 
+            // clbTaskList
+            // 
+            this.clbTaskList.FormattingEnabled = true;
+            this.clbTaskList.Items.AddRange(new object[] {
+            "NSE EOD Bhav Copy",
+            "BSE EOD Bhav Copy",
+            "NSE FnO Market Deliverables",
+            "BSE FnO Market Deliverables",
+            "NSE FNO Open Interest",
+            "BSE FNO Open Interest",
+            "NSE EOD Bhav Copy"});
+            this.clbTaskList.Location = new System.Drawing.Point(7, 7);
+            this.clbTaskList.Name = "clbTaskList";
+            this.clbTaskList.Size = new System.Drawing.Size(268, 319);
+            this.clbTaskList.TabIndex = 8;
             // 
             // groupBoxTask1
             // 
@@ -211,14 +227,6 @@
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(7, 7);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(268, 319);
-            this.checkedListBox1.TabIndex = 8;
-            // 
             // frmMessenger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -257,6 +265,6 @@
         private System.Windows.Forms.GroupBox groupBoxTask1;
         private System.Windows.Forms.ProgressBar progressBarTask1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox clbTaskList;
     }
 }

@@ -5,19 +5,52 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.IO;
+using Ionic.Zip;
+using Microsoft.VisualBasic;
+using System.Windows.Forms;
 using Athena.Models;
 
 namespace Athena.Services
 {
-    class Download
+    class Engine
     {
+
         private CookieContainer cookieJar;
         public String LocalBasePathToDownload;
-        public bool File(DownloadTask CurrentTask)
+
+        // TaskList = This tracks the success or failure of each individual download.
+        List<DownloadTask> TaskList = new List<DownloadTask>();
+
+
+        
+
+      
+
+        
+
+        public bool DownloadTaskList(ref List<DownloadTask> TaskList)
+        {
+            string DownloadLocation;
+            //---------- This is the Synchronous downloader.Everything we do leads upto this.
+            foreach (var Task in TaskList)
+            {
+                //To Do : Task.Local_FileName is only the file name and not yet concatenated with fbdDownloadLocation.SelectedPath. 24 - 01 - 2016 13.27
+                DownloadLocation = LocalBasePathToDownload + "\\" + Task.Destination;
+                DownloadAgent(Task);
+
+            }
+            //TODO: This block is entered into when the file has been downloaded and deflated. Now Increment Progress of file download
+            //tsStatusText.Text = "Downloaded : " & i & "of " & UBound(My2dMapOfDateURLRemoteLocalFiles, 1)
+            //TODO: Gracefully Handle the file download failure here.
+            //--------End of the Synchronous downloader region.
+            return true;
+        }
+
+        private bool DownloadAgent(DownloadTask CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
             try
-            {
+            {               
                 HttpWebRequest request;
                 HttpWebResponse response;
 
@@ -58,12 +91,13 @@ namespace Athena.Services
             }
             catch (Exception Ex)
             {
-                Console.Write(Ex.Message.ToString());
+                Console.Write    (Ex.Message.ToString());
                 return false;
             }
         }
 
-        public bool DownloadWriter(ref HttpWebResponse response, ref DownloadTask currentTask)
+       // private async Task<Task> DownloadAgent(Task CurrentTask) { }
+        private bool DownloadWriter(ref HttpWebResponse response, ref DownloadTask currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.
             //    ' Unzip it to the destination folder.
@@ -72,11 +106,11 @@ namespace Athena.Services
                 long intLen = response.ContentLength;
                 using (Stream stmResponse = response.GetResponseStream())
                 {
-                    Decimal n = 0;
+                    Decimal  n = 0;
                     Decimal numBytesRead = 0;
                     Decimal numBytesToRead = (int)intLen;
-                    byte[] buffer = new byte[intLen];
-
+                    byte[] buffer = new byte[intLen];                   
+                    
                     do
                     {
 
@@ -88,34 +122,34 @@ namespace Athena.Services
                     MemoryStream memStream = new MemoryStream(buffer);
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
-                    res = Extract.ZipExtracttoFile(memStream, $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}");
+                    res = Extract.ZipExtracttoFile(memStream, LocalBasePathToDownload + "\\" + currentTask.Destination);
 
 
-                    string WhatIDownloaded = $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}{Path.DirectorySeparatorChar}{res}";
+                    string WhatIDownloaded = (LocalBasePathToDownload + "\\" + currentTask.Destination + "\\" + res).ToString();
                     WhatIDownloaded = WhatIDownloaded.Replace(".zip", "");
-                    string WhatToRenameTo = $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}{Path.DirectorySeparatorChar}{currentTask.FileNameAfterUnZip}";
+                    string WhatToRenameTo = (LocalBasePathToDownload + "\\" + currentTask.Destination + "\\" + currentTask.FileNameAfterUnZip).ToString();
 
                     try
                     {
-                        if (!System.IO.File.Exists(WhatIDownloaded))
+                        if (!File.Exists(WhatIDownloaded))
                         {
                             // This statement ensures that the file is created,
                             // but the handle is not kept.
-                            using (FileStream fs = System.IO.File.Create(WhatIDownloaded)) { }
+                            using (FileStream fs = File.Create(WhatIDownloaded)) { }
                         }
 
                         // Ensure that the target does not exist.
-                        if (System.IO.File.Exists(WhatToRenameTo))
-                            System.IO.File.Delete(WhatToRenameTo);
+                        if (File.Exists(WhatToRenameTo))
+                            File.Delete(WhatToRenameTo);
 
                         // Move the file.
-                        System.IO.File.Move(WhatIDownloaded, WhatToRenameTo);
+                        File.Move(WhatIDownloaded, WhatToRenameTo);
                         //Console.WriteLine("{0} was moved to {1}.", path, path2);
 
                         // See if the original exists now.
-                        if (System.IO.File.Exists(WhatIDownloaded))
+                        if (File.Exists(WhatIDownloaded))
                         {
-                            // Console.WriteLine("The original file still exists, which is unexpected.");
+                           // Console.WriteLine("The original file still exists, which is unexpected.");
                         }
                         else
                         {
@@ -125,10 +159,10 @@ namespace Athena.Services
                     }
                     catch (Exception e)
                     {
-                        // Console.WriteLine("The process failed: {0}", e.ToString());
+                       // Console.WriteLine("The process failed: {0}", e.ToString());
                     }
 
-                    //  File.Move(WhatIDownloaded, WhatToRenameTo);
+                  //  File.Move(WhatIDownloaded, WhatToRenameTo);
                     return true;
                 }
             }
@@ -136,6 +170,9 @@ namespace Athena.Services
             {
                 return false;
             }
-        }
+        } 
+
+
+        
     }
 }

@@ -9,7 +9,7 @@ using Athena.Models;
 
 namespace Athena
 {
-    class BSE : Exchange
+    class BSE
     {
         string ServerFile_NameOnly = string.Empty;
         string ServerURI_WFileName = string.Empty;
@@ -17,8 +17,8 @@ namespace Athena
         public static Stream OutputFile { get; private set; }
         public static string InputFile { get; private set; }
 
-        private Task currentTask = new Task();
-        public Task GetTask(DateTime individual_Day)
+        private DownloadTask currentTask = new DownloadTask();
+        public DownloadTask GetBSETask(DateTime individual_Day)
         {
 
             // BSE India Bhav Copy http://www.bseindia.com/download/BhavCopy/Equity/EQ141015_CSV.ZIP
@@ -45,7 +45,7 @@ namespace Athena
             // 3. LocalFile_NameOnly = The eventually Deflated(unzipped) file name.
             currentTask.FileNameAfterUnZip = individual_Day.ToString("yyyyMMdd") + ".csv";
             // 4. MarketFolder = The individual path to which each Market's file should be downloaded to.
-            currentTask.MarketFolder = market;
+            currentTask.Destination = market;
             return currentTask;
 
         }

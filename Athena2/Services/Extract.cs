@@ -9,9 +9,8 @@ using System.IO;
 namespace Athena.Services
 {
     class Extract
-    {
-
-        public string ZipExtracttoFile(MemoryStream strm, string strDestDir)
+    {              
+        public static string ZipExtracttoFile(MemoryStream strm, string strDestDir)
         {
             String ExtractedFileName;
             try
@@ -29,7 +28,7 @@ namespace Athena.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine("exception: {0}", ex.Message.ToString());
+                Console.WriteLine($"exception: {ex.Message.ToString()}");
                 return false.ToString();
             }
             return ExtractedFileName;

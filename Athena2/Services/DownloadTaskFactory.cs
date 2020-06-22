@@ -3,57 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
-using System.IO;
-using Ionic.Zip;
-using Microsoft.VisualBasic;
-using System.Windows.Forms;
+using Athena.Models;
 
-namespace Athena
+namespace Athena.Services
 {
-    class Engine
+    class DownloadTaskFactory
     {
-
-        private CookieContainer cookieJar;
-        public String LocalBasePathToDownload;
-
-        // TaskList = This tracks the success or failure of each individual download.
-        List<Task> TaskList = new List<Task>();
-
-
-        public List<DateTime> getMissingDates(string FolderToScan)
+        public static DownloadTask CreateNSETask(DateTime individual_Day)
         {
-
-            //List<DateTime> MissingDates = new List<DateTime>();
-            string P = Path.GetFullPath(FolderToScan);
-            List<string> Directories = Directory.EnumerateDirectories(P).ToList<string>();
-            List<string> Files = new List<string>();
-            foreach (string Folder in Directories)
-            {
-                Files.AddRange(Directory.GetFiles(Folder, "*.csv").ToList<string>());
-            }
-            List<DateTime> FoundDates = new List<DateTime>();
-            foreach (string File in Files)
-            {
-                DateTime PathonDrive;
-                if (DateTime.TryParseExact(Path.GetFileNameWithoutExtension(File), "yyyyMdd", null, System.Globalization.DateTimeStyles.AssumeLocal, out PathonDrive))
-                {
-                    FoundDates.Add(PathonDrive);
-                }
-            }
-            DateTime MaxDate = FoundDates.Max<DateTime>();
-            DateTime MinDate = FoundDates.Min<DateTime>();
-            Exchange Es = new Exchange();
-            List<DateTime> ValidDates = Es.DateListGenerator(MinDate, MaxDate);
-            IEnumerable<DateTime> MissingDates = ValidDates.Except(FoundDates);
-
-            return MissingDates.ToList<DateTime>();
+            // Status : In Production 09 - 08 - 2014 13.20
+            // This function takes in a datearray  and returns a dictionary of filenames and urls from which to download individual files.
+            // The target URL is of the format http://www.nseindia.com/content/historical/EQUITIES/<YYYY>/<MMM>/cm<dd><MMM><yyyy>bhav.csv.zip
+            // for eg : http://www.nseindia.com/content/historical/EQUITIES/2014/JUL/cm31JUL2014bhav.csv.zip is a bhav copy for 31/Jul/2014
+            // https://www.nseindia.com/content/historical/EQUITIES/2017/SEP/cm27SEP2017bhav.csv.zip
+            ServerFile_NameOnly = "cm" + individual_Day.ToString("dd") + individual_Day.ToString("MMM").ToUpper() + individual_Day.ToString("yyyy").ToUpper() + "bhav.csv.zip";
+            ServerURI_WFileName = "http://www.nseindia.com/content/historical/EQUITIES/" + individual_Day.Year.ToString() + "/" + individual_Day.ToString("MMM").ToUpper() + "/" + ServerFile_NameOnly;
+            // 0. onDate = The date component of the associated downloaded file.
+            currentTask.MyDate = individual_Day.Date;
+            // 1. URIWithFileName = The complete download path and file name
+            currentTask.URIWithFileName = ServerURI_WFileName;
+            // 2. FileNameOnServer = Only the file name of the downloaded file. It will be concatenated with fbdDownloadLocation.SelectedPath to acheive the 
+            // full path and file name of the local file.
+            currentTask.FileNameOnServer = ServerFile_NameOnly;
+            // 3. LocalFile_NameOnly = The eventually Deflated(unzipped) file name.
+            currentTask.FileNameAfterUnZip = individual_Day.ToString("yyyyMMdd") + ".csv";
+            // 4. MarketFolder = The individual path to which each Market's file should be downloaded to.
+            currentTask.MarketFolder = market;
+            return currentTask;
         }
 
         // getURLFrom takes in a datearray  and returns a dictionary of filenames and urls from which to download individual files.
-        public List<Task> CreateTaskList(List<String> MarketType, List<DateTime> DateList)
+        public List<DownloadTask> CreateTaskList(List<String> MarketType, List<DateTime> DateList)
         {
-            List<Task> TaskList = new List<Task>();
+            List<DownloadTask> TaskList = new List<DownloadTask>();
             // Status : In Production 09-08-2014 13.20
             foreach (string Market in MarketType)
             {
@@ -66,7 +48,7 @@ namespace Athena
 
         }
 
-        private Task createTask(string market, DateTime individual_Day)
+        private DownloadTask createTask(string market, DateTime individual_Day)
         {
             // The NSE Equity URL is of the format http://www.nseindia.com/content/historical/EQUITIES/<YYYY>/<MMM>/cm<dd><MMM><YYYY>bhav.csv.zip
             // for eg : http://www.nseindia.com/content/historical/EQUITIES/2014/JUL/cm31JUL2014bhav.csv.zip is a bhav copy for 31/Jul/2014
@@ -74,7 +56,7 @@ namespace Athena
             // MyDate Any date which is not in the future.
 
 
-            Task currentTask = new Task();
+            DownloadTask currentTask = new DownloadTask();
 
 
             switch (market)
@@ -86,7 +68,7 @@ namespace Athena
 
                 case "BSE - Equity":
                     BSE A = new BSE();
-                    currentTask = A.GetTask(individual_Day);
+                    currentTask = A.GetBSETask(individual_Day);
                     break;
 
                 case "AMFII - Mutual Funds":
@@ -212,174 +194,5 @@ namespace Athena
 
         }
 
-        public bool DownloadTaskList(ref List<Task> TaskList)
-        {
-            string DownloadLocation;
-            //---------- This is the Synchronous downloader.Everything we do leads upto this.
-            foreach (var Task in TaskList)
-            {
-                //To Do : Task.Local_FileName is only the file name and not yet concatenated with fbdDownloadLocation.SelectedPath. 24 - 01 - 2016 13.27
-                DownloadLocation = LocalBasePathToDownload + "\\" + Task.MarketFolder;
-                DownloadAgent(Task);
-
-            }
-            //TODO: This block is entered into when the file has been downloaded and deflated. Now Increment Progress of file download
-            //tsStatusText.Text = "Downloaded : " & i & "of " & UBound(My2dMapOfDateURLRemoteLocalFiles, 1)
-            //TODO: Gracefully Handle the file download failure here.
-            //--------End of the Synchronous downloader region.
-            return true;
-        }
-
-        private bool DownloadAgent(Task CurrentTask)
-        {
-            //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
-            try
-            {               
-                HttpWebRequest request;
-                HttpWebResponse response;
-
-                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.URIWithFileName);
-
-                //IWebProxy proxy = request.Proxy;
-                //if (proxy != null)
-                //{
-                //    string proxyuri = proxy.GetProxy(request.RequestUri).ToString();
-                //    request.UseDefaultCredentials = true;
-                //    request.Proxy = new WebProxy(proxyuri, false);
-                //    request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-                //}
-
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
-                request.Accept = "text/html, application/xhtml+xml, */*";
-                ////.Connection = "Keep-Alive";
-                request.Headers.Add("Accept-Language", "en-IN");
-                request.Headers.Add("Accept-Encoding", "gzip, deflate");
-                request.Headers.Add("DNT", "1");
-                request.CookieContainer = cookieJar;
-
-                response = (HttpWebResponse)request.GetResponse();
-                //// DownloadWriter downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
-                //// Returns true if successful and false if not.
-                if (DownloadWriter(ref response, ref CurrentTask))
-                {
-                    //// Tidy up the HTTPWebResponse
-                    response.Close();
-                    return true;
-                }
-                else
-                {
-                    //// Tidy up the HTTPWebResponse
-                    response.Close();
-                    return false;
-                }
-            }
-            catch (Exception Ex)
-            {
-                Console.Write    (Ex.Message.ToString());
-                return false;
-            }
-        }
-
-       // private async Task<Task> DownloadAgent(Task CurrentTask) { }
-        private bool DownloadWriter(ref HttpWebResponse response, ref Task currentTask)
-        {
-            //    ' Take the HTTP Web response from Downloader.
-            //    ' Unzip it to the destination folder.
-            if (response.ContentType == "application/zip" || response.ContentType == "application/x-zip-compressed")
-            {
-                long intLen = response.ContentLength;
-                using (Stream stmResponse = response.GetResponseStream())
-                {
-                    Decimal  n = 0;
-                    Decimal numBytesRead = 0;
-                    Decimal numBytesToRead = (int)intLen;
-                    byte[] buffer = new byte[intLen];                   
-                    
-                    do
-                    {
-
-                        n = stmResponse.Read(buffer, (int)numBytesRead, (Int32)numBytesToRead);
-                        numBytesRead += n;
-                        numBytesToRead -= n;
-                    } while (numBytesToRead > 0);
-
-                    MemoryStream memStream = new MemoryStream(buffer);
-                    string res = false.ToString();
-                    //'' A wrapper function to Ionic.Zip library is used here.
-                    res = ZipExtracttoFile(memStream, LocalBasePathToDownload + "\\" + currentTask.MarketFolder);
-
-
-                    string WhatIDownloaded = (LocalBasePathToDownload + "\\" + currentTask.MarketFolder + "\\" + res).ToString();
-                    WhatIDownloaded = WhatIDownloaded.Replace(".zip", "");
-                    string WhatToRenameTo = (LocalBasePathToDownload + "\\" + currentTask.MarketFolder + "\\" + currentTask.FileNameAfterUnZip).ToString();
-
-                    try
-                    {
-                        if (!File.Exists(WhatIDownloaded))
-                        {
-                            // This statement ensures that the file is created,
-                            // but the handle is not kept.
-                            using (FileStream fs = File.Create(WhatIDownloaded)) { }
-                        }
-
-                        // Ensure that the target does not exist.
-                        if (File.Exists(WhatToRenameTo))
-                            File.Delete(WhatToRenameTo);
-
-                        // Move the file.
-                        File.Move(WhatIDownloaded, WhatToRenameTo);
-                        //Console.WriteLine("{0} was moved to {1}.", path, path2);
-
-                        // See if the original exists now.
-                        if (File.Exists(WhatIDownloaded))
-                        {
-                           // Console.WriteLine("The original file still exists, which is unexpected.");
-                        }
-                        else
-                        {
-                            //Console.WriteLine("The original file no longer exists, which is expected.");
-                        }
-
-                    }
-                    catch (Exception e)
-                    {
-                       // Console.WriteLine("The process failed: {0}", e.ToString());
-                    }
-
-                  //  File.Move(WhatIDownloaded, WhatToRenameTo);
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        } 
-
-        private string ZipExtracttoFile(MemoryStream strm, string strDestDir)
-        {
-            String ExtractedFileName;
-            try
-            {
-                using (ZipFile zip = ZipFile.Read(strm))
-                {
-                    ExtractedFileName = zip.EntryFileNames.ToString();
-                    zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
-                    foreach (ZipEntry e in zip)
-                    {
-                        e.Extract(strDestDir);
-                        ExtractedFileName = e.FileName.ToString();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("exception: {0}", ex.Message.ToString());
-                return false.ToString();
-            }
-            return ExtractedFileName;
-        }
-
-        
     }
 }
