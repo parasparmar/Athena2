@@ -50,7 +50,7 @@ namespace Athena
         }
         private void btnDownload_Click(object sender, EventArgs e)
         {
-            // Objective: btnDownload_Click event handling needs to take as ibpute GUI decisions and 
+            // Objective: btnDownload_Click event handling needs to take as input GUI decisions and 
             // download the same to the destination path.
             // Input : Download Destination, From and To Dates
             // Parameters : 
