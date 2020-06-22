@@ -32,20 +32,21 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbpDownload = new System.Windows.Forms.TabPage();
+            this.groupBoxTask1 = new System.Windows.Forms.GroupBox();
+            this.progressBarTask1 = new System.Windows.Forms.ProgressBar();
+            this.tbTaskName = new System.Windows.Forms.TextBox();
             this.btnSaveFolder = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cbSelected = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tbSaveFolderPath = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbSelected = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tbpConvert = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.saveToFile = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbTaskName = new System.Windows.Forms.TextBox();
-            this.groupBoxTask1 = new System.Windows.Forms.GroupBox();
-            this.progressBarTask1 = new System.Windows.Forms.ProgressBar();
-            this.label4 = new System.Windows.Forms.Label();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.tabControl1.SuspendLayout();
             this.tbpDownload.SuspendLayout();
             this.groupBoxTask1.SuspendLayout();
@@ -80,6 +81,7 @@
             // 
             // tbpDownload
             // 
+            this.tbpDownload.Controls.Add(this.checkedListBox1);
             this.tbpDownload.Controls.Add(this.groupBoxTask1);
             this.tbpDownload.Controls.Add(this.btnDownload);
             this.tbpDownload.Location = new System.Drawing.Point(4, 22);
@@ -89,6 +91,40 @@
             this.tbpDownload.TabIndex = 0;
             this.tbpDownload.Text = "Download";
             this.tbpDownload.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxTask1
+            // 
+            this.groupBoxTask1.Controls.Add(this.progressBarTask1);
+            this.groupBoxTask1.Controls.Add(this.tbTaskName);
+            this.groupBoxTask1.Controls.Add(this.btnSaveFolder);
+            this.groupBoxTask1.Controls.Add(this.textBox1);
+            this.groupBoxTask1.Controls.Add(this.label3);
+            this.groupBoxTask1.Controls.Add(this.tbSaveFolderPath);
+            this.groupBoxTask1.Controls.Add(this.label4);
+            this.groupBoxTask1.Controls.Add(this.label2);
+            this.groupBoxTask1.Controls.Add(this.cbSelected);
+            this.groupBoxTask1.Controls.Add(this.label1);
+            this.groupBoxTask1.Location = new System.Drawing.Point(281, 6);
+            this.groupBoxTask1.Name = "groupBoxTask1";
+            this.groupBoxTask1.Size = new System.Drawing.Size(570, 168);
+            this.groupBoxTask1.TabIndex = 7;
+            this.groupBoxTask1.TabStop = false;
+            this.groupBoxTask1.Text = "Task Name";
+            // 
+            // progressBarTask1
+            // 
+            this.progressBarTask1.Location = new System.Drawing.Point(122, 131);
+            this.progressBarTask1.Name = "progressBarTask1";
+            this.progressBarTask1.Size = new System.Drawing.Size(433, 20);
+            this.progressBarTask1.TabIndex = 7;
+            // 
+            // tbTaskName
+            // 
+            this.tbTaskName.Location = new System.Drawing.Point(122, 29);
+            this.tbTaskName.Name = "tbTaskName";
+            this.tbTaskName.Size = new System.Drawing.Size(433, 20);
+            this.tbTaskName.TabIndex = 2;
+            this.tbTaskName.TextChanged += new System.EventHandler(this.tbTaskName_TextChanged);
             // 
             // btnSaveFolder
             // 
@@ -100,6 +136,33 @@
             this.btnSaveFolder.UseVisualStyleBackColor = true;
             this.btnSaveFolder.Click += new System.EventHandler(this.btnSaveFolder_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 32);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(62, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Task Name";
+            // 
+            // tbSaveFolderPath
+            // 
+            this.tbSaveFolderPath.Location = new System.Drawing.Point(122, 82);
+            this.tbSaveFolderPath.Name = "tbSaveFolderPath";
+            this.tbSaveFolderPath.ReadOnly = true;
+            this.tbSaveFolderPath.Size = new System.Drawing.Size(352, 20);
+            this.tbSaveFolderPath.TabIndex = 3;
+            this.tbSaveFolderPath.TextChanged += new System.EventHandler(this.tbSaveFolderPath_TextChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 134);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(75, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Task Progress";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -108,15 +171,6 @@
             this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Download Location";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 58);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Source URL";
             // 
             // cbSelected
             // 
@@ -130,14 +184,14 @@
             this.cbSelected.Text = "Daily Task";
             this.cbSelected.UseVisualStyleBackColor = true;
             // 
-            // tbSaveFolderPath
+            // label1
             // 
-            this.tbSaveFolderPath.Location = new System.Drawing.Point(122, 82);
-            this.tbSaveFolderPath.Name = "tbSaveFolderPath";
-            this.tbSaveFolderPath.ReadOnly = true;
-            this.tbSaveFolderPath.Size = new System.Drawing.Size(352, 20);
-            this.tbSaveFolderPath.TabIndex = 3;
-            this.tbSaveFolderPath.TextChanged += new System.EventHandler(this.tbSaveFolderPath_TextChanged);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 58);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Source URL";
             // 
             // tbpConvert
             // 
@@ -157,57 +211,13 @@
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // label3
+            // checkedListBox1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 32);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Task Name";
-            // 
-            // tbTaskName
-            // 
-            this.tbTaskName.Location = new System.Drawing.Point(122, 29);
-            this.tbTaskName.Name = "tbTaskName";
-            this.tbTaskName.Size = new System.Drawing.Size(433, 20);
-            this.tbTaskName.TabIndex = 2;
-            this.tbTaskName.TextChanged += new System.EventHandler(this.tbTaskName_TextChanged);
-            // 
-            // groupBoxTask1
-            // 
-            this.groupBoxTask1.Controls.Add(this.progressBarTask1);
-            this.groupBoxTask1.Controls.Add(this.tbTaskName);
-            this.groupBoxTask1.Controls.Add(this.btnSaveFolder);
-            this.groupBoxTask1.Controls.Add(this.textBox1);
-            this.groupBoxTask1.Controls.Add(this.label3);
-            this.groupBoxTask1.Controls.Add(this.tbSaveFolderPath);
-            this.groupBoxTask1.Controls.Add(this.label4);
-            this.groupBoxTask1.Controls.Add(this.label2);
-            this.groupBoxTask1.Controls.Add(this.cbSelected);
-            this.groupBoxTask1.Controls.Add(this.label1);
-            this.groupBoxTask1.Location = new System.Drawing.Point(15, 64);
-            this.groupBoxTask1.Name = "groupBoxTask1";
-            this.groupBoxTask1.Size = new System.Drawing.Size(570, 168);
-            this.groupBoxTask1.TabIndex = 7;
-            this.groupBoxTask1.TabStop = false;
-            this.groupBoxTask1.Text = "Task Name";
-            // 
-            // progressBarTask1
-            // 
-            this.progressBarTask1.Location = new System.Drawing.Point(122, 131);
-            this.progressBarTask1.Name = "progressBarTask1";
-            this.progressBarTask1.Size = new System.Drawing.Size(433, 20);
-            this.progressBarTask1.TabIndex = 7;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 134);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(75, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Task Progress";
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(7, 7);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(268, 319);
+            this.checkedListBox1.TabIndex = 8;
             // 
             // frmMessenger
             // 
@@ -247,5 +257,6 @@
         private System.Windows.Forms.GroupBox groupBoxTask1;
         private System.Windows.Forms.ProgressBar progressBarTask1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }
