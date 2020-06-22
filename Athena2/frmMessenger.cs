@@ -21,11 +21,12 @@ namespace Athena
             progressBarTask1.Minimum = 0;
             progressBarTask1.Maximum = 100;
             progressBarTask1.Value = 0;
+            btnDownload.Enabled = false;
         }
 
         private void btnSaveFolder_Click(object sender, EventArgs e)
         {
-            DialogResult d = saveToFile.ShowDialog();            
+            DialogResult d = saveToFile.ShowDialog();
             saveFolderPath = saveToFile.FileName;
             tbSaveFolderPath.Text = saveFolderPath;
         }
@@ -33,12 +34,13 @@ namespace Athena
         private void tbSaveFolderPath_TextChanged(object sender, EventArgs e)
         {
             saveFolderPath = tbSaveFolderPath.Text;
+            btnDownload.Enabled = true;
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
             MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
-            
+
             for (int i = 1; i <= 100; i++)
             {
                 progressBarTask1.Value = i;
@@ -52,6 +54,46 @@ namespace Athena
             groupBoxTask1.Text = TaskName;
         }
 
-        
+        private void clbTaskList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TaskName = clbTaskList.SelectedItem.ToString();
+            tbTaskName.Text = TaskName;
+            tbTaskName_TextChanged(this, new EventArgs { });
+            progressBarTask1.Value = 0;
+        }
+
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+            var itemCount = clbTaskList.Items.Count;
+            for (int i = 0; i < itemCount; i++)
+            {
+                clbTaskList.SetItemCheckState(i, CheckState.Checked);
+            }
+        }
+
+        private void btnSelectNone_Click(object sender, EventArgs e)
+        {
+            var itemCount = clbTaskList.Items.Count;
+            for (int i = 0; i < itemCount; i++)
+            {
+                clbTaskList.SetItemCheckState(i, CheckState.Unchecked);
+            }
+        }
+
+        private void btnSelectInvert_Click(object sender, EventArgs e)
+        {
+            var itemCount = clbTaskList.Items.Count;
+            for (int i = 0; i < itemCount; i++)
+            {
+                if (clbTaskList.GetItemChecked(i))
+                {
+                    clbTaskList.SetItemCheckState(i, CheckState.Unchecked);
+                }
+                else
+                {
+                    clbTaskList.SetItemCheckState(i, CheckState.Checked);
+                }
+            }
+        }
     }
 }
