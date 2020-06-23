@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -103,7 +104,7 @@ namespace Athena
                 e.Effect = DragDropEffects.Copy;
                 var a = e.Data.GetData(DataFormats.Text).ToString();
                 MessageBox.Show($"Drag and drop of {a}");
-
+                //var testing = TestOfDragDropFormats(e);
             }
             else
             {
@@ -111,5 +112,29 @@ namespace Athena
                 MessageBox.Show("Invalid type for drag and drop.");
             }
         }
+
+
+        private string TestOfDragDropFormats(DragEventArgs e)
+        {
+
+            Array data = ((IDataObject)e.Data).GetFormats() as Array;
+
+            StringBuilder sb = new StringBuilder();
+
+
+            foreach (var item in data)
+            {
+                string dataFormat = item.ToString();
+                sb.Append(dataFormat);
+                sb.Append(", ");
+                var abc = ((IDataObject)e.Data).GetData(item.ToString());
+                Debug.WriteLine($"{dataFormat} : {abc}");
+
+            }
+            string allowedformats = sb.ToString();
+            Debug.WriteLine(allowedformats);
+            return allowedformats;
+        }
+
     }
 }

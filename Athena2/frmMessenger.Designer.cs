@@ -164,7 +164,7 @@
             this.groupBoxTask1.Controls.Add(this.label2);
             this.groupBoxTask1.Controls.Add(this.cbSelected);
             this.groupBoxTask1.Controls.Add(this.label1);
-            this.groupBoxTask1.Location = new System.Drawing.Point(281, 6);
+            this.groupBoxTask1.Location = new System.Drawing.Point(282, 28);
             this.groupBoxTask1.Name = "groupBoxTask1";
             this.groupBoxTask1.Size = new System.Drawing.Size(570, 168);
             this.groupBoxTask1.TabIndex = 7;
