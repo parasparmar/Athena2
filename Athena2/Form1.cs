@@ -20,7 +20,7 @@ namespace Athena
     {
 
         string MyFolder = string.Empty;
-        Engine MyEngine = new Engine();
+        Download MyEngine = new Download();
 
         public frmDownloader()
         {
