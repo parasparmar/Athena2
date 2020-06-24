@@ -4,22 +4,24 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AngleSharp;
 using AngleSharp.Dom;
+using Athena.Services;
 
 namespace Athena
 {
-    public partial class frmMessenger : Form
+    public partial class frmFM : Form
     {
         private string saveFolderPath = string.Empty;
         private string TaskName = string.Empty;
         private string[] stringSeparators = new string[] { "\r\n" };
 
-        public frmMessenger()
+        public frmFM()
         {
             InitializeComponent();
             progressBarTask1.Minimum = 0;
@@ -44,7 +46,19 @@ namespace Athena
         private void btnDownload_Click(object sender, EventArgs e)
         {
             MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
+            var url = new Uri(tbSourceUrl.Text);
+            Download d = new Download();
+            var myPath = url.AbsolutePath.Split('/');
+            myPath[myPath.Count() - 1] = myPath[myPath.Count() - 1].Replace(".zip", ".csv");
 
+            var FileNameAfterUnZip = $"D:\\Desktop\\Stocks\\{myPath[myPath.Count() - 1]}";
+            d.File(new Models.DownloadTask
+            {
+                SourceURL = url.AbsoluteUri,
+                Destination = @"D:\Desktop\Stocks",
+                FileNameAfterUnZip = FileNameAfterUnZip,
+                URIWithFileName = url.AbsoluteUri
+            });
             for (int i = 1; i <= 100; i++)
             {
                 progressBarTask1.Value = i;
@@ -107,7 +121,7 @@ namespace Athena
                 e.Effect = DragDropEffects.Copy;
                 var a = e.Data.GetData(DataFormats.Text).ToString();
                 tbSourceUrl.Text = a;
-
+                tbUrlFormat.Text = URLParser.Tokenize(new Uri(a));
                 MessageBox.Show($"Drag and drop of {a}");
 
                 var htmlFragment= e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators,StringSplitOptions.RemoveEmptyEntries);
@@ -158,10 +172,10 @@ namespace Athena
             var document = await context.OpenAsync(req => req.Content(source));
             tbTaskName.Text = document.DocumentElement.QuerySelector("a").Text().ToString();
             
-            
 
-        //Serialize it back to the console
-        Console.WriteLine(document.DocumentElement.OuterHtml);
+
+            //Serialize it back to the console
+            Console.WriteLine(document.DocumentElement.OuterHtml);
         }
 
         private void btnRemoveTask_Click(object sender, EventArgs e)

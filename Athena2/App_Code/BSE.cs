@@ -36,7 +36,7 @@ namespace Athena
 
 
             // 0. onDate = The date component of the associated downloaded file.
-            currentTask.MyDate = individual_Day.Date;
+            currentTask.Date = individual_Day.Date;
             // 1. URIWithFileName = The complete download path and file name
             currentTask.URIWithFileName = ServerURI_WFileName;
             // 2. FileNameOnServer = Only the file name of the downloaded file. It will be concatenated with fbdDownloadLocation.SelectedPath to acheive the 

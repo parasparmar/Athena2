@@ -11,7 +11,11 @@ namespace Athena.Models
 
         public string Name { get; set; }
         // 0. MyDate = The date component of the associated downloaded file.
-        public DateTime MyDate { get; set; }
+        public DateTime Date { get; set; }
+        public string SourceURL { get; set; }
+        public string URLFormat { get; set; }
+        public string DownloadFolder { get; set; }
+
         // 1. URIWithFileName = The complete download path and file name
         public String URIWithFileName { get; set; }
         // 2. FileNameOnServer = Only the file name of the downloaded file.It will be concatenated with fbdDownloadLocation.SelectedPath to acheive the full path and file name of the local file.

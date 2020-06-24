@@ -1,6 +1,6 @@
 ﻿namespace Athena
 {
-    partial class frmMessenger
+    partial class frmFM
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMessenger));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFM));
             this.btnDownload = new System.Windows.Forms.Button();
             this.tbSourceUrl = new System.Windows.Forms.TextBox();
             this.tab = new System.Windows.Forms.TabControl();
@@ -43,9 +43,12 @@
             this.groupBoxTask1 = new System.Windows.Forms.GroupBox();
             this.btnAddTask = new System.Windows.Forms.Button();
             this.tbTaskName = new System.Windows.Forms.TextBox();
+            this.btnManualTokens = new System.Windows.Forms.Button();
             this.btnSaveFolder = new System.Windows.Forms.Button();
+            this.tbUrlFormat = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbSaveFolderPath = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -53,16 +56,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.saveToFile = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.progress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.TaskId = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tab.SuspendLayout();
             this.tbpDownload.SuspendLayout();
             this.groupBoxTask1.SuspendLayout();
-            this.tbpConvert.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnDownload
@@ -80,7 +76,7 @@
             // 
             this.tbSourceUrl.Location = new System.Drawing.Point(122, 55);
             this.tbSourceUrl.Name = "tbSourceUrl";
-            this.tbSourceUrl.Size = new System.Drawing.Size(433, 20);
+            this.tbSourceUrl.Size = new System.Drawing.Size(685, 20);
             this.tbSourceUrl.TabIndex = 2;
             // 
             // tab
@@ -189,10 +185,10 @@
             "NSE FNO Open Interest",
             "BSE FNO Open Interest",
             "NSE EOD Bhav Copy"});
-            this.clbTaskList.Location = new System.Drawing.Point(8, 64);
+            this.clbTaskList.Location = new System.Drawing.Point(8, 34);
             this.clbTaskList.MultiColumn = true;
             this.clbTaskList.Name = "clbTaskList";
-            this.clbTaskList.Size = new System.Drawing.Size(951, 167);
+            this.clbTaskList.Size = new System.Drawing.Size(951, 197);
             this.clbTaskList.TabIndex = 8;
             this.clbTaskList.SelectedIndexChanged += new System.EventHandler(this.clbTaskList_SelectedIndexChanged);
             this.clbTaskList.DragEnter += new System.Windows.Forms.DragEventHandler(this.clbTaskList_DragEnter);
@@ -201,22 +197,25 @@
             // 
             this.groupBoxTask1.Controls.Add(this.btnAddTask);
             this.groupBoxTask1.Controls.Add(this.tbTaskName);
+            this.groupBoxTask1.Controls.Add(this.btnManualTokens);
             this.groupBoxTask1.Controls.Add(this.btnSaveFolder);
+            this.groupBoxTask1.Controls.Add(this.tbUrlFormat);
             this.groupBoxTask1.Controls.Add(this.tbSourceUrl);
             this.groupBoxTask1.Controls.Add(this.label3);
             this.groupBoxTask1.Controls.Add(this.tbSaveFolderPath);
+            this.groupBoxTask1.Controls.Add(this.label5);
             this.groupBoxTask1.Controls.Add(this.label2);
             this.groupBoxTask1.Controls.Add(this.label1);
             this.groupBoxTask1.Location = new System.Drawing.Point(9, 237);
             this.groupBoxTask1.Name = "groupBoxTask1";
-            this.groupBoxTask1.Size = new System.Drawing.Size(570, 118);
+            this.groupBoxTask1.Size = new System.Drawing.Size(950, 223);
             this.groupBoxTask1.TabIndex = 7;
             this.groupBoxTask1.TabStop = false;
             this.groupBoxTask1.Text = "Task Name";
             // 
             // btnAddTask
             // 
-            this.btnAddTask.Location = new System.Drawing.Point(424, 27);
+            this.btnAddTask.Location = new System.Drawing.Point(813, 27);
             this.btnAddTask.Name = "btnAddTask";
             this.btnAddTask.Size = new System.Drawing.Size(131, 23);
             this.btnAddTask.TabIndex = 8;
@@ -228,19 +227,36 @@
             // 
             this.tbTaskName.Location = new System.Drawing.Point(122, 29);
             this.tbTaskName.Name = "tbTaskName";
-            this.tbTaskName.Size = new System.Drawing.Size(296, 20);
+            this.tbTaskName.Size = new System.Drawing.Size(685, 20);
             this.tbTaskName.TabIndex = 2;
             this.tbTaskName.TextChanged += new System.EventHandler(this.tbTaskName_TextChanged);
             // 
+            // btnManualTokens
+            // 
+            this.btnManualTokens.Location = new System.Drawing.Point(813, 79);
+            this.btnManualTokens.Name = "btnManualTokens";
+            this.btnManualTokens.Size = new System.Drawing.Size(131, 23);
+            this.btnManualTokens.TabIndex = 6;
+            this.btnManualTokens.Text = "Manual Tokens";
+            this.btnManualTokens.UseVisualStyleBackColor = true;
+            this.btnManualTokens.Click += new System.EventHandler(this.btnSaveFolder_Click);
+            // 
             // btnSaveFolder
             // 
-            this.btnSaveFolder.Location = new System.Drawing.Point(480, 79);
+            this.btnSaveFolder.Location = new System.Drawing.Point(813, 107);
             this.btnSaveFolder.Name = "btnSaveFolder";
-            this.btnSaveFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveFolder.Size = new System.Drawing.Size(131, 23);
             this.btnSaveFolder.TabIndex = 6;
             this.btnSaveFolder.Text = "Save";
             this.btnSaveFolder.UseVisualStyleBackColor = true;
             this.btnSaveFolder.Click += new System.EventHandler(this.btnSaveFolder_Click);
+            // 
+            // tbUrlFormat
+            // 
+            this.tbUrlFormat.Location = new System.Drawing.Point(122, 81);
+            this.tbUrlFormat.Name = "tbUrlFormat";
+            this.tbUrlFormat.Size = new System.Drawing.Size(685, 20);
+            this.tbUrlFormat.TabIndex = 2;
             // 
             // label3
             // 
@@ -253,17 +269,26 @@
             // 
             // tbSaveFolderPath
             // 
-            this.tbSaveFolderPath.Location = new System.Drawing.Point(122, 81);
+            this.tbSaveFolderPath.Location = new System.Drawing.Point(121, 109);
             this.tbSaveFolderPath.Name = "tbSaveFolderPath";
             this.tbSaveFolderPath.ReadOnly = true;
-            this.tbSaveFolderPath.Size = new System.Drawing.Size(352, 20);
+            this.tbSaveFolderPath.Size = new System.Drawing.Size(686, 20);
             this.tbSaveFolderPath.TabIndex = 3;
             this.tbSaveFolderPath.TextChanged += new System.EventHandler(this.tbSaveFolderPath_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(17, 84);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "URL Format";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 84);
+            this.label2.Location = new System.Drawing.Point(16, 112);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 5;
@@ -289,7 +314,6 @@
             // 
             // tbpConvert
             // 
-            this.tbpConvert.Controls.Add(this.dataGridView1);
             this.tbpConvert.Location = new System.Drawing.Point(4, 22);
             this.tbpConvert.Name = "tbpConvert";
             this.tbpConvert.Padding = new System.Windows.Forms.Padding(3);
@@ -306,44 +330,7 @@
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // Name
-            // 
-            this.Name.HeaderText = "Task Name";
-            this.Name.Name = "Name";
-            this.Name.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Name.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // progress
-            // 
-            this.progress.HeaderText = "Progress";
-            this.progress.Name = "progress";
-            this.progress.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.progress.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.TaskId,
-            this.Data});
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(961, 655);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // TaskId
-            // 
-            this.TaskId.HeaderText = "Id";
-            this.TaskId.Name = "TaskId";
-            // 
-            // Data
-            // 
-            this.Data.HeaderText = "Name";
-            this.Data.Name = "Data";
-            // 
-            // frmMessenger
+            // frmFM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -352,15 +339,13 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tab);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            //this.Name = "FinancialMarkets";
+            this.Name = "frmFM";
             this.Text = "Financial Markets - Data Downloader";
             this.tab.ResumeLayout(false);
             this.tbpDownload.ResumeLayout(false);
             this.tbpDownload.PerformLayout();
             this.groupBoxTask1.ResumeLayout(false);
             this.groupBoxTask1.PerformLayout();
-            this.tbpConvert.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,12 +375,10 @@
         private System.Windows.Forms.Button btnSelectNone;
         private System.Windows.Forms.Button btnSelectInvert;
         private System.Windows.Forms.Button btnAddTask;
-        private System.Windows.Forms.Button btnRemoveTask;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn progress;
+        private System.Windows.Forms.Button btnRemoveTask;                
         private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn TaskId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Data;
+        private System.Windows.Forms.TextBox tbUrlFormat;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnManualTokens;
     }
 }

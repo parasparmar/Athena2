@@ -159,39 +159,39 @@ namespace Athena.Services
                     MemoryStream memStream = new MemoryStream(buffer);
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
-                    res = Extract.ZipExtracttoFile(memStream, $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}");
+                    res = Extract.ZipExtracttoFile(memStream, currentTask.FileNameAfterUnZip);
 
 
-                    string WhatIDownloaded = $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}{Path.DirectorySeparatorChar}{res}";
-                    WhatIDownloaded = WhatIDownloaded.Replace(".zip", "");
-                    string WhatToRenameTo = $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}{Path.DirectorySeparatorChar}{currentTask.FileNameAfterUnZip}";
+                    //string WhatIDownloaded = $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}{Path.DirectorySeparatorChar}{res}";
+                    //WhatIDownloaded = WhatIDownloaded.Replace(".zip", "");
+                    //string WhatToRenameTo = $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}{Path.DirectorySeparatorChar}{currentTask.FileNameAfterUnZip}";
 
                     try
                     {
-                        if (!System.IO.File.Exists(WhatIDownloaded))
+                        if (!System.IO.File.Exists(currentTask.FileNameAfterUnZip))
                         {
                             // This statement ensures that the file is created,
                             // but the handle is not kept.
-                            using (FileStream fs = System.IO.File.Create(WhatIDownloaded)) { }
+                            using (FileStream fs = System.IO.File.Create(currentTask.FileNameAfterUnZip)) { }
                         }
 
-                        // Ensure that the target does not exist.
-                        if (System.IO.File.Exists(WhatToRenameTo))
-                            System.IO.File.Delete(WhatToRenameTo);
+                        //// Ensure that the target does not exist.
+                        //if (System.IO.File.Exists(WhatToRenameTo))
+                        //    System.IO.File.Delete(WhatToRenameTo);
 
-                        // Move the file.
-                        System.IO.File.Move(WhatIDownloaded, WhatToRenameTo);
-                        //Console.WriteLine("{0} was moved to {1}.", path, path2);
+                        //// Move the file.
+                        //System.IO.File.Move(WhatIDownloaded, WhatToRenameTo);
+                        ////Console.WriteLine("{0} was moved to {1}.", path, path2);
 
-                        // See if the original exists now.
-                        if (System.IO.File.Exists(WhatIDownloaded))
-                        {
-                            // Console.WriteLine("The original file still exists, which is unexpected.");
-                        }
-                        else
-                        {
-                            //Console.WriteLine("The original file no longer exists, which is expected.");
-                        }
+                        //// See if the original exists now.
+                        //if (System.IO.File.Exists(WhatIDownloaded))
+                        //{
+                        //    // Console.WriteLine("The original file still exists, which is unexpected.");
+                        //}
+                        //else
+                        //{
+                        //    //Console.WriteLine("The original file no longer exists, which is expected.");
+                        //}
 
                     }
                     catch (Exception e)

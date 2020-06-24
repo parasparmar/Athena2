@@ -24,7 +24,7 @@ namespace Athena.Services
             ServerFile_NameOnly = "cm" + individual_Day.ToString("dd") + individual_Day.ToString("MMM").ToUpper() + individual_Day.ToString("yyyy").ToUpper() + "bhav.csv.zip";
             ServerURI_WFileName = "http://www.nseindia.com/content/historical/EQUITIES/" + individual_Day.Year.ToString() + "/" + individual_Day.ToString("MMM").ToUpper() + "/" + ServerFile_NameOnly;
             // 0. onDate = The date component of the associated downloaded file.
-            currentTask.MyDate = individual_Day.Date;
+            currentTask.Date = individual_Day.Date;
             // 1. URIWithFileName = The complete download path and file name
             currentTask.URIWithFileName = ServerURI_WFileName;
             // 2. FileNameOnServer = Only the file name of the downloaded file. It will be concatenated with fbdDownloadLocation.SelectedPath to acheive the 
