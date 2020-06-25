@@ -124,7 +124,7 @@ namespace Athena
                 tbUrlFormat.Text = URLParser.Tokenize(new Uri(a));
                 MessageBox.Show($"Drag and drop of {a}");
 
-                var htmlFragment= e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators,StringSplitOptions.RemoveEmptyEntries);
+                var htmlFragment = e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
                 var source = htmlFragment[8];
                 writeToConsole(source);
                 //var testing = TestOfDragDropFormats(e);
@@ -186,6 +186,28 @@ namespace Athena
         private void btnAddTask_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void clbTaskList_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.Text))
+            {
+                e.Effect = DragDropEffects.Copy;
+                var a = e.Data.GetData(DataFormats.Text).ToString();
+                tbSourceUrl.Text = a;
+                tbUrlFormat.Text = URLParser.Tokenize(new Uri(a));
+                MessageBox.Show($"Drag and drop of {a}");
+
+                var htmlFragment = e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+                var source = htmlFragment[8];
+                writeToConsole(source);
+                //var testing = TestOfDragDropFormats(e);
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+                MessageBox.Show("Invalid type for drag and drop.");
+            }
         }
     }
 }

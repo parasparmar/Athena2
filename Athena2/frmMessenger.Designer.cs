@@ -191,6 +191,7 @@
             this.clbTaskList.Size = new System.Drawing.Size(951, 197);
             this.clbTaskList.TabIndex = 8;
             this.clbTaskList.SelectedIndexChanged += new System.EventHandler(this.clbTaskList_SelectedIndexChanged);
+            this.clbTaskList.DragDrop += new System.Windows.Forms.DragEventHandler(this.clbTaskList_DragDrop);
             this.clbTaskList.DragEnter += new System.Windows.Forms.DragEventHandler(this.clbTaskList_DragEnter);
             // 
             // groupBoxTask1
