@@ -12,9 +12,9 @@ namespace Athena.Services
         string ServerFile_NameOnly = string.Empty;
         string ServerURI_WFileName = string.Empty;
         private string market = "NSE-Equity";
-        private DownloadTask currentTask = new DownloadTask();
+        private FileDownloads currentTask = new FileDownloads();
 
-        public DownloadTask CreateNSETask(DateTime individual_Day)
+        public FileDownloads CreateNSETask(DateTime individual_Day)
         {
             // Status : In Production 09 - 08 - 2014 13.20
             // This function takes in a datearray  and returns a dictionary of filenames and urls from which to download individual files.
@@ -38,9 +38,9 @@ namespace Athena.Services
         }
 
         // getURLFrom takes in a datearray  and returns a dictionary of filenames and urls from which to download individual files.
-        public List<DownloadTask> CreateTaskList(List<String> MarketType, List<DateTime> DateList)
+        public List<FileDownloads> CreateTaskList(List<String> MarketType, List<DateTime> DateList)
         {
-            List<DownloadTask> TaskList = new List<DownloadTask>();
+            List<FileDownloads> TaskList = new List<FileDownloads>();
             // Status : In Production 09-08-2014 13.20
             foreach (string Market in MarketType)
             {
@@ -53,7 +53,7 @@ namespace Athena.Services
 
         }
 
-        private DownloadTask createTask(string market, DateTime individual_Day)
+        private FileDownloads createTask(string market, DateTime individual_Day)
         {
             // The NSE Equity URL is of the format http://www.nseindia.com/content/historical/EQUITIES/<YYYY>/<MMM>/cm<dd><MMM><YYYY>bhav.csv.zip
             // for eg : http://www.nseindia.com/content/historical/EQUITIES/2014/JUL/cm31JUL2014bhav.csv.zip is a bhav copy for 31/Jul/2014
@@ -61,7 +61,7 @@ namespace Athena.Services
             // MyDate Any date which is not in the future.
 
 
-            DownloadTask currentTask = new DownloadTask();
+            FileDownloads currentTask = new FileDownloads();
 
 
             switch (market)

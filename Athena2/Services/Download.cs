@@ -15,8 +15,8 @@ namespace Athena.Services
         public String LocalBasePathToDownload;
 
         // TaskList = This tracks the success or failure of each individual download.
-        List<DownloadTask> TaskList = new List<DownloadTask>();
-        public bool File(DownloadTask CurrentTask)
+        List<FileDownloads> TaskList = new List<FileDownloads>();
+        public bool File(FileDownloads CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
             try
@@ -66,7 +66,7 @@ namespace Athena.Services
             }
         }
 
-        public bool DownloadTaskList(ref List<DownloadTask> TaskList)
+        public bool DownloadTaskList(ref List<FileDownloads> TaskList)
         {
             string DownloadLocation;
             //---------- This is the Synchronous downloader.Everything we do leads upto this.
@@ -84,7 +84,7 @@ namespace Athena.Services
             return true;
         }
 
-        private bool DownloadAgent(DownloadTask CurrentTask)
+        private bool DownloadAgent(FileDownloads CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
             try
@@ -134,7 +134,7 @@ namespace Athena.Services
             }
         }
 
-        public bool DownloadWriter(HttpWebResponse response, DownloadTask currentTask)
+        public bool DownloadWriter(HttpWebResponse response, FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.
             //    ' Unzip it to the destination folder.
@@ -209,7 +209,7 @@ namespace Athena.Services
             }
         }
         
-        private bool DownloadWriterExtra(ref HttpWebResponse response, ref DownloadTask currentTask)
+        private bool DownloadWriterExtra(ref HttpWebResponse response, ref FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.
             //    ' Unzip it to the destination folder.

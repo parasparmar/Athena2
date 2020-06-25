@@ -52,7 +52,7 @@ namespace Athena
             myPath[myPath.Count() - 1] = myPath[myPath.Count() - 1].Replace(".zip", ".csv");
 
             var FileNameAfterUnZip = $"D:\\Desktop\\Stocks\\{myPath[myPath.Count() - 1]}";
-            d.File(new Models.DownloadTask
+            d.File(new Models.FileDownloads
             {
                 SourceURL = url.AbsoluteUri,
                 Destination = @"D:\Desktop\Stocks",

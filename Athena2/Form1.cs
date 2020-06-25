@@ -76,7 +76,7 @@ namespace Athena
                     chosenMarketsArray.Add(i.ToString());
                 }
                 //Done 3: Check for Internet Connectivity                
-                List<DownloadTask> T = new List<DownloadTask>();
+                List<FileDownloads> T = new List<FileDownloads>();
                 DownloadTaskFactory a = new DownloadTaskFactory();
                 T = a.CreateTaskList(chosenMarketsArray, AllMyDates);
                 MyEngine.DownloadTaskList(ref T);

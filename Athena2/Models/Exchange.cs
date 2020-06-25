@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace Athena.Models
 {
-    class DownloadTask
+    class Exchange
     {
-        //Id Name    LinkId ExchangeId
         public int Id { get; set; }
         public string Name { get; set; }
-        public int LinkId { get; set; }
-        public int ExchangeId { get; set; }
-
-
     }
 }
