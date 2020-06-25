@@ -14,6 +14,7 @@ namespace Athena.Models
         public int LinkId { get; set; }
         public int ExchangeId { get; set; }
 
-
+        public virtual Link Link { get; set; }
+        public virtual Exchange Exchange { get; set; }
     }
 }

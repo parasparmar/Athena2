@@ -15,5 +15,6 @@ namespace Athena.Models
         public string FormattedURL { get; set; }
         public string Destination { get; set; }
         public string DestinationFormat { get; set; }
+
     }
 }

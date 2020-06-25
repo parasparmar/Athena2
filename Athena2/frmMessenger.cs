@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using AngleSharp;
 using AngleSharp.Dom;
 using Athena.Services;
+using Athena.Models;
 
 namespace Athena
 {
@@ -20,7 +21,7 @@ namespace Athena
         private string saveFolderPath = string.Empty;
         private string TaskName = string.Empty;
         private string[] stringSeparators = new string[] { "\r\n" };
-
+        Helper db = new Helper();
         public frmFM()
         {
             InitializeComponent();
@@ -28,6 +29,7 @@ namespace Athena
             progressBarTask1.Maximum = 100;
             progressBarTask1.Value = 0;
             btnDownload.Enabled = false;
+
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -47,7 +49,7 @@ namespace Athena
         {
             MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
             var url = new Uri(tbSourceUrl.Text);
-            Download d = new Download();
+            Downloader d = new Downloader();
             var myPath = url.AbsolutePath.Split('/');
             myPath[myPath.Count() - 1] = myPath[myPath.Count() - 1].Replace(".zip", ".csv");
 
