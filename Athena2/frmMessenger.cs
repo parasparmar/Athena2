@@ -30,7 +30,7 @@ namespace Athena
             btnDownload.Enabled = false;
         }
 
-        private void btnSaveFolder_Click(object sender, EventArgs e)
+        private void btnBrowse_Click(object sender, EventArgs e)
         {
             DialogResult d = saveToFile.ShowDialog();
             saveFolderPath = saveToFile.FileName;
@@ -119,15 +119,15 @@ namespace Athena
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
                 e.Effect = DragDropEffects.Copy;
-                var a = e.Data.GetData(DataFormats.Text).ToString();
-                tbSourceUrl.Text = a;
-                tbUrlFormat.Text = URLParser.Tokenize(new Uri(a));
-                MessageBox.Show($"Drag and drop of {a}");
+                //var a = e.Data.GetData(DataFormats.Text).ToString();
+                //tbSourceUrl.Text = a;
+                //tbUrlFormat.Text = URLParser.Tokenize(new Uri(a));
+                //MessageBox.Show($"Drag and drop of {a}");
 
-                var htmlFragment = e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-                var source = htmlFragment[8];
-                writeToConsole(source);
-                //var testing = TestOfDragDropFormats(e);
+                //var htmlFragment = e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+                //var source = htmlFragment[8];
+                //retrieveBrowserData(source);
+                ////var testing = TestOfDragDropFormats(e);
             }
             else
             {
@@ -159,7 +159,7 @@ namespace Athena
             return allowedformats;
         }
 
-        private async Task writeToConsole(string source)
+        private async Task retrieveBrowserData(string source)
         {
             //Use the default configuration for AngleSharp
             var config = Configuration.Default;
@@ -200,7 +200,7 @@ namespace Athena
 
                 var htmlFragment = e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
                 var source = htmlFragment[8];
-                writeToConsole(source);
+                retrieveBrowserData(source);
                 //var testing = TestOfDragDropFormats(e);
             }
             else

@@ -44,7 +44,7 @@
             this.btnAddTask = new System.Windows.Forms.Button();
             this.tbTaskName = new System.Windows.Forms.TextBox();
             this.btnManualTokens = new System.Windows.Forms.Button();
-            this.btnSaveFolder = new System.Windows.Forms.Button();
+            this.btnBrowse = new System.Windows.Forms.Button();
             this.tbUrlFormat = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbSaveFolderPath = new System.Windows.Forms.TextBox();
@@ -199,7 +199,7 @@
             this.groupBoxTask1.Controls.Add(this.btnAddTask);
             this.groupBoxTask1.Controls.Add(this.tbTaskName);
             this.groupBoxTask1.Controls.Add(this.btnManualTokens);
-            this.groupBoxTask1.Controls.Add(this.btnSaveFolder);
+            this.groupBoxTask1.Controls.Add(this.btnBrowse);
             this.groupBoxTask1.Controls.Add(this.tbUrlFormat);
             this.groupBoxTask1.Controls.Add(this.tbSourceUrl);
             this.groupBoxTask1.Controls.Add(this.label3);
@@ -240,17 +240,17 @@
             this.btnManualTokens.TabIndex = 6;
             this.btnManualTokens.Text = "Manual Tokens";
             this.btnManualTokens.UseVisualStyleBackColor = true;
-            this.btnManualTokens.Click += new System.EventHandler(this.btnSaveFolder_Click);
+            this.btnManualTokens.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
-            // btnSaveFolder
+            // btnBrowse
             // 
-            this.btnSaveFolder.Location = new System.Drawing.Point(813, 107);
-            this.btnSaveFolder.Name = "btnSaveFolder";
-            this.btnSaveFolder.Size = new System.Drawing.Size(131, 23);
-            this.btnSaveFolder.TabIndex = 6;
-            this.btnSaveFolder.Text = "Save";
-            this.btnSaveFolder.UseVisualStyleBackColor = true;
-            this.btnSaveFolder.Click += new System.EventHandler(this.btnSaveFolder_Click);
+            this.btnBrowse.Location = new System.Drawing.Point(813, 107);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(131, 23);
+            this.btnBrowse.TabIndex = 6;
+            this.btnBrowse.Text = "Browse...";
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // tbUrlFormat
             // 
@@ -365,7 +365,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.SaveFileDialog saveToFile;
         private System.Windows.Forms.FolderBrowserDialog folderBrowser;
-        private System.Windows.Forms.Button btnSaveFolder;
+        private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbTaskName;
         private System.Windows.Forms.GroupBox groupBoxTask1;
