@@ -13,6 +13,7 @@ using AngleSharp;
 using AngleSharp.Dom;
 using Athena.Services;
 using Athena.Models;
+using System.Globalization;
 
 namespace Athena
 {
@@ -85,22 +86,19 @@ namespace Athena
         {
             TaskName = clbTaskList.SelectedItem.ToString();
             DownloadTask d = db.DownloadTasks.SingleOrDefault(g => g.Name.ToLower().Trim().Contains(TaskName.ToLower().Trim()));
-            populateSelectedTask(d);
-            progressBarTask1.Value = 0;
-        }
-
-        private void populateSelectedTask(DownloadTask d)
-        {
-
             if (d != null)
             {
                 tbTaskName.Text = d.Name;
                 tbSourceUrl.Text = d.Link.SourceURL;
                 tbUrlFormat.Text = d.Link.FormattedURL;
-                tbpDownload.Text = d.Link.Destination;
+                
                 tbTaskName_TextChanged(this, new EventArgs { });
             }
+            progressBarTask1.Value = 0;
         }
+
+       
+       
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
