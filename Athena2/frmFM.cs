@@ -14,6 +14,9 @@ using AngleSharp.Dom;
 using Athena.Services;
 using Athena.Models;
 using System.Globalization;
+using System.Data.SQLite.EF6;
+using System.Data.SQLite.Linq;
+using System.Data.Entity;
 
 namespace Athena
 {
@@ -85,20 +88,22 @@ namespace Athena
         private void clbTaskList_SelectedIndexChanged(object sender, EventArgs e)
         {
             TaskName = clbTaskList.SelectedItem.ToString();
-            DownloadTask d = db.DownloadTasks.SingleOrDefault(g => g.Name.ToLower().Trim().Contains(TaskName.ToLower().Trim()));
+            var d = db.DownloadTasks
+                .Include(a => a.Link)
+                .SingleOrDefault(g => g.Name.ToLower().Trim().Contains(TaskName.ToLower().Trim()));
+            
             if (d != null)
             {
                 tbTaskName.Text = d.Name;
                 tbSourceUrl.Text = d.Link.SourceURL;
                 tbUrlFormat.Text = d.Link.FormattedURL;
-                
                 tbTaskName_TextChanged(this, new EventArgs { });
             }
             progressBarTask1.Value = 0;
         }
 
-       
-       
+
+
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {

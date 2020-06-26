@@ -149,11 +149,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmMessenger.cs">
+    <Compile Include="frmFM.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMessenger.Designer.cs">
-      <DependentUpon>frmMessenger.cs</DependentUpon>
+    <Compile Include="frmFM.Designer.cs">
+      <DependentUpon>frmFM.cs</DependentUpon>
     </Compile>
     <Compile Include="MDIParent.cs">
       <SubType>Form</SubType>
@@ -174,11 +174,12 @@
     <Compile Include="Services\DownloadTaskFactory.cs" />
     <Compile Include="Services\Extract.cs" />
     <Compile Include="Services\URLParser.cs" />
+    <Compile Include="ViewModels\FMViewModel.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMessenger.resx">
-      <DependentUpon>frmMessenger.cs</DependentUpon>
+    <EmbeddedResource Include="frmFM.resx">
+      <DependentUpon>frmFM.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MDIParent.resx">
       <DependentUpon>MDIParent.cs</DependentUpon>
