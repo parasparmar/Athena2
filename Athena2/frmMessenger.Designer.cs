@@ -177,14 +177,6 @@
             this.clbTaskList.CheckOnClick = true;
             this.clbTaskList.ColumnWidth = 500;
             this.clbTaskList.FormattingEnabled = true;
-            this.clbTaskList.Items.AddRange(new object[] {
-            "NSE EOD Bhav Copy",
-            "BSE EOD Bhav Copy",
-            "NSE FnO Market Deliverables",
-            "BSE FnO Market Deliverables",
-            "NSE FNO Open Interest",
-            "BSE FNO Open Interest",
-            "NSE EOD Bhav Copy"});
             this.clbTaskList.Location = new System.Drawing.Point(8, 34);
             this.clbTaskList.MultiColumn = true;
             this.clbTaskList.Name = "clbTaskList";

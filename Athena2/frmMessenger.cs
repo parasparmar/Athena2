@@ -30,6 +30,13 @@ namespace Athena
             progressBarTask1.Value = 0;
             btnDownload.Enabled = false;
 
+            populateTaskList();
+        }
+
+        private void populateTaskList()
+        {
+            var items = db.DownloadTasks.ToArray();
+            clbTaskList.Items.AddRange(items.Select(a => a.Name).ToArray());
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -77,9 +84,22 @@ namespace Athena
         private void clbTaskList_SelectedIndexChanged(object sender, EventArgs e)
         {
             TaskName = clbTaskList.SelectedItem.ToString();
-            tbTaskName.Text = TaskName;
-            tbTaskName_TextChanged(this, new EventArgs { });
+            DownloadTask d = db.DownloadTasks.SingleOrDefault(g => g.Name.ToLower().Trim().Contains(TaskName.ToLower().Trim()));
+            populateSelectedTask(d);
             progressBarTask1.Value = 0;
+        }
+
+        private void populateSelectedTask(DownloadTask d)
+        {
+
+            if (d != null)
+            {
+                tbTaskName.Text = d.Name;
+                tbSourceUrl.Text = d.Link.SourceURL;
+                tbUrlFormat.Text = d.Link.FormattedURL;
+                tbpDownload.Text = d.Link.Destination;
+                tbTaskName_TextChanged(this, new EventArgs { });
+            }
         }
 
         private void btnSelectAll_Click(object sender, EventArgs e)
@@ -173,7 +193,7 @@ namespace Athena
             //var document = await context.OpenAsync(req => req.Content(source) );
             var document = await context.OpenAsync(req => req.Content(source));
             tbTaskName.Text = document.DocumentElement.QuerySelector("a").Text().ToString();
-            
+
 
 
             //Serialize it back to the console
