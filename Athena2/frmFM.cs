@@ -91,7 +91,7 @@ namespace Athena
             var d = db.DownloadTasks
                 .Include(a => a.Link)
                 .SingleOrDefault(g => g.Name.ToLower().Trim().Contains(TaskName.ToLower().Trim()));
-            
+
             if (d != null)
             {
                 tbTaskName.Text = d.Name;
@@ -210,6 +210,58 @@ namespace Athena
 
         private void btnAddTask_Click(object sender, EventArgs e)
         {
+            var TaskName = tbTaskName.Text.Trim();
+            var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).Where(a => a.Name.Trim().ToLower().Equals(TaskName.ToLower()));
+            int count = records.Count();
+            if (count > 0)
+            {
+                //Modify this record.
+                //MessageBox.Show("Duplicate records observed. Please change the name of at least one task.");
+                DownloadTask record = records.FirstOrDefault();
+                record.Name = TaskName;
+                record.Link.SourceURL = tbSourceUrl.Text.Trim();
+                record.Link.FormattedURL = tbUrlFormat.Text.Trim();
+                record.Link.Destination = tbSaveFolderPath.Text.Trim();
+                db.SaveChanges();
+            }
+            else
+            {
+                //Add a new record with this TaskName.
+                Link l = new Link
+                {
+                    Name = $"{TaskName} Link",
+                    SourceURL = tbSourceUrl.Text.ToLower().Trim(),
+                    FormattedURL = tbUrlFormat.Text.Trim(),
+                    Destination = tbSaveFolderPath.Text.Trim(),
+                    DestinationFormat = tbSaveFolderPath.Text.Trim()
+                };
+                db.Links.Add(l);
+                Exchange exchange = new Exchange();
+                if (l.SourceURL.ToLower().Contains("nseindia"))
+                {
+                    exchange = db.Exchanges.SingleOrDefault(x => x.Name == "NSE");
+                }
+                else if (l.SourceURL.ToLower().Contains("bseindia"))
+                {
+                    exchange = db.Exchanges.SingleOrDefault(x => x.Name == "BSE");
+                }
+                else
+                {
+                    exchange = new Exchange { Name = l.SourceURL };
+                    db.Exchanges.Add(exchange);
+                    db.SaveChanges();
+                }
+                db.SaveChanges();
+                DownloadTask dt = new DownloadTask
+                {
+                    Name = TaskName,
+                    LinkId = l.Id,
+                    ExchangeId = exchange.Id
+                };
+                db.DownloadTasks.Add(dt);
+                db.SaveChanges();
+            }
+            populateTaskList();
 
         }
 
@@ -233,6 +285,11 @@ namespace Athena
                 e.Effect = DragDropEffects.None;
                 MessageBox.Show("Invalid type for drag and drop.");
             }
+        }
+
+        private void btnRemoveThisTaskfromTaskList_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
