@@ -57,9 +57,11 @@
             this.saveToFile = new System.Windows.Forms.SaveFileDialog();
             this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.btnRemoveThisTaskfromTaskList = new System.Windows.Forms.Button();
+            this.nmTaskId = new System.Windows.Forms.NumericUpDown();
             this.tab.SuspendLayout();
             this.tbpDownload.SuspendLayout();
             this.groupBoxTask1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nmTaskId)).BeginInit();
             this.SuspendLayout();
             // 
             // btnDownload
@@ -189,6 +191,7 @@
             // 
             // groupBoxTask1
             // 
+            this.groupBoxTask1.Controls.Add(this.nmTaskId);
             this.groupBoxTask1.Controls.Add(this.btnRemoveThisTaskfromTaskList);
             this.groupBoxTask1.Controls.Add(this.btnAddTask);
             this.groupBoxTask1.Controls.Add(this.tbTaskName);
@@ -264,10 +267,10 @@
             // 
             // tbSaveFolderPath
             // 
-            this.tbSaveFolderPath.Location = new System.Drawing.Point(117, 131);
+            this.tbSaveFolderPath.Location = new System.Drawing.Point(118, 131);
             this.tbSaveFolderPath.Name = "tbSaveFolderPath";
             this.tbSaveFolderPath.ReadOnly = true;
-            this.tbSaveFolderPath.Size = new System.Drawing.Size(261, 20);
+            this.tbSaveFolderPath.Size = new System.Drawing.Size(260, 20);
             this.tbSaveFolderPath.TabIndex = 3;
             this.tbSaveFolderPath.TextChanged += new System.EventHandler(this.tbSaveFolderPath_TextChanged);
             // 
@@ -335,6 +338,14 @@
             this.btnRemoveThisTaskfromTaskList.UseVisualStyleBackColor = true;
             this.btnRemoveThisTaskfromTaskList.Click += new System.EventHandler(this.btnRemoveThisTaskfromTaskList_Click);
             // 
+            // nmTaskId
+            // 
+            this.nmTaskId.Location = new System.Drawing.Point(118, 25);
+            this.nmTaskId.Name = "nmTaskId";
+            this.nmTaskId.ReadOnly = true;
+            this.nmTaskId.Size = new System.Drawing.Size(149, 20);
+            this.nmTaskId.TabIndex = 9;
+            // 
             // frmFM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -351,6 +362,7 @@
             this.tbpDownload.PerformLayout();
             this.groupBoxTask1.ResumeLayout(false);
             this.groupBoxTask1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nmTaskId)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -386,5 +398,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnManualTokens;
         private System.Windows.Forms.Button btnRemoveThisTaskfromTaskList;
+        private System.Windows.Forms.NumericUpDown nmTaskId;
     }
 }

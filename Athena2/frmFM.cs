@@ -39,6 +39,7 @@ namespace Athena
 
         private void populateTaskList()
         {
+            clbTaskList.Items.Clear();
             var items = db.DownloadTasks.ToArray();
             clbTaskList.Items.AddRange(items.Select(a => a.Name).ToArray());
         }
@@ -94,6 +95,7 @@ namespace Athena
 
             if (d != null)
             {
+                nmTaskId.Text = d.Id.ToString();
                 tbTaskName.Text = d.Name;
                 tbSourceUrl.Text = d.Link.SourceURL;
                 tbUrlFormat.Text = d.Link.FormattedURL;
@@ -210,19 +212,22 @@ namespace Athena
 
         private void btnAddTask_Click(object sender, EventArgs e)
         {
+            bool isExistingTask = Int32.TryParse(nmTaskId.Text,out int TaskId);
             var TaskName = tbTaskName.Text.Trim();
-            var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).Where(a => a.Name.Trim().ToLower().Equals(TaskName.ToLower()));
-            int count = records.Count();
-            if (count > 0)
+            if (isExistingTask)
             {
+                var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).Where(a => a.Id==TaskId);
+                int count = records.Count();
                 //Modify this record.
-                //MessageBox.Show("Duplicate records observed. Please change the name of at least one task.");
-                DownloadTask record = records.FirstOrDefault();
-                record.Name = TaskName;
-                record.Link.SourceURL = tbSourceUrl.Text.Trim();
-                record.Link.FormattedURL = tbUrlFormat.Text.Trim();
-                record.Link.Destination = tbSaveFolderPath.Text.Trim();
-                db.SaveChanges();
+                if (count > 0)
+                {
+                    DownloadTask record = records.FirstOrDefault();
+                    record.Name = TaskName;
+                    record.Link.SourceURL = tbSourceUrl.Text.Trim();
+                    record.Link.FormattedURL = tbUrlFormat.Text.Trim();
+                    record.Link.Destination = tbSaveFolderPath.Text.Trim();
+                    db.SaveChanges();
+                }
             }
             else
             {
@@ -261,6 +266,7 @@ namespace Athena
                 db.DownloadTasks.Add(dt);
                 db.SaveChanges();
             }
+            
             populateTaskList();
 
         }
@@ -270,6 +276,7 @@ namespace Athena
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
                 e.Effect = DragDropEffects.Copy;
+                nmTaskId.Text = string.Empty;
                 var a = e.Data.GetData(DataFormats.Text).ToString();
                 tbSourceUrl.Text = a;
                 tbUrlFormat.Text = URLParser.Tokenize(new Uri(a));
