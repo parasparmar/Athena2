@@ -55,75 +55,6 @@ namespace Athena.Services
                 return false;
             }
         }
-
-        public bool DownloadTaskList(ref List<FileDownloads> TaskList)
-        {
-            string DownloadLocation;
-            //---------- This is the Synchronous downloader.Everything we do leads upto this.
-            foreach (var Task in TaskList)
-            {
-                //To Do : Task.Local_FileName is only the file name and not yet concatenated with fbdDownloadLocation.SelectedPath. 24 - 01 - 2016 13.27
-                DownloadLocation = LocalBasePathToDownload + "\\" + Task.DownloadFolder;
-                DownloadAgent(Task);
-
-            }
-            //TODO: This block is entered into when the file has been downloaded and deflated. Now Increment Progress of file download
-            //tsStatusText.Text = "Downloaded : " & i & "of " & UBound(My2dMapOfDateURLRemoteLocalFiles, 1)
-            //TODO: Gracefully Handle the file download failure here.
-            //--------End of the Synchronous downloader region.
-            return true;
-        }
-
-        private bool DownloadAgent(FileDownloads CurrentTask)
-        {
-            //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
-            try
-            {
-                HttpWebRequest request;
-                HttpWebResponse response;
-
-                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.SourceURL);
-
-                //IWebProxy proxy = request.Proxy;
-                //if (proxy != null)
-                //{
-                //    string proxyuri = proxy.GetProxy(request.RequestUri).ToString();
-                //    request.UseDefaultCredentials = true;
-                //    request.Proxy = new WebProxy(proxyuri, false);
-                //    request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-                //}
-
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
-                request.Accept = "text/html, application/xhtml+xml, */*";
-                ////.Connection = "Keep-Alive";
-                request.Headers.Add("Accept-Language", "en-IN");
-                request.Headers.Add("Accept-Encoding", "gzip, deflate");
-                request.Headers.Add("DNT", "1");
-                request.CookieContainer = cookieJar;
-
-                response = (HttpWebResponse)request.GetResponse();
-                //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
-                //// Returns true if successful and false if not.
-                if (DownloadedZipExtractor(response, CurrentTask))
-                {
-                    //// Tidy up the HTTPWebResponse
-                    response.Close();
-                    return true;
-                }
-                else
-                {
-                    //// Tidy up the HTTPWebResponse
-                    response.Close();
-                    return false;
-                }
-            }
-            catch (Exception Ex)
-            {
-                Console.Write(Ex.Message.ToString());
-                return false;
-            }
-        }
-
         public bool DownloadedZipExtractor(HttpWebResponse response, FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.
@@ -173,7 +104,95 @@ namespace Athena.Services
                 return false;
             }
         }
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public bool DownloadTaskList(ref List<FileDownloads> TaskList)
+        {
+            string DownloadLocation;
+            //---------- This is the Synchronous downloader.Everything we do leads upto this.
+            foreach (var Task in TaskList)
+            {
+                //To Do : Task.Local_FileName is only the file name and not yet concatenated with fbdDownloadLocation.SelectedPath. 24 - 01 - 2016 13.27
+                DownloadLocation = LocalBasePathToDownload + "\\" + Task.DownloadFolder;
+                DownloadAgent(Task);
+
+            }
+            //TODO: This block is entered into when the file has been downloaded and deflated. Now Increment Progress of file download
+            //tsStatusText.Text = "Downloaded : " & i & "of " & UBound(My2dMapOfDateURLRemoteLocalFiles, 1)
+            //TODO: Gracefully Handle the file download failure here.
+            //--------End of the Synchronous downloader region.
+            return true;
+        }
+        private bool DownloadAgent(FileDownloads CurrentTask)
+        {
+            //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
+            try
+            {
+                HttpWebRequest request;
+                HttpWebResponse response;
+
+                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.SourceURL);
+
+                //IWebProxy proxy = request.Proxy;
+                //if (proxy != null)
+                //{
+                //    string proxyuri = proxy.GetProxy(request.RequestUri).ToString();
+                //    request.UseDefaultCredentials = true;
+                //    request.Proxy = new WebProxy(proxyuri, false);
+                //    request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+                //}
+
+                request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
+                request.Accept = "text/html, application/xhtml+xml, */*";
+                ////.Connection = "Keep-Alive";
+                request.Headers.Add("Accept-Language", "en-IN");
+                request.Headers.Add("Accept-Encoding", "gzip, deflate");
+                request.Headers.Add("DNT", "1");
+                request.CookieContainer = cookieJar;
+
+                response = (HttpWebResponse)request.GetResponse();
+                //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
+                //// Returns true if successful and false if not.
+                if (DownloadedZipExtractor(response, CurrentTask))
+                {
+                    //// Tidy up the HTTPWebResponse
+                    response.Close();
+                    return true;
+                }
+                else
+                {
+                    //// Tidy up the HTTPWebResponse
+                    response.Close();
+                    return false;
+                }
+            }
+            catch (Exception Ex)
+            {
+                Console.Write(Ex.Message.ToString());
+                return false;
+            }
+        }        
         private bool DownloadWriterExtra(ref HttpWebResponse response, ref FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.

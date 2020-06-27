@@ -43,8 +43,6 @@ namespace Athena
             PopulateTaskList(tasks);
         }
 
-
-
         private void PopulateTaskList(List<MyDownloadTask> tasks)
         {
             if (tasks != null)
@@ -78,7 +76,7 @@ namespace Athena
             MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
             Downloader d = new Downloader();
             var selectedtasks = tasks.Where(b => b.Selected == true).ToList();
-            int count = selectedtasks.Count();
+            int count = selectedtasks.Count;
             for (int i = 0; i < count; i++)
             {
 
@@ -194,7 +192,6 @@ namespace Athena
                 MessageBox.Show("Invalid type for drag and drop.");
             }
         }
-
 
         private string TestOfDragDropFormats(DragEventArgs e)
         {

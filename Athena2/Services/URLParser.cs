@@ -14,7 +14,6 @@ namespace Athena.Services
 {
     class URLParser
     {
-
         private static string[] DateFormats = new string[] { "ddMMyy", "ddMMyyyy", "ddMMMyy", "ddMMMyyyy", "MMMddyyyy", "MMddyyyy", "yyyyMMMdd", "yyyyMMdd", "yyMMMdd", "yyMMMdd" };
         public static string Tokenize(Uri sourceUrl)
         {
@@ -34,7 +33,6 @@ namespace Athena.Services
             }
             return s;
         }
-
         public static string Tokenize(string sourceUrl)
         {
             var sourceurl = new Uri(sourceUrl);
@@ -105,6 +103,5 @@ namespace Athena.Services
             Regex reg = new Regex(@"((?:(?:0?[469]|11)(?:0?[1-9]|[12]\d|30)|(?:0?[13578]|1[02])(?:0?[1-9]|[12]\d|3[01])|0?2(?:0?[1-9]|1\d|2[0-8]))(?:[_\/.\- ]?)(?:\d{4}|\d{2})(?:[_\/.\- ]?)(?:\d{4}|\d{2})|0?2?29?(?:[1-9]\d)?(?:[02468][048]|[13579][26]))", RegexOptions.ECMAScript);
             return reg;
         }
-
     }
 }
