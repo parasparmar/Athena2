@@ -13,10 +13,12 @@ using AngleSharp;
 using AngleSharp.Dom;
 using Athena.Services;
 using Athena.Models;
+using Athena.ViewModels;
 using System.Globalization;
 using System.Data.SQLite.EF6;
 using System.Data.SQLite.Linq;
 using System.Data.Entity;
+using System.Drawing.Text;
 
 namespace Athena
 {
@@ -25,6 +27,8 @@ namespace Athena
         private string saveFolderPath = string.Empty;
         private string TaskName = string.Empty;
         private string[] stringSeparators = new string[] { "\r\n" };
+        private List<MyDownloadTask> tasks = new List<MyDownloadTask>();
+
         Helper db = new Helper();
         public frmFM()
         {
@@ -34,20 +38,26 @@ namespace Athena
             progressBarTask1.Value = 0;
             btnDownload.Enabled = false;
 
-            populateTaskList();
+            tasks = FMViewModel.GetTaskList();
+            PopulateTaskList(tasks);
         }
 
-        private void populateTaskList()
+
+
+        private void PopulateTaskList(List<MyDownloadTask> tasks)
         {
-            clbTaskList.Items.Clear();
-            var items = db.DownloadTasks.ToArray();
-            clbTaskList.Items.AddRange(items.Select(a => a.Name).ToArray());
+            if (tasks != null)
+            {
+                clbTaskList.Items.Clear();
+                clbTaskList.Items.AddRange(tasks.Select(a => a.TaskName).ToArray());
+            }
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            DialogResult d = saveToFile.ShowDialog();
-            saveFolderPath = saveToFile.FileName;
+            DialogResult d = fbDownloadLocation.ShowDialog();
+            fbDownloadLocation.ShowNewFolderButton = true;
+            saveFolderPath = fbDownloadLocation.SelectedPath;
             tbSaveFolderPath.Text = saveFolderPath;
         }
 
@@ -59,7 +69,9 @@ namespace Athena
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
+
             MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
+
             var url = new Uri(tbSourceUrl.Text);
             Downloader d = new Downloader();
             var myPath = url.AbsolutePath.Split('/');
@@ -89,16 +101,15 @@ namespace Athena
         private void clbTaskList_SelectedIndexChanged(object sender, EventArgs e)
         {
             TaskName = clbTaskList.SelectedItem.ToString();
-            var d = db.DownloadTasks
-                .Include(a => a.Link)
-                .SingleOrDefault(g => g.Name.ToLower().Trim().Contains(TaskName.ToLower().Trim()));
+            var d = tasks.SingleOrDefault(a => a.TaskName == TaskName);
 
             if (d != null)
             {
-                nmTaskId.Text = d.Id.ToString();
-                tbTaskName.Text = d.Name;
-                tbSourceUrl.Text = d.Link.SourceURL;
-                tbUrlFormat.Text = d.Link.FormattedURL;
+                nmTaskId.Value = d.TaskId;
+                tbTaskName.Text = d.TaskName;
+                tbSourceUrl.Text = d.SourceUrl;
+                tbUrlFormat.Text = d.UrlFormat;
+                tbTaskStatus.Text = d.TaskProgress;
                 tbTaskName_TextChanged(this, new EventArgs { });
             }
             progressBarTask1.Value = 0;
@@ -109,24 +120,41 @@ namespace Athena
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
+            tasks.ForEach(a => selectTask(a));
             var itemCount = clbTaskList.Items.Count;
             for (int i = 0; i < itemCount; i++)
             {
                 clbTaskList.SetItemCheckState(i, CheckState.Checked);
             }
+
+        }
+        private void selectTask(MyDownloadTask s)
+        {
+            s.Selected = true;
+        }
+        private void unSelectTask(MyDownloadTask s)
+        {
+            s.Selected = false;
         }
 
+        private void toggleSelectionOfTask(MyDownloadTask s)
+        {
+            s.Selected = s.Selected ? false : true;
+        }
         private void btnSelectNone_Click(object sender, EventArgs e)
         {
+            tasks.ForEach(a => unSelectTask(a));
             var itemCount = clbTaskList.Items.Count;
             for (int i = 0; i < itemCount; i++)
             {
                 clbTaskList.SetItemCheckState(i, CheckState.Unchecked);
             }
+
         }
 
         private void btnSelectInvert_Click(object sender, EventArgs e)
         {
+            tasks.ForEach(a => toggleSelectionOfTask(a));
             var itemCount = clbTaskList.Items.Count;
             for (int i = 0; i < itemCount; i++)
             {
@@ -139,6 +167,7 @@ namespace Athena
                     clbTaskList.SetItemCheckState(i, CheckState.Checked);
                 }
             }
+
         }
 
         private void clbTaskList_DragEnter(object sender, DragEventArgs e)
@@ -166,12 +195,8 @@ namespace Athena
 
         private string TestOfDragDropFormats(DragEventArgs e)
         {
-
             Array data = ((IDataObject)e.Data).GetFormats() as Array;
-
             StringBuilder sb = new StringBuilder();
-
-
             foreach (var item in data)
             {
                 string dataFormat = item.ToString();
@@ -199,8 +224,6 @@ namespace Athena
             var document = await context.OpenAsync(req => req.Content(source));
             tbTaskName.Text = document.DocumentElement.QuerySelector("a").Text().ToString();
 
-
-
             //Serialize it back to the console
             Console.WriteLine(document.DocumentElement.OuterHtml);
         }
@@ -212,62 +235,21 @@ namespace Athena
 
         private void btnAddTask_Click(object sender, EventArgs e)
         {
-            bool isExistingTask = Int32.TryParse(nmTaskId.Text,out int TaskId);
+
+            bool isExistingTask = Int32.TryParse(nmTaskId.Text, out int TaskId);
             var TaskName = tbTaskName.Text.Trim();
-            if (isExistingTask)
+
+            var myTask = new MyDownloadTask
             {
-                var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).Where(a => a.Id==TaskId);
-                int count = records.Count();
-                //Modify this record.
-                if (count > 0)
-                {
-                    DownloadTask record = records.FirstOrDefault();
-                    record.Name = TaskName;
-                    record.Link.SourceURL = tbSourceUrl.Text.Trim();
-                    record.Link.FormattedURL = tbUrlFormat.Text.Trim();
-                    record.Link.Destination = tbSaveFolderPath.Text.Trim();
-                    db.SaveChanges();
-                }
-            }
-            else
-            {
-                //Add a new record with this TaskName.
-                Link l = new Link
-                {
-                    Name = $"{TaskName} Link",
-                    SourceURL = tbSourceUrl.Text.ToLower().Trim(),
-                    FormattedURL = tbUrlFormat.Text.Trim(),
-                    Destination = tbSaveFolderPath.Text.Trim(),
-                    DestinationFormat = tbSaveFolderPath.Text.Trim()
-                };
-                db.Links.Add(l);
-                Exchange exchange = new Exchange();
-                if (l.SourceURL.ToLower().Contains("nseindia"))
-                {
-                    exchange = db.Exchanges.SingleOrDefault(x => x.Name == "NSE");
-                }
-                else if (l.SourceURL.ToLower().Contains("bseindia"))
-                {
-                    exchange = db.Exchanges.SingleOrDefault(x => x.Name == "BSE");
-                }
-                else
-                {
-                    exchange = new Exchange { Name = l.SourceURL };
-                    db.Exchanges.Add(exchange);
-                    db.SaveChanges();
-                }
-                db.SaveChanges();
-                DownloadTask dt = new DownloadTask
-                {
-                    Name = TaskName,
-                    LinkId = l.Id,
-                    ExchangeId = exchange.Id
-                };
-                db.DownloadTasks.Add(dt);
-                db.SaveChanges();
-            }
-            
-            populateTaskList();
+                TaskId = (int)nmTaskId.Value,
+                TaskName = TaskName,
+                SourceUrl = tbSourceUrl.Text.Trim(),
+                UrlFormat = tbUrlFormat.Text.Trim(),
+                DownloadLocation = tbSaveFolderPath.Text.Trim(),
+                Selected = true
+            };
+            tasks = FMViewModel.AddOrUpdateTasks(myTask);
+            PopulateTaskList(tasks);
 
         }
 
@@ -295,6 +277,16 @@ namespace Athena
         }
 
         private void btnRemoveThisTaskfromTaskList_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnManualTokens_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
         {
 
         }

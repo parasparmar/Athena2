@@ -175,6 +175,7 @@
     <Compile Include="Services\Extract.cs" />
     <Compile Include="Services\URLParser.cs" />
     <Compile Include="ViewModels\FMViewModel.cs" />
+    <Compile Include="ViewModels\MyDownloadTask.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

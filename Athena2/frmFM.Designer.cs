@@ -41,6 +41,8 @@
             this.btnSelectAll = new System.Windows.Forms.Button();
             this.clbTaskList = new System.Windows.Forms.CheckedListBox();
             this.groupBoxTask1 = new System.Windows.Forms.GroupBox();
+            this.nmTaskId = new System.Windows.Forms.NumericUpDown();
+            this.btnRemoveThisTaskfromTaskList = new System.Windows.Forms.Button();
             this.btnAddTask = new System.Windows.Forms.Button();
             this.tbTaskName = new System.Windows.Forms.TextBox();
             this.btnManualTokens = new System.Windows.Forms.Button();
@@ -52,12 +54,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.tbpConvert = new System.Windows.Forms.TabPage();
+            this.tbpSettings = new System.Windows.Forms.TabPage();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.saveToFile = new System.Windows.Forms.SaveFileDialog();
-            this.folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnRemoveThisTaskfromTaskList = new System.Windows.Forms.Button();
-            this.nmTaskId = new System.Windows.Forms.NumericUpDown();
+            this.fbDownloadLocation = new System.Windows.Forms.FolderBrowserDialog();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbTaskStatus = new System.Windows.Forms.TextBox();
             this.tab.SuspendLayout();
             this.tbpDownload.SuspendLayout();
             this.groupBoxTask1.SuspendLayout();
@@ -66,10 +68,10 @@
             // 
             // btnDownload
             // 
-            this.btnDownload.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDownload.Location = new System.Drawing.Point(829, 275);
+            this.btnDownload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.btnDownload.Location = new System.Drawing.Point(649, 6);
             this.btnDownload.Name = "btnDownload";
-            this.btnDownload.Size = new System.Drawing.Size(121, 37);
+            this.btnDownload.Size = new System.Drawing.Size(310, 23);
             this.btnDownload.TabIndex = 0;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = true;
@@ -77,15 +79,15 @@
             // 
             // tbSourceUrl
             // 
-            this.tbSourceUrl.Location = new System.Drawing.Point(118, 77);
+            this.tbSourceUrl.Location = new System.Drawing.Point(118, 106);
             this.tbSourceUrl.Name = "tbSourceUrl";
-            this.tbSourceUrl.Size = new System.Drawing.Size(260, 20);
+            this.tbSourceUrl.Size = new System.Drawing.Size(396, 20);
             this.tbSourceUrl.TabIndex = 2;
             // 
             // tab
             // 
             this.tab.Controls.Add(this.tbpDownload);
-            this.tab.Controls.Add(this.tbpConvert);
+            this.tab.Controls.Add(this.tbpSettings);
             this.tab.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tab.Location = new System.Drawing.Point(0, 0);
             this.tab.Name = "tab";
@@ -98,13 +100,11 @@
             this.tbpDownload.AutoScroll = true;
             this.tbpDownload.Controls.Add(this.btnReset);
             this.tbpDownload.Controls.Add(this.btnRemoveTask);
-            this.tbpDownload.Controls.Add(this.progressBarTask1);
             this.tbpDownload.Controls.Add(this.btnSelectInvert);
             this.tbpDownload.Controls.Add(this.btnSelectNone);
             this.tbpDownload.Controls.Add(this.btnSelectAll);
             this.tbpDownload.Controls.Add(this.clbTaskList);
             this.tbpDownload.Controls.Add(this.groupBoxTask1);
-            this.tbpDownload.Controls.Add(this.label4);
             this.tbpDownload.Controls.Add(this.btnDownload);
             this.tbpDownload.Location = new System.Drawing.Point(4, 22);
             this.tbpDownload.Name = "tbpDownload";
@@ -122,7 +122,7 @@
             this.btnReset.TabIndex = 9;
             this.btnReset.Text = "Reset Defaults";
             this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnRemoveTask_Click);
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnRemoveTask
             // 
@@ -136,9 +136,9 @@
             // 
             // progressBarTask1
             // 
-            this.progressBarTask1.Location = new System.Drawing.Point(552, 249);
+            this.progressBarTask1.Location = new System.Drawing.Point(118, 225);
             this.progressBarTask1.Name = "progressBarTask1";
-            this.progressBarTask1.Size = new System.Drawing.Size(398, 20);
+            this.progressBarTask1.Size = new System.Drawing.Size(261, 20);
             this.progressBarTask1.TabIndex = 7;
             // 
             // btnSelectInvert
@@ -193,12 +193,16 @@
             // 
             this.groupBoxTask1.Controls.Add(this.nmTaskId);
             this.groupBoxTask1.Controls.Add(this.btnRemoveThisTaskfromTaskList);
+            this.groupBoxTask1.Controls.Add(this.progressBarTask1);
             this.groupBoxTask1.Controls.Add(this.btnAddTask);
             this.groupBoxTask1.Controls.Add(this.tbTaskName);
             this.groupBoxTask1.Controls.Add(this.btnManualTokens);
             this.groupBoxTask1.Controls.Add(this.btnBrowse);
+            this.groupBoxTask1.Controls.Add(this.tbTaskStatus);
             this.groupBoxTask1.Controls.Add(this.tbUrlFormat);
+            this.groupBoxTask1.Controls.Add(this.label4);
             this.groupBoxTask1.Controls.Add(this.tbSourceUrl);
+            this.groupBoxTask1.Controls.Add(this.label6);
             this.groupBoxTask1.Controls.Add(this.label3);
             this.groupBoxTask1.Controls.Add(this.tbSaveFolderPath);
             this.groupBoxTask1.Controls.Add(this.label5);
@@ -206,16 +210,35 @@
             this.groupBoxTask1.Controls.Add(this.label1);
             this.groupBoxTask1.Location = new System.Drawing.Point(435, 35);
             this.groupBoxTask1.Name = "groupBoxTask1";
-            this.groupBoxTask1.Size = new System.Drawing.Size(524, 196);
+            this.groupBoxTask1.Size = new System.Drawing.Size(524, 271);
             this.groupBoxTask1.TabIndex = 7;
             this.groupBoxTask1.TabStop = false;
             this.groupBoxTask1.Text = "Task Name";
             // 
+            // nmTaskId
+            // 
+            this.nmTaskId.Enabled = false;
+            this.nmTaskId.Location = new System.Drawing.Point(118, 25);
+            this.nmTaskId.Name = "nmTaskId";
+            this.nmTaskId.ReadOnly = true;
+            this.nmTaskId.Size = new System.Drawing.Size(123, 20);
+            this.nmTaskId.TabIndex = 9;
+            // 
+            // btnRemoveThisTaskfromTaskList
+            // 
+            this.btnRemoveThisTaskfromTaskList.Location = new System.Drawing.Point(247, 77);
+            this.btnRemoveThisTaskfromTaskList.Name = "btnRemoveThisTaskfromTaskList";
+            this.btnRemoveThisTaskfromTaskList.Size = new System.Drawing.Size(131, 23);
+            this.btnRemoveThisTaskfromTaskList.TabIndex = 8;
+            this.btnRemoveThisTaskfromTaskList.Text = "Remove from Tasklist";
+            this.btnRemoveThisTaskfromTaskList.UseVisualStyleBackColor = true;
+            this.btnRemoveThisTaskfromTaskList.Click += new System.EventHandler(this.btnRemoveThisTaskfromTaskList_Click);
+            // 
             // btnAddTask
             // 
-            this.btnAddTask.Location = new System.Drawing.Point(384, 49);
+            this.btnAddTask.Location = new System.Drawing.Point(118, 77);
             this.btnAddTask.Name = "btnAddTask";
-            this.btnAddTask.Size = new System.Drawing.Size(131, 23);
+            this.btnAddTask.Size = new System.Drawing.Size(123, 23);
             this.btnAddTask.TabIndex = 8;
             this.btnAddTask.Text = "Add to Tasklist";
             this.btnAddTask.UseVisualStyleBackColor = true;
@@ -225,23 +248,23 @@
             // 
             this.tbTaskName.Location = new System.Drawing.Point(118, 51);
             this.tbTaskName.Name = "tbTaskName";
-            this.tbTaskName.Size = new System.Drawing.Size(260, 20);
+            this.tbTaskName.Size = new System.Drawing.Size(396, 20);
             this.tbTaskName.TabIndex = 2;
             this.tbTaskName.TextChanged += new System.EventHandler(this.tbTaskName_TextChanged);
             // 
             // btnManualTokens
             // 
-            this.btnManualTokens.Location = new System.Drawing.Point(384, 101);
+            this.btnManualTokens.Location = new System.Drawing.Point(383, 77);
             this.btnManualTokens.Name = "btnManualTokens";
             this.btnManualTokens.Size = new System.Drawing.Size(131, 23);
             this.btnManualTokens.TabIndex = 6;
             this.btnManualTokens.Text = "Manual Tokens";
             this.btnManualTokens.UseVisualStyleBackColor = true;
-            this.btnManualTokens.Click += new System.EventHandler(this.btnBrowse_Click);
+            this.btnManualTokens.Click += new System.EventHandler(this.btnManualTokens_Click);
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(384, 129);
+            this.btnBrowse.Location = new System.Drawing.Point(384, 169);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(131, 23);
             this.btnBrowse.TabIndex = 6;
@@ -251,9 +274,9 @@
             // 
             // tbUrlFormat
             // 
-            this.tbUrlFormat.Location = new System.Drawing.Point(118, 103);
+            this.tbUrlFormat.Location = new System.Drawing.Point(118, 133);
             this.tbUrlFormat.Name = "tbUrlFormat";
-            this.tbUrlFormat.Size = new System.Drawing.Size(260, 20);
+            this.tbUrlFormat.Size = new System.Drawing.Size(396, 20);
             this.tbUrlFormat.TabIndex = 2;
             // 
             // label3
@@ -267,7 +290,7 @@
             // 
             // tbSaveFolderPath
             // 
-            this.tbSaveFolderPath.Location = new System.Drawing.Point(118, 131);
+            this.tbSaveFolderPath.Location = new System.Drawing.Point(118, 170);
             this.tbSaveFolderPath.Name = "tbSaveFolderPath";
             this.tbSaveFolderPath.ReadOnly = true;
             this.tbSaveFolderPath.Size = new System.Drawing.Size(260, 20);
@@ -277,7 +300,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 106);
+            this.label5.Location = new System.Drawing.Point(12, 136);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 13);
             this.label5.TabIndex = 5;
@@ -286,7 +309,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 134);
+            this.label2.Location = new System.Drawing.Point(12, 173);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 5;
@@ -295,7 +318,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 80);
+            this.label1.Location = new System.Drawing.Point(12, 109);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 13);
             this.label1.TabIndex = 5;
@@ -304,21 +327,21 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(448, 253);
+            this.label4.Location = new System.Drawing.Point(13, 202);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(75, 13);
             this.label4.TabIndex = 5;
             this.label4.Text = "Task Progress";
             // 
-            // tbpConvert
+            // tbpSettings
             // 
-            this.tbpConvert.Location = new System.Drawing.Point(4, 22);
-            this.tbpConvert.Name = "tbpConvert";
-            this.tbpConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpConvert.Size = new System.Drawing.Size(967, 661);
-            this.tbpConvert.TabIndex = 1;
-            this.tbpConvert.Text = "Convert";
-            this.tbpConvert.UseVisualStyleBackColor = true;
+            this.tbpSettings.Location = new System.Drawing.Point(4, 22);
+            this.tbpSettings.Name = "tbpSettings";
+            this.tbpSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpSettings.Size = new System.Drawing.Size(967, 340);
+            this.tbpSettings.TabIndex = 1;
+            this.tbpSettings.Text = "Settings";
+            this.tbpSettings.UseVisualStyleBackColor = true;
             // 
             // statusStrip1
             // 
@@ -328,23 +351,22 @@
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // btnRemoveThisTaskfromTaskList
+            // label6
             // 
-            this.btnRemoveThisTaskfromTaskList.Location = new System.Drawing.Point(384, 75);
-            this.btnRemoveThisTaskfromTaskList.Name = "btnRemoveThisTaskfromTaskList";
-            this.btnRemoveThisTaskfromTaskList.Size = new System.Drawing.Size(131, 23);
-            this.btnRemoveThisTaskfromTaskList.TabIndex = 8;
-            this.btnRemoveThisTaskfromTaskList.Text = "Remove from Tasklist";
-            this.btnRemoveThisTaskfromTaskList.UseVisualStyleBackColor = true;
-            this.btnRemoveThisTaskfromTaskList.Click += new System.EventHandler(this.btnRemoveThisTaskfromTaskList_Click);
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 27);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Task Id";
             // 
-            // nmTaskId
+            // tbTaskStatus
             // 
-            this.nmTaskId.Location = new System.Drawing.Point(118, 25);
-            this.nmTaskId.Name = "nmTaskId";
-            this.nmTaskId.ReadOnly = true;
-            this.nmTaskId.Size = new System.Drawing.Size(149, 20);
-            this.nmTaskId.TabIndex = 9;
+            this.tbTaskStatus.Location = new System.Drawing.Point(118, 199);
+            this.tbTaskStatus.Name = "tbTaskStatus";
+            this.tbTaskStatus.ReadOnly = true;
+            this.tbTaskStatus.Size = new System.Drawing.Size(396, 20);
+            this.tbTaskStatus.TabIndex = 2;
             // 
             // frmFM
             // 
@@ -359,7 +381,6 @@
             this.Text = "Financial Markets - Data Downloader";
             this.tab.ResumeLayout(false);
             this.tbpDownload.ResumeLayout(false);
-            this.tbpDownload.PerformLayout();
             this.groupBoxTask1.ResumeLayout(false);
             this.groupBoxTask1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmTaskId)).EndInit();
@@ -374,13 +395,13 @@
         private System.Windows.Forms.TextBox tbSourceUrl;
         private System.Windows.Forms.TabControl tab;
         private System.Windows.Forms.TabPage tbpDownload;
-        private System.Windows.Forms.TabPage tbpConvert;
+        private System.Windows.Forms.TabPage tbpSettings;
         private System.Windows.Forms.TextBox tbSaveFolderPath;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.SaveFileDialog saveToFile;
-        private System.Windows.Forms.FolderBrowserDialog folderBrowser;
+        private System.Windows.Forms.FolderBrowserDialog fbDownloadLocation;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbTaskName;
@@ -399,5 +420,7 @@
         private System.Windows.Forms.Button btnManualTokens;
         private System.Windows.Forms.Button btnRemoveThisTaskfromTaskList;
         private System.Windows.Forms.NumericUpDown nmTaskId;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox tbTaskStatus;
     }
 }

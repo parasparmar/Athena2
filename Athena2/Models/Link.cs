@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Athena.Models
@@ -15,7 +16,7 @@ namespace Athena.Models
         public string FormattedURL { get; set; }
         public string Destination { get; set; }
         public string DestinationFormat { get; set; }
-        
-        
+
+        public virtual IList<Download> Download { get; set; }
     }
 }
