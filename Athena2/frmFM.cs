@@ -19,6 +19,7 @@ using System.Data.SQLite.EF6;
 using System.Data.SQLite.Linq;
 using System.Data.Entity;
 using System.Drawing.Text;
+using System.Web;
 
 namespace Athena
 {
@@ -102,10 +103,12 @@ namespace Athena
         {
             TaskName = clbTaskList.SelectedItem.ToString();
             var d = tasks.SingleOrDefault(a => a.TaskName == TaskName);
-            var destinationFormat = URLParser.getDestinationFileName(d.SourceUrl, d.DownloadLocation);
-            var s = new Uri(destinationFormat).Segments;
-            var DestinationfileFormat = s[s.Length - 1];
-            DestinationfileFormat = URLParser.Tokenize(DestinationfileFormat);
+            var destinationFormat = URLParser.Tokenize(d.SourceUrl);
+            Uri destFormat = new Uri(destinationFormat);
+            var f = destFormat.Segments;
+            var fileFormat = HttpUtility.UrlDecode(f[f.Length - 1]);
+            
+
             if (d != null)
             {
                 nmTaskId.Value = d.TaskId;
@@ -114,7 +117,7 @@ namespace Athena
                 tbUrlFormat.Text = d.UrlFormat;
                 tbTaskStatus.Text = d.TaskProgress;
                 tbSaveFolderPath.Text = d.DownloadLocation;
-                tbDestinationFormat.Text = DestinationfileFormat; 
+                tbDestinationFormat.Text = fileFormat;
                 tbTaskName_TextChanged(this, new EventArgs { });
             }
             progressBarTask1.Value = 0;

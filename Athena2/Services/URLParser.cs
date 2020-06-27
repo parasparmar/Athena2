@@ -8,6 +8,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Athena.Services
 {
@@ -62,6 +63,7 @@ namespace Athena.Services
         {
             Uri a = new Uri(sourceUrl);
             var fileName = a.Segments[a.Segments.Length - 1];
+            fileName = HttpUtility.UrlDecode(fileName);
             DirectoryInfo d = new DirectoryInfo(destinationFolder);
             var combinedPath = string.Empty;
             if (d.Exists)
