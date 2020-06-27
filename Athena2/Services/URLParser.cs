@@ -38,7 +38,14 @@ namespace Athena.Services
         {
             Uri a = new Uri(sourceUrl);
             var fileName = a.Segments[a.Segments.Length - 1];
-            return destinationFolder + Path.DirectorySeparatorChar + fileName;
+            DirectoryInfo d = new DirectoryInfo(destinationFolder);
+            var combinedPath = string.Empty;
+            if (d.Exists)
+            {
+                combinedPath = Path.Combine(new string[] { destinationFolder, fileName });
+            }
+
+            return combinedPath;
         }
 
         /// <summary>
