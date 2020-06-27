@@ -318,7 +318,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(109, 13);
             this.label1.TabIndex = 68;
-            this.label1.Text = "Destination Locations";
+            this.label1.Text = "DownloadFolder Locations";
             // 
             // label3
             // 

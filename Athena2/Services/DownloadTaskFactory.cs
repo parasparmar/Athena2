@@ -25,15 +25,15 @@ namespace Athena.Services
             ServerURI_WFileName = "http://www.nseindia.com/content/historical/EQUITIES/" + individual_Day.Year.ToString() + "/" + individual_Day.ToString("MMM").ToUpper() + "/" + ServerFile_NameOnly;
             // 0. onDate = The date component of the associated downloaded file.
             currentTask.Date = individual_Day.Date;
-            // 1. URIWithFileName = The complete download path and file name
-            currentTask.URIWithFileName = ServerURI_WFileName;
+            // 1. SourceURL = The complete download path and file name
+            currentTask.SourceURL = ServerURI_WFileName;
             // 2. FileNameOnServer = Only the file name of the downloaded file. It will be concatenated with fbdDownloadLocation.SelectedPath to acheive the 
             // full path and file name of the local file.
             currentTask.FileNameOnServer = ServerFile_NameOnly;
             // 3. LocalFile_NameOnly = The eventually Deflated(unzipped) file name.
             currentTask.FileNameAfterUnZip = individual_Day.ToString("yyyyMMdd") + ".csv";
             // 4. MarketFolder = The individual path to which each Market's file should be downloaded to.
-            currentTask.Destination = market;
+            currentTask.DownloadFolder = market;
             return currentTask;
         }
 
@@ -186,7 +186,7 @@ namespace Athena.Services
 
 
                     //FileNameOnServer = "NAVHistoryReport" + individual_Day.ToString("ddmmyy") + ".txt";
-                    //URIWithFileName = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf=9+frmdt=" + individual_Day.ToString("dd-MMM-YYYY") + "+todt=" + individual_Day.ToString("dd-MMM-YYYY");
+                    //SourceURL = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf=9+frmdt=" + individual_Day.ToString("dd-MMM-YYYY") + "+todt=" + individual_Day.ToString("dd-MMM-YYYY");
 
                     break;
                 default:

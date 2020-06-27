@@ -54,7 +54,7 @@ namespace Athena
         {
             // Objective: btnDownload_Click event handling needs to take as input GUI decisions and 
             // download the same to the destination path.
-            // Input : Download Destination, From and To Dates
+            // Input : Download DownloadFolder, From and To Dates
             // Parameters : 
             // Output : ArrayList of Dates - strongly typed.
             // Status : Production

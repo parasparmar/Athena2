@@ -51,6 +51,10 @@ namespace Athena
                 clbTaskList.Items.Clear();
                 clbTaskList.Items.AddRange(tasks.Select(a => a.TaskName).ToArray());
             }
+            else
+            {
+                clbTaskList.Items.Clear();
+            }
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -76,14 +80,15 @@ namespace Athena
             int count = selectedtasks.Count();
             for (int i = 0; i < count; i++)
             {
+
                 d.File(new Models.FileDownloads
                 {
                     SourceURL = selectedtasks[i].SourceUrl,
-                    Destination = selectedtasks[i].DownloadLocation,
+                    DownloadFolder = selectedtasks[i].DownloadLocation,
                     FileNameAfterUnZip = URLParser.getDestinationFileName(selectedtasks[i].SourceUrl, selectedtasks[i].DownloadLocation),
-                    URIWithFileName = selectedtasks[i].SourceUrl
+                    
                 });
-                progressBarTask1.Value = (i / count) * 100;
+                progressBarTask1.Value = (int)((i / count) * 100);
             }
 
         }
@@ -110,10 +115,6 @@ namespace Athena
             }
             progressBarTask1.Value = 0;
         }
-
-
-
-
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
             tasks.ForEach(a => selectTask(a));
@@ -231,14 +232,10 @@ namespace Athena
 
         private void btnAddTask_Click(object sender, EventArgs e)
         {
-
-            bool isExistingTask = Int32.TryParse(nmTaskId.Text, out int TaskId);
-            var TaskName = tbTaskName.Text.Trim();
-
             var myTask = new MyDownloadTask
             {
                 TaskId = (int)nmTaskId.Value,
-                TaskName = TaskName,
+                TaskName = tbTaskName.Text.Trim(),
                 SourceUrl = tbSourceUrl.Text.Trim(),
                 UrlFormat = tbUrlFormat.Text.Trim(),
                 DownloadLocation = tbSaveFolderPath.Text.Trim(),
@@ -246,7 +243,6 @@ namespace Athena
             };
             tasks = FMViewModel.AddOrUpdateTasks(myTask);
             PopulateTaskList(tasks);
-
         }
 
         private void clbTaskList_DragDrop(object sender, DragEventArgs e)
@@ -274,7 +270,13 @@ namespace Athena
 
         private void btnRemoveThisTaskfromTaskList_Click(object sender, EventArgs e)
         {
-
+            var taskId = (int)nmTaskId.Value;
+            if (taskId > 0)
+            {
+                var a = FMViewModel.GetMyDownloadTaskById(taskId);
+                tasks = FMViewModel.RemoveTasks(a);
+                PopulateTaskList(tasks);
+            }
         }
 
         private void btnManualTokens_Click(object sender, EventArgs e)
@@ -284,6 +286,9 @@ namespace Athena
 
         private void btnReset_Click(object sender, EventArgs e)
         {
+            tasks = FMViewModel.GetTaskList();
+            PopulateTaskList(tasks);
+
 
         }
 

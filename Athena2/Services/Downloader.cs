@@ -24,7 +24,7 @@ namespace Athena.Services
                 HttpWebRequest request;
                 HttpWebResponse response;
 
-                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.URIWithFileName);
+                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.SourceURL);
                 request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
                 request.Accept = "text/html, application/xhtml+xml, */*";
                 ////.Connection = "Keep-Alive";
@@ -63,7 +63,7 @@ namespace Athena.Services
             foreach (var Task in TaskList)
             {
                 //To Do : Task.Local_FileName is only the file name and not yet concatenated with fbdDownloadLocation.SelectedPath. 24 - 01 - 2016 13.27
-                DownloadLocation = LocalBasePathToDownload + "\\" + Task.Destination;
+                DownloadLocation = LocalBasePathToDownload + "\\" + Task.DownloadFolder;
                 DownloadAgent(Task);
 
             }
@@ -82,7 +82,7 @@ namespace Athena.Services
                 HttpWebRequest request;
                 HttpWebResponse response;
 
-                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.URIWithFileName);
+                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.SourceURL);
 
                 //IWebProxy proxy = request.Proxy;
                 //if (proxy != null)
@@ -150,12 +150,6 @@ namespace Athena.Services
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
                     res = Extract.ZipExtracttoFile(memStream, currentTask.FileNameAfterUnZip);
-
-
-                    //string WhatIDownloaded = $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}{Path.DirectorySeparatorChar}{res}";
-                    //WhatIDownloaded = WhatIDownloaded.Replace(".zip", "");
-                    //string WhatToRenameTo = $"{LocalBasePathToDownload}{Path.DirectorySeparatorChar}{currentTask.Destination}{Path.DirectorySeparatorChar}{currentTask.FileNameAfterUnZip}";
-
                     try
                     {
                         if (!System.IO.File.Exists(currentTask.FileNameAfterUnZip))
@@ -164,25 +158,6 @@ namespace Athena.Services
                             // but the handle is not kept.
                             using (FileStream fs = System.IO.File.Create(currentTask.FileNameAfterUnZip)) { }
                         }
-
-                        //// Ensure that the target does not exist.
-                        //if (System.IO.File.Exists(WhatToRenameTo))
-                        //    System.IO.File.Delete(WhatToRenameTo);
-
-                        //// Move the file.
-                        //System.IO.File.Move(WhatIDownloaded, WhatToRenameTo);
-                        ////Console.WriteLine("{0} was moved to {1}.", path, path2);
-
-                        //// See if the original exists now.
-                        //if (System.IO.File.Exists(WhatIDownloaded))
-                        //{
-                        //    // Console.WriteLine("The original file still exists, which is unexpected.");
-                        //}
-                        //else
-                        //{
-                        //    //Console.WriteLine("The original file no longer exists, which is expected.");
-                        //}
-
                     }
                     catch (Exception e)
                     {
@@ -224,12 +199,12 @@ namespace Athena.Services
                     MemoryStream memStream = new MemoryStream(buffer);
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
-                    res = Extract.ZipExtracttoFile(memStream, LocalBasePathToDownload + "\\" + currentTask.Destination);
+                    res = Extract.ZipExtracttoFile(memStream, LocalBasePathToDownload + "\\" + currentTask.DownloadFolder);
 
 
-                    string WhatIDownloaded = (LocalBasePathToDownload + "\\" + currentTask.Destination + "\\" + res).ToString();
+                    string WhatIDownloaded = (LocalBasePathToDownload + "\\" + currentTask.DownloadFolder + "\\" + res).ToString();
                     WhatIDownloaded = WhatIDownloaded.Replace(".zip", "");
-                    string WhatToRenameTo = (LocalBasePathToDownload + "\\" + currentTask.Destination + "\\" + currentTask.FileNameAfterUnZip).ToString();
+                    string WhatToRenameTo = (LocalBasePathToDownload + "\\" + currentTask.DownloadFolder + "\\" + currentTask.FileNameAfterUnZip).ToString();
 
                     try
                     {

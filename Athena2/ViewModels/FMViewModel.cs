@@ -76,7 +76,44 @@ namespace Athena.ViewModels
             return returnValue;
         }
 
+        public static List<MyDownloadTask> RemoveTasks(MyDownloadTask t)
+        {
+            Helper db = new Helper();
+            var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.TaskId);
+            int count = records != null ? 1 : 0;
+            bool isExistingTask = (count > 0) ? true : false;
+            if (isExistingTask)
+            {
+                db.Links.Remove(records.Link);
+                db.DownloadTasks.Remove(records);
+                db.SaveChanges();
+            }
+            List<MyDownloadTask> returnValue = GetTaskList();
+            return returnValue;
+        }
 
+        public static MyDownloadTask GetMyDownloadTaskById(int id)
+        {
+            MyDownloadTask tasks;
+            using (Helper db = new Helper())
+            {
+                tasks = db.DownloadTasks
+                    .Include(a => a.Link)
+                    .Include(a => a.Link.Download)
+                    .Where(a => a.Id == id)
+                    .Select(a => new MyDownloadTask
+                    {
+                        TaskId = a.Id,
+                        TaskName = a.Name,
+                        DownloadLocation = a.Link.Destination,
+                        Selected = false,
+                        SourceUrl = a.Link.SourceURL,
+                        UrlFormat = a.Link.FormattedURL,
+                        IndividualDownloads = a.Link.Download
+                    }).FirstOrDefault();
+            }
+            return tasks;
+        }
         // Operation : Remove DownloadTasks(Id) from List<MyDownloadTask>
         // Operation : Populate Individual Task Details using the Drag and Drop Feature.
         // Operation : Reset the Individual Task List
