@@ -17,78 +17,84 @@ namespace Athena.ViewModels
         // Operation : Add MyDownloadTask to List<MyDownloadTask>.
         public static List<MyDownloadTask> AddOrUpdateTasks(MyDownloadTask t)
         {
-            Helper db = new Helper();
-            var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.TaskId);
-            int count = records != null ? 1 : 0;
-            bool isExistingTask = (count > 0) ? true : false;
-
-            if (isExistingTask)
+            List<MyDownloadTask> returnValue = new List<MyDownloadTask>();
+            using (Helper db = new Helper())
             {
-                //Id
-                records.Name = t.TaskName;
-                records.Link.Name = $"{t.TaskName} Link";
-                records.Link.SourceURL = t.SourceUrl;
-                records.Link.FormattedURL = t.UrlFormat;
-                records.Link.Destination = t.DownloadLocation;
-                records.Link.DestinationFormat = t.DestinationFileFormat;
-                db.SaveChanges();
-            }
-            else
-            {
+                var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.TaskId);
+                int count = records != null ? 1 : 0;
+                bool isExistingTask = (count > 0) ? true : false;
 
-                //Add a new record with this TaskName.
-                Link l = new Link
+                if (isExistingTask)
                 {
-                    Name = $"{t.TaskName} Link",
-                    SourceURL = t.SourceUrl,
-                    FormattedURL = t.UrlFormat,
-                    Destination = t.DownloadLocation,
-                    DestinationFormat = t.DestinationFileFormat
-                };
-                db.Links.Add(l);
-                Exchange exchange = new Exchange();
-                if (l.SourceURL.ToLower().Contains("nseindia"))
-                {
-                    exchange = db.Exchanges.SingleOrDefault(x => x.Name == "NSE");
-                }
-                else if (l.SourceURL.ToLower().Contains("bseindia"))
-                {
-                    exchange = db.Exchanges.SingleOrDefault(x => x.Name == "BSE");
+                    //Id
+                    records.Name = t.TaskName;
+                    records.Link.Name = $"{t.TaskName} Link";
+                    records.Link.SourceURL = t.SourceUrl;
+                    records.Link.FormattedURL = t.UrlFormat;
+                    records.Link.Destination = t.DownloadLocation;
+                    records.Link.DestinationFormat = t.DestinationFileFormat;
+                    db.SaveChanges();
                 }
                 else
                 {
-                    Uri j = new Uri(l.SourceURL);
-                    exchange = new Exchange { Name = j.Host };
-                    db.Exchanges.Add(exchange);
+
+                    //Add a new record with this TaskName.
+                    Link l = new Link
+                    {
+                        Name = $"{t.TaskName} Link",
+                        SourceURL = t.SourceUrl,
+                        FormattedURL = t.UrlFormat,
+                        Destination = t.DownloadLocation,
+                        DestinationFormat = t.DestinationFileFormat
+                    };
+                    db.Links.Add(l);
+                    Exchange exchange = new Exchange();
+                    if (l.SourceURL.ToLower().Contains("nseindia"))
+                    {
+                        exchange = db.Exchanges.SingleOrDefault(x => x.Name == "NSE");
+                    }
+                    else if (l.SourceURL.ToLower().Contains("bseindia"))
+                    {
+                        exchange = db.Exchanges.SingleOrDefault(x => x.Name == "BSE");
+                    }
+                    else
+                    {
+                        Uri j = new Uri(l.SourceURL);
+                        exchange = new Exchange { Name = j.Host };
+                        db.Exchanges.Add(exchange);
+                        db.SaveChanges();
+                    }
+                    db.SaveChanges();
+                    DownloadTask dt = new DownloadTask
+                    {
+                        Name = t.TaskName,
+                        LinkId = l.Id,
+                        ExchangeId = exchange.Id
+                    };
+                    db.DownloadTasks.Add(dt);
                     db.SaveChanges();
                 }
-                db.SaveChanges();
-                DownloadTask dt = new DownloadTask
-                {
-                    Name = t.TaskName,
-                    LinkId = l.Id,
-                    ExchangeId = exchange.Id
-                };
-                db.DownloadTasks.Add(dt);
-                db.SaveChanges();
+                returnValue = GetTaskList();
             }
-            List<MyDownloadTask> returnValue = GetTaskList();
             return returnValue;
         }
 
         public static List<MyDownloadTask> RemoveTasks(MyDownloadTask t)
         {
-            Helper db = new Helper();
-            var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.TaskId);
-            int count = records != null ? 1 : 0;
-            bool isExistingTask = (count > 0) ? true : false;
-            if (isExistingTask)
+            List<MyDownloadTask> returnValue;
+            using (Helper db = new Helper())
             {
-                db.Links.Remove(records.Link);
-                db.DownloadTasks.Remove(records);
-                db.SaveChanges();
+                var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.TaskId);
+                int count = records != null ? 1 : 0;
+                bool isExistingTask = (count > 0) ? true : false;
+                if (isExistingTask)
+                {
+                    db.Links.Remove(records.Link);
+                    db.DownloadTasks.Remove(records);
+                    db.SaveChanges();
+                }
+                returnValue = GetTaskList();
             }
-            List<MyDownloadTask> returnValue = GetTaskList();
             return returnValue;
         }
 
@@ -123,7 +129,6 @@ namespace Athena.ViewModels
         public static List<MyDownloadTask> GetTaskList()
         {
             List<MyDownloadTask> tasks = new List<MyDownloadTask>();
-
             using (Helper db = new Helper())
             {
                 tasks = db.DownloadTasks
@@ -141,7 +146,6 @@ namespace Athena.ViewModels
                         IndividualDownloads = a.Link.Download
                     }).ToList();
             }
-
             return tasks;
         }
     }
