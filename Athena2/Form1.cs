@@ -171,8 +171,7 @@ namespace Athena
             if (FolderToScan.Length > 0)
             {
                 //Check How many confirm to the BSE Equity Pattern
-                IEnumerable<string> BSE_Dir = Directory.EnumerateDirectories(FolderToScan, "*bse*eq*", SearchOption.AllDirectories);
-                int i = 0;
+                IEnumerable<string> BSE_Dir = Directory.EnumerateDirectories(FolderToScan, "*bse*eq*", SearchOption.AllDirectories);                
                 foreach (string dir in BSE_Dir)
                 {
                     //If Backup is checked, copy/backup the files to a peer folder suffixed with _Backup

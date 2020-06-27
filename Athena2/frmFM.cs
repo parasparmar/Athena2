@@ -262,7 +262,7 @@ namespace Athena
 
                 var htmlFragment = e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
                 var source = htmlFragment[8];
-                retrieveBrowserData(source);
+                 retrieveBrowserData(source);
                 //var testing = TestOfDragDropFormats(e);
             }
             else

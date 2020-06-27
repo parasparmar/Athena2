@@ -17,7 +17,7 @@ namespace Athena.Services
         private static string[] DateFormats = new string[] { "ddMMyy", "ddMMyyyy", "ddMMMyy", "ddMMMyyyy", "MMMddyyyy", "MMddyyyy", "yyyyMMMdd", "yyyyMMdd", "yyMMMdd", "yyMMMdd" };
         public static string Tokenize(Uri sourceUrl)
         {
-            DateTime today = new DateTime();
+            
             string s = sourceUrl.AbsoluteUri;
             var reg = DatesWithoutAlphabets();
             var matchedDate = reg.Match(s).Value;           
@@ -39,7 +39,7 @@ namespace Athena.Services
             string s = string.Empty;
             if (sourceurl.IsWellFormedOriginalString())
             {
-                DateTime today = new DateTime();
+                
                 s = sourceurl.AbsoluteUri;
                 var reg = DatesWithoutAlphabets();
                 var matchedDate = reg.Match(s).Value;

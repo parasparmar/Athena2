@@ -92,7 +92,7 @@ namespace Athena.Services
                     }
                     catch (Exception e)
                     {
-                        // Console.WriteLine("The process failed: {0}", e.ToString());
+                        Console.WriteLine("The process failed: {0}", e.ToString());
                     }
 
                     //  File.Move(WhatIDownloaded, WhatToRenameTo);
@@ -255,7 +255,7 @@ namespace Athena.Services
                     }
                     catch (Exception e)
                     {
-                        // Console.WriteLine("The process failed: {0}", e.ToString());
+                        Console.WriteLine("The process failed: {0}", e.ToString());
                     }
 
                     //  File.Move(WhatIDownloaded, WhatToRenameTo);
