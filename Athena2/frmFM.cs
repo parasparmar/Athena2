@@ -86,7 +86,6 @@ namespace Athena
                     SourceURL = selectedtasks[i].SourceUrl,
                     DownloadFolder = selectedtasks[i].DownloadLocation,
                     FileNameAfterUnZip = URLParser.getDestinationFileName(selectedtasks[i].SourceUrl, selectedtasks[i].DownloadLocation),
-                    
                 });
                 progressBarTask1.Value = (int)((i / count) * 100);
             }
@@ -103,7 +102,10 @@ namespace Athena
         {
             TaskName = clbTaskList.SelectedItem.ToString();
             var d = tasks.SingleOrDefault(a => a.TaskName == TaskName);
-
+            var destinationFormat = URLParser.getDestinationFileName(d.SourceUrl, d.DownloadLocation);
+            var s = new Uri(destinationFormat).Segments;
+            var DestinationfileFormat = s[s.Length - 1];
+            DestinationfileFormat = URLParser.Tokenize(DestinationfileFormat);
             if (d != null)
             {
                 nmTaskId.Value = d.TaskId;
@@ -111,6 +113,8 @@ namespace Athena
                 tbSourceUrl.Text = d.SourceUrl;
                 tbUrlFormat.Text = d.UrlFormat;
                 tbTaskStatus.Text = d.TaskProgress;
+                tbSaveFolderPath.Text = d.DownloadLocation;
+                tbDestinationFormat.Text = DestinationfileFormat; 
                 tbTaskName_TextChanged(this, new EventArgs { });
             }
             progressBarTask1.Value = 0;
@@ -288,8 +292,6 @@ namespace Athena
         {
             tasks = FMViewModel.GetTaskList();
             PopulateTaskList(tasks);
-
-
         }
 
         private void clbTaskList_ItemCheck(object sender, ItemCheckEventArgs e)

@@ -33,6 +33,31 @@ namespace Athena.Services
             }
             return s;
         }
+
+        public static string Tokenize(string sourceUrl)
+        {
+            var sourceurl = new Uri(sourceUrl);
+            string s = string.Empty;
+            if (sourceurl.IsWellFormedOriginalString())
+            {
+                DateTime today = new DateTime();
+                s = sourceurl.AbsoluteUri;
+                var reg = DatesWithoutAlphabets();
+                var matchedDate = reg.Match(s).Value;
+                DateTime dt;
+                foreach (var item in DateFormats)
+                {
+                    if (DateTime.TryParseExact(matchedDate, item, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                    {
+                        //parsed correctly                   
+                        s = s.Replace(dt.ToString(item), "{" + item + "}");
+                        return s;
+                    }
+                }
+            }
+            
+            return s;
+        }
         public static string getDestinationFileName(string sourceUrl, string destinationFolder)
         {
             Uri a = new Uri(sourceUrl);
