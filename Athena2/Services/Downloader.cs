@@ -25,16 +25,6 @@ namespace Athena.Services
                 HttpWebResponse response;
 
                 request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.URIWithFileName);
-
-                //IWebProxy proxy = request.Proxy;
-                //if (proxy != null)
-                //{
-                //    string proxyuri = proxy.GetProxy(request.RequestUri).ToString();
-                //    request.UseDefaultCredentials = true;
-                //    request.Proxy = new WebProxy(proxyuri, false);
-                //    request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-                //}
-
                 request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
                 request.Accept = "text/html, application/xhtml+xml, */*";
                 ////.Connection = "Keep-Alive";
@@ -44,9 +34,9 @@ namespace Athena.Services
                 request.CookieContainer = cookieJar;
 
                 response = (HttpWebResponse)request.GetResponse();
-                //// DownloadWriter downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
+                //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
                 //// Returns true if successful and false if not.
-                if (DownloadWriter(response, CurrentTask))
+                if (DownloadedZipExtractor(response, CurrentTask))
                 {
                     //// Tidy up the HTTPWebResponse
                     response.Close();
@@ -112,9 +102,9 @@ namespace Athena.Services
                 request.CookieContainer = cookieJar;
 
                 response = (HttpWebResponse)request.GetResponse();
-                //// DownloadWriter downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
+                //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
                 //// Returns true if successful and false if not.
-                if (DownloadWriter(response, CurrentTask))
+                if (DownloadedZipExtractor(response, CurrentTask))
                 {
                     //// Tidy up the HTTPWebResponse
                     response.Close();
@@ -134,7 +124,7 @@ namespace Athena.Services
             }
         }
 
-        public bool DownloadWriter(HttpWebResponse response, FileDownloads currentTask)
+        public bool DownloadedZipExtractor(HttpWebResponse response, FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.
             //    ' Unzip it to the destination folder.

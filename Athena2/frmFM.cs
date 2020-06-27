@@ -71,23 +71,19 @@ namespace Athena
         {
 
             MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
-
-            var url = new Uri(tbSourceUrl.Text);
             Downloader d = new Downloader();
-            var myPath = url.AbsolutePath.Split('/');
-            myPath[myPath.Count() - 1] = myPath[myPath.Count() - 1].Replace(".zip", ".csv");
-
-            var FileNameAfterUnZip = $"D:\\Desktop\\Stocks\\{myPath[myPath.Count() - 1]}";
-            d.File(new Models.FileDownloads
+            var selectedtasks = tasks.Where(b => b.Selected == true).ToList();
+            int count = selectedtasks.Count();
+            for (int i = 0; i < count; i++)
             {
-                SourceURL = url.AbsoluteUri,
-                Destination = @"D:\Desktop\Stocks",
-                FileNameAfterUnZip = FileNameAfterUnZip,
-                URIWithFileName = url.AbsoluteUri
-            });
-            for (int i = 1; i <= 100; i++)
-            {
-                progressBarTask1.Value = i;
+                d.File(new Models.FileDownloads
+                {
+                    SourceURL = selectedtasks[i].SourceUrl,
+                    Destination = selectedtasks[i].DownloadLocation,
+                    FileNameAfterUnZip = URLParser.getDestinationFileName(selectedtasks[i].SourceUrl, selectedtasks[i].DownloadLocation),
+                    URIWithFileName = selectedtasks[i].SourceUrl
+                });
+                progressBarTask1.Value = (i / count) * 100;
             }
 
         }
@@ -289,6 +285,23 @@ namespace Athena
         private void btnReset_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void clbTaskList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var taskName = clbTaskList.Items[e.Index].ToString();
+            var thisTask = tasks.SingleOrDefault(a => a.TaskName == taskName);
+
+            // We receive the event before the item checking occurs. 
+            // Hence the reverse condition is needed to ascertain if the item is checked.
+            if (!clbTaskList.GetItemChecked(e.Index))
+            {
+                thisTask.Selected = true;
+            }
+            else
+            {
+                thisTask.Selected = false;
+            }
         }
     }
 }
