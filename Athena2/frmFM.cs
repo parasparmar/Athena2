@@ -30,7 +30,7 @@ namespace Athena
         private string[] stringSeparators = new string[] { "\r\n" };
         private List<MyDownloadTask> tasks = new List<MyDownloadTask>();
 
-        Helper db = new Helper();
+        readonly Helper db = new Helper();
         public frmFM()
         {
             InitializeComponent();
@@ -107,7 +107,6 @@ namespace Athena
             Uri destFormat = new Uri(destinationFormat);
             var f = destFormat.Segments;
             var fileFormat = HttpUtility.UrlDecode(f[f.Length - 1]);
-            
 
             if (d != null)
             {
@@ -246,6 +245,7 @@ namespace Athena
                 SourceUrl = tbSourceUrl.Text.Trim(),
                 UrlFormat = tbUrlFormat.Text.Trim(),
                 DownloadLocation = tbSaveFolderPath.Text.Trim(),
+                DestinationFileFormat = tbDestinationFormat.Text.Trim(),
                 Selected = true
             };
             tasks = FMViewModel.AddOrUpdateTasks(myTask);

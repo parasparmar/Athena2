@@ -18,6 +18,7 @@ namespace Athena.ViewModels
         public string SourceUrl { get; set; }
         public string UrlFormat { get; set; }
         public string DownloadLocation { get; set; }
+        public string DestinationFileFormat { get; set; }
         public string TaskProgress { get; set; }
         public IList<Download> IndividualDownloads { get; set; }        
         public bool Selected { get; set; }

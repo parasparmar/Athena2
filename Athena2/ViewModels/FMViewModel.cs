@@ -18,7 +18,7 @@ namespace Athena.ViewModels
         public static List<MyDownloadTask> AddOrUpdateTasks(MyDownloadTask t)
         {
             Helper db = new Helper();
-            var records = db.DownloadTasks.Include(b=>b.Link).Include(c=>c.Exchange).SingleOrDefault(a => a.Id == t.TaskId);
+            var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.TaskId);
             int count = records != null ? 1 : 0;
             bool isExistingTask = (count > 0) ? true : false;
 
@@ -30,7 +30,7 @@ namespace Athena.ViewModels
                 records.Link.SourceURL = t.SourceUrl;
                 records.Link.FormattedURL = t.UrlFormat;
                 records.Link.Destination = t.DownloadLocation;
-                records.Link.DestinationFormat = t.DownloadLocation;
+                records.Link.DestinationFormat = t.DestinationFileFormat;
                 db.SaveChanges();
             }
             else
@@ -43,7 +43,7 @@ namespace Athena.ViewModels
                     SourceURL = t.SourceUrl,
                     FormattedURL = t.UrlFormat,
                     Destination = t.DownloadLocation,
-                    DestinationFormat = t.DownloadLocation
+                    DestinationFormat = t.DestinationFileFormat
                 };
                 db.Links.Add(l);
                 Exchange exchange = new Exchange();
@@ -109,6 +109,7 @@ namespace Athena.ViewModels
                         Selected = false,
                         SourceUrl = a.Link.SourceURL,
                         UrlFormat = a.Link.FormattedURL,
+                        DestinationFileFormat = a.Link.DestinationFormat,
                         IndividualDownloads = a.Link.Download
                     }).FirstOrDefault();
             }
@@ -136,6 +137,7 @@ namespace Athena.ViewModels
                         Selected = false,
                         SourceUrl = a.Link.SourceURL,
                         UrlFormat = a.Link.FormattedURL,
+                        DestinationFileFormat = a.Link.DestinationFormat,
                         IndividualDownloads = a.Link.Download
                     }).ToList();
             }
