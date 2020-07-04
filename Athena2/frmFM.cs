@@ -74,9 +74,21 @@ namespace Athena
         {
 
             MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
-            Downloader d = new Downloader();
             var selectedtasks = tasks.Where(b => b.Selected == true).ToList();
             int count = selectedtasks.Count;
+            DateTime FromDate = DateTime.Today.Subtract(new TimeSpan(hours: 1, minutes: 0, seconds: 0));
+            DateTime ToDate = DateTime.Today;
+
+            Downloader d = new Downloader();
+            foreach (var item in selectedtasks)
+            {
+               var lstTasks = item.IndividualDownloads.ToList();
+
+            }
+
+            d.DownloadTaskList(ref selectedtasks);
+
+
             for (int i = 0; i < count; i++)
             {
 
@@ -88,6 +100,9 @@ namespace Athena
                 });
                 progressBarTask1.Value = (int)((i / count) * 100);
             }
+
+            
+            
 
         }
 
@@ -262,7 +277,7 @@ namespace Athena
 
                 var htmlFragment = e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
                 var source = htmlFragment[8];
-                 retrieveBrowserData(source);
+                retrieveBrowserData(source);
                 //var testing = TestOfDragDropFormats(e);
             }
             else

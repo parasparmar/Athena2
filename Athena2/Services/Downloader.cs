@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using Athena.Models;
+using Athena.ViewModels;
 
 namespace Athena.Services
 {
@@ -106,27 +107,6 @@ namespace Athena.Services
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public bool DownloadTaskList(ref List<FileDownloads> TaskList)
         {
             string DownloadLocation;
@@ -144,6 +124,24 @@ namespace Athena.Services
             //--------End of the Synchronous downloader region.
             return true;
         }
+
+        public bool DownloadTaskList(ref List<MyDownloadTask> TaskList)
+        {
+            // Convert the List<MyDownloadTask> to Individual FileDownloads and handover to the Download agent one by one
+            // Let the agent be Async
+
+            foreach (var MyTask in TaskList)
+            {
+                
+                
+               
+
+            }
+
+            return true;
+        }
+
+
         private bool DownloadAgent(FileDownloads CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
@@ -192,7 +190,7 @@ namespace Athena.Services
                 Console.Write(Ex.Message.ToString());
                 return false;
             }
-        }        
+        }
         private bool DownloadWriterExtra(ref HttpWebResponse response, ref FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.

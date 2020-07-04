@@ -53,6 +53,7 @@ namespace Athena.Services
 
         }
 
+
         private FileDownloads createTask(string market, DateTime individual_Day)
         {
             // The NSE Equity URL is of the format http://www.nseindia.com/content/historical/EQUITIES/<YYYY>/<MMM>/cm<dd><MMM><YYYY>bhav.csv.zip
@@ -67,7 +68,7 @@ namespace Athena.Services
             switch (market)
             {
                 case "NSE - Equity":
-                    
+
                     currentTask = CreateNSETask(individual_Day);
                     break;
 
