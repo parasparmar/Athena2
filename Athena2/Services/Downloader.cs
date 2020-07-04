@@ -7,6 +7,9 @@ using System.Net;
 using System.IO;
 using Athena.Models;
 using Athena.ViewModels;
+using System.Data;
+using System.Data.Entity;
+using System.Windows.Forms;
 
 namespace Athena.Services
 {
@@ -82,6 +85,7 @@ namespace Athena.Services
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
                     res = Extract.ZipExtracttoFile(memStream, currentTask.FileNameAfterUnZip);
+                    
                     try
                     {
                         if (!System.IO.File.Exists(currentTask.FileNameAfterUnZip))
@@ -130,7 +134,7 @@ namespace Athena.Services
             // Convert the List<MyDownloadTask> to Individual FileDownloads and handover to the Download agent one by one
             // Let the agent be Async
             var dateList = BusinessDay.WorkingDays(fromDate, toDate);
-
+            List<Download> newTasks = new List<Download>();
             foreach (var MyTask in TaskList)
             {
                 // Get the Date format associated with this Link
@@ -144,15 +148,18 @@ namespace Athena.Services
                     }
                 }
 
-                var theseDownloads = MyTask.IndividualDownloads.Where(a => a.Progress < 100 || a.Progress == 0).ToList();
+                var theseDownloads = MyTask
+                    .IndividualDownloads
+                    .Where(a => a.Progress < 100 || a.Progress == 0).ToList();
                 foreach (var item in theseDownloads)
                 {
                     item.SourceLink = item.SourceLink.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat));
                 }
 
+
+
                 foreach (var item in dateList)
                 {
-
                     Download d = new Download
                     {
                         At = DateTime.Today,
@@ -161,16 +168,109 @@ namespace Athena.Services
                         Progress = 0,
                         Status = "Scheduled"
                     };
+                    newTasks.Add(d);
                     theseDownloads.Add(d);
-                   
-
                 }
 
+
+                using (Helper db = new Helper())
+                {
+                    db.Downloads.AddRange(newTasks);
+                    db.SaveChangesAsync();
+                }
             }
+
+
+            using (Helper db = new Helper())
+            {
+                var downloads = db.Downloads.Include(a => a.Link).Where(b => b.Progress < 100).ToList();
+
+                FileDownloads fd = new FileDownloads
+                {
+                    Date = DateTime.Today,
+                    SourceURL = "https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR030720.zip",
+                    Name = "NSE EOD Data",
+                    FileNameOnServer = "PR030720.zip",
+                    DownloadFolder = "D:\\Desktop\\Stocks\\NSE",
+                    FileNameAfterUnZip = "NSE EOD 030720"
+                };
+                this.File(fd);
+                //foreach (var item in downloads)
+                //{
+
+                //    //FileDownloads fd = new FileDownloads
+                //    //{
+                //    //    Date = item.At,
+                //    //    SourceURL = item.SourceLink,
+                //    //    Name = item.Link.Name,
+                //    //    FileNameOnServer = item.Link.SourceURL,
+                //    //    DownloadFolder = item.Link.Destination,
+                //    //    FileNameAfterUnZip = item.Link.DestinationFormat
+                //    //};
+
+                   
+
+                //}
+
+            }
+            MessageBox.Show("All Downloads Successful.");
 
             return true;
         }
 
+
+        private bool DownloadAgent(Download CurrentTask)
+        {
+            //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
+            try
+            {
+                HttpWebRequest request;
+                HttpWebResponse response;
+
+                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.SourceLink);
+
+                //IWebProxy proxy = request.Proxy;
+                //if (proxy != null)
+                //{
+                //    string proxyuri = proxy.GetProxy(request.RequestUri).ToString();
+                //    request.UseDefaultCredentials = true;
+                //    request.Proxy = new WebProxy(proxyuri, false);
+                //    request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
+                //}
+
+                request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
+                request.Accept = "text/html, application/xhtml+xml, */*";
+                ////.Connection = "Keep-Alive";
+                request.Headers.Add("Accept-Language", "en-IN");
+                request.Headers.Add("Accept-Encoding", "gzip, deflate");
+                request.Headers.Add("DNT", "1");
+                request.CookieContainer = cookieJar;
+
+                using (response = (HttpWebResponse)request.GetResponse())
+                {
+                    //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
+                    //// Returns true if successful and false if not.
+                    return DownloadedZipExtractor(response, new FileDownloads
+                    {
+                        Date = CurrentTask.At,
+                        SourceURL = CurrentTask.SourceLink,
+                        Name = CurrentTask.Link.Name,
+                        FileNameOnServer = CurrentTask.Link.SourceURL,
+                        DownloadFolder = CurrentTask.Link.Destination,
+                        FileNameAfterUnZip = CurrentTask.Link.DestinationFormat
+                    });
+                }
+
+
+
+
+            }
+            catch (Exception Ex)
+            {
+                Console.Write(Ex.Message.ToString());
+                return false;
+            }
+        }
 
         private bool DownloadAgent(FileDownloads CurrentTask)
         {

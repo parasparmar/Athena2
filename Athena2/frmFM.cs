@@ -15,8 +15,7 @@ using Athena.Services;
 using Athena.Models;
 using Athena.ViewModels;
 using System.Globalization;
-using System.Data.SQLite.EF6;
-using System.Data.SQLite.Linq;
+
 using System.Data.Entity;
 using System.Drawing.Text;
 using System.Web;
@@ -80,20 +79,32 @@ namespace Athena
             DateTime ToDate = DateTime.Today;
 
             Downloader d = new Downloader();
-            
 
-            d.DownloadTaskList(ref selectedtasks, FromDate, ToDate);
+
+            //d.DownloadTaskList(ref selectedtasks, FromDate, ToDate);
+
+            FileDownloads fd = new FileDownloads
+            {
+                Date = DateTime.Today,
+                SourceURL = "https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR030720.zip",
+                Name = "NSE EOD Data",
+                FileNameOnServer = "PR030720.zip",
+                DownloadFolder = "D:\\Desktop\\Stocks\\NSE",
+                FileNameAfterUnZip = "D:\\Desktop\\Stocks\\NSE\\NSE EOD 030720.csv"
+            };
+
+            d.File(fd);
 
 
             for (int i = 0; i < count; i++)
             {
 
-                d.File(new Models.FileDownloads
-                {
-                    SourceURL = selectedtasks[i].SourceUrl,
-                    DownloadFolder = selectedtasks[i].DownloadLocation,
-                    FileNameAfterUnZip = URLParser.getDestinationFileName(selectedtasks[i].SourceUrl, selectedtasks[i].DownloadLocation),
-                });
+                //d.File(new Models.FileDownloads
+                //{
+                //    SourceURL = selectedtasks[i].SourceUrl,
+                //    DownloadFolder = selectedtasks[i].DownloadLocation,
+                //    FileNameAfterUnZip = URLParser.getDestinationFileName(selectedtasks[i].SourceUrl, selectedtasks[i].DownloadLocation),
+                //});
                 progressBarTask1.Value = (int)((i / count) * 100);
             }
 
