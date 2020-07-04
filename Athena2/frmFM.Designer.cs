@@ -73,7 +73,7 @@
             // 
             this.btnDownload.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.btnDownload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.btnDownload.Location = new System.Drawing.Point(117, 272);
+            this.btnDownload.Location = new System.Drawing.Point(118, 272);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(396, 23);
             this.btnDownload.TabIndex = 0;
@@ -209,9 +209,9 @@
             this.groupBoxTask1.Controls.Add(this.label5);
             this.groupBoxTask1.Controls.Add(this.label2);
             this.groupBoxTask1.Controls.Add(this.label1);
-            this.groupBoxTask1.Location = new System.Drawing.Point(435, 35);
+            this.groupBoxTask1.Location = new System.Drawing.Point(435, 28);
             this.groupBoxTask1.Name = "groupBoxTask1";
-            this.groupBoxTask1.Size = new System.Drawing.Size(524, 301);
+            this.groupBoxTask1.Size = new System.Drawing.Size(524, 308);
             this.groupBoxTask1.TabIndex = 7;
             this.groupBoxTask1.TabStop = false;
             this.groupBoxTask1.Text = "Task Name";
@@ -237,7 +237,7 @@
             // 
             // progressBarTask1
             // 
-            this.progressBarTask1.Location = new System.Drawing.Point(117, 245);
+            this.progressBarTask1.Location = new System.Drawing.Point(118, 245);
             this.progressBarTask1.Name = "progressBarTask1";
             this.progressBarTask1.Size = new System.Drawing.Size(261, 20);
             this.progressBarTask1.TabIndex = 7;
@@ -282,7 +282,7 @@
             // 
             // tbTaskStatus
             // 
-            this.tbTaskStatus.Location = new System.Drawing.Point(117, 219);
+            this.tbTaskStatus.Location = new System.Drawing.Point(118, 219);
             this.tbTaskStatus.Name = "tbTaskStatus";
             this.tbTaskStatus.ReadOnly = true;
             this.tbTaskStatus.Size = new System.Drawing.Size(396, 20);
@@ -290,7 +290,7 @@
             // 
             // tbDestinationFormat
             // 
-            this.tbDestinationFormat.Location = new System.Drawing.Point(117, 187);
+            this.tbDestinationFormat.Location = new System.Drawing.Point(118, 187);
             this.tbDestinationFormat.Name = "tbDestinationFormat";
             this.tbDestinationFormat.Size = new System.Drawing.Size(396, 20);
             this.tbDestinationFormat.TabIndex = 2;
