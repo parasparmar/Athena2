@@ -12,6 +12,36 @@ namespace Athena.ViewModels
     class FMViewModel
     {
 
+        public static List<Download> GetDownloads(MyDownloadTask t)
+        {
+            List<Download> d = new List<Download>();
+            using (Helper db = new Helper())
+            {
+              d = db.DownloadTasks
+                    .Include(b=>b.Link.Download)
+                    .SingleOrDefault(a=>a.Id==t.TaskId)
+                    .Link
+                    .Download
+                    .ToList();
+            }
+            return d;
+        }
+
+        public static List<Download> GetOrCreateDownloads(MyDownloadTask t)
+        {
+            List<Download> d = new List<Download>();
+            using (Helper db = new Helper())
+            {
+                d = db.DownloadTasks
+                      .Include(b => b.Link.Download)
+                      .SingleOrDefault(a => a.Id == t.TaskId)
+                      .Link
+                      .Download
+                      .ToList();
+            }
+            var today = DateTime.Today;
+            return d;
+        }
 
 
         // Operation : Add MyDownloadTask to List<MyDownloadTask>.
@@ -79,6 +109,7 @@ namespace Athena.ViewModels
             return returnValue;
         }
 
+        // Operation : Remove DownloadTasks(Id) from List<MyDownloadTask>
         public static List<MyDownloadTask> RemoveTasks(MyDownloadTask t)
         {
             List<MyDownloadTask> returnValue;
@@ -121,7 +152,7 @@ namespace Athena.ViewModels
             }
             return tasks;
         }
-        // Operation : Remove DownloadTasks(Id) from List<MyDownloadTask>
+        
         // Operation : Populate Individual Task Details using the Drag and Drop Feature.
         // Operation : Reset the Individual Task List
 

@@ -292,6 +292,14 @@ namespace Athena
         {
             tasks = FMViewModel.GetTaskList();
             PopulateTaskList(tasks);
+            nmTaskId.ResetText();
+            tbTaskName.ResetText();
+            tbSourceUrl.ResetText();
+            tbUrlFormat.ResetText();
+            tbSaveFolderPath.ResetText();
+            tbDestinationFormat.ResetText();
+            tbTaskStatus.ResetText();
+            progressBarTask1.Value = 0;
         }
 
         private void clbTaskList_ItemCheck(object sender, ItemCheckEventArgs e)
