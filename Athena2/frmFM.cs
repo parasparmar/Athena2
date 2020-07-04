@@ -80,13 +80,9 @@ namespace Athena
             DateTime ToDate = DateTime.Today;
 
             Downloader d = new Downloader();
-            foreach (var item in selectedtasks)
-            {
-               var lstTasks = item.IndividualDownloads.ToList();
+            
 
-            }
-
-            d.DownloadTaskList(ref selectedtasks);
+            d.DownloadTaskList(ref selectedtasks, FromDate, ToDate);
 
 
             for (int i = 0; i < count; i++)

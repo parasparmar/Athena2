@@ -125,16 +125,46 @@ namespace Athena.Services
             return true;
         }
 
-        public bool DownloadTaskList(ref List<MyDownloadTask> TaskList)
+        public bool DownloadTaskList(ref List<MyDownloadTask> TaskList, DateTime fromDate, DateTime toDate)
         {
             // Convert the List<MyDownloadTask> to Individual FileDownloads and handover to the Download agent one by one
             // Let the agent be Async
+            var dateList = BusinessDay.WorkingDays(fromDate, toDate);
 
             foreach (var MyTask in TaskList)
             {
-                
-                
-               
+                // Get the Date format associated with this Link
+                string[] strArrSourceUrl = MyTask.UrlFormat.Split('{', '}');
+                string recvdDateFormat = string.Empty;
+                foreach (var myUrl in strArrSourceUrl)
+                {
+                    if (URLParser.DateFormats.Contains(myUrl))
+                    {
+                        recvdDateFormat = myUrl;
+                    }
+                }
+
+                var theseDownloads = MyTask.IndividualDownloads.Where(a => a.Progress < 100 || a.Progress == 0).ToList();
+                foreach (var item in theseDownloads)
+                {
+                    item.SourceLink = item.SourceLink.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat));
+                }
+
+                foreach (var item in dateList)
+                {
+
+                    Download d = new Download
+                    {
+                        At = DateTime.Today,
+                        LinkId = MyTask.TaskId,
+                        SourceLink = MyTask.UrlFormat.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat)),
+                        Progress = 0,
+                        Status = "Scheduled"
+                    };
+                    theseDownloads.Add(d);
+                   
+
+                }
 
             }
 
