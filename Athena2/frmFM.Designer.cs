@@ -34,6 +34,7 @@
             this.tbSourceUrl = new System.Windows.Forms.TextBox();
             this.tab = new System.Windows.Forms.TabControl();
             this.tbpDownload = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnRemoveTask = new System.Windows.Forms.Button();
             this.btnSelectInvert = new System.Windows.Forms.Button();
@@ -62,7 +63,6 @@
             this.tbpSettings = new System.Windows.Forms.TabPage();
             this.saveToFile = new System.Windows.Forms.SaveFileDialog();
             this.fbDownloadLocation = new System.Windows.Forms.FolderBrowserDialog();
-            this.label8 = new System.Windows.Forms.Label();
             this.tab.SuspendLayout();
             this.tbpDownload.SuspendLayout();
             this.groupBoxTask1.SuspendLayout();
@@ -71,6 +71,7 @@
             // 
             // btnDownload
             // 
+            this.btnDownload.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnDownload.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.btnDownload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.btnDownload.Location = new System.Drawing.Point(118, 272);
@@ -83,6 +84,7 @@
             // 
             // tbSourceUrl
             // 
+            this.tbSourceUrl.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tbSourceUrl.Location = new System.Drawing.Point(118, 106);
             this.tbSourceUrl.Name = "tbSourceUrl";
             this.tbSourceUrl.Size = new System.Drawing.Size(396, 20);
@@ -117,6 +119,15 @@
             this.tbpDownload.TabIndex = 0;
             this.tbpDownload.Text = "Download";
             this.tbpDownload.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(8, 11);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(48, 13);
+            this.label8.TabIndex = 10;
+            this.label8.Text = "SELECT";
             // 
             // btnReset
             // 
@@ -218,6 +229,7 @@
             // 
             // nmTaskId
             // 
+            this.nmTaskId.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.nmTaskId.Enabled = false;
             this.nmTaskId.Location = new System.Drawing.Point(118, 25);
             this.nmTaskId.Name = "nmTaskId";
@@ -227,6 +239,7 @@
             // 
             // btnRemoveThisTaskfromTaskList
             // 
+            this.btnRemoveThisTaskfromTaskList.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnRemoveThisTaskfromTaskList.Location = new System.Drawing.Point(247, 77);
             this.btnRemoveThisTaskfromTaskList.Name = "btnRemoveThisTaskfromTaskList";
             this.btnRemoveThisTaskfromTaskList.Size = new System.Drawing.Size(131, 23);
@@ -237,6 +250,7 @@
             // 
             // progressBarTask1
             // 
+            this.progressBarTask1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.progressBarTask1.Location = new System.Drawing.Point(118, 245);
             this.progressBarTask1.Name = "progressBarTask1";
             this.progressBarTask1.Size = new System.Drawing.Size(261, 20);
@@ -244,6 +258,7 @@
             // 
             // btnAddTask
             // 
+            this.btnAddTask.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnAddTask.Location = new System.Drawing.Point(118, 77);
             this.btnAddTask.Name = "btnAddTask";
             this.btnAddTask.Size = new System.Drawing.Size(123, 23);
@@ -254,6 +269,7 @@
             // 
             // tbTaskName
             // 
+            this.tbTaskName.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tbTaskName.Location = new System.Drawing.Point(118, 51);
             this.tbTaskName.Name = "tbTaskName";
             this.tbTaskName.Size = new System.Drawing.Size(396, 20);
@@ -262,6 +278,7 @@
             // 
             // btnManualTokens
             // 
+            this.btnManualTokens.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnManualTokens.Location = new System.Drawing.Point(383, 77);
             this.btnManualTokens.Name = "btnManualTokens";
             this.btnManualTokens.Size = new System.Drawing.Size(131, 23);
@@ -272,6 +289,7 @@
             // 
             // btnBrowse
             // 
+            this.btnBrowse.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnBrowse.Location = new System.Drawing.Point(384, 158);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(131, 23);
@@ -282,6 +300,7 @@
             // 
             // tbTaskStatus
             // 
+            this.tbTaskStatus.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tbTaskStatus.Location = new System.Drawing.Point(118, 219);
             this.tbTaskStatus.Name = "tbTaskStatus";
             this.tbTaskStatus.ReadOnly = true;
@@ -290,6 +309,7 @@
             // 
             // tbDestinationFormat
             // 
+            this.tbDestinationFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tbDestinationFormat.Location = new System.Drawing.Point(118, 187);
             this.tbDestinationFormat.Name = "tbDestinationFormat";
             this.tbDestinationFormat.Size = new System.Drawing.Size(396, 20);
@@ -297,6 +317,7 @@
             // 
             // tbUrlFormat
             // 
+            this.tbUrlFormat.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tbUrlFormat.Location = new System.Drawing.Point(118, 133);
             this.tbUrlFormat.Name = "tbUrlFormat";
             this.tbUrlFormat.Size = new System.Drawing.Size(396, 20);
@@ -304,6 +325,7 @@
             // 
             // label4
             // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(12, 222);
             this.label4.Name = "label4";
@@ -313,6 +335,7 @@
             // 
             // label6
             // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(12, 27);
             this.label6.Name = "label6";
@@ -322,6 +345,7 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(13, 54);
             this.label3.Name = "label3";
@@ -331,6 +355,7 @@
             // 
             // tbSaveFolderPath
             // 
+            this.tbSaveFolderPath.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.tbSaveFolderPath.Location = new System.Drawing.Point(118, 159);
             this.tbSaveFolderPath.Name = "tbSaveFolderPath";
             this.tbSaveFolderPath.ReadOnly = true;
@@ -340,6 +365,7 @@
             // 
             // label7
             // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(13, 190);
             this.label7.Name = "label7";
@@ -349,6 +375,7 @@
             // 
             // label5
             // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(12, 136);
             this.label5.Name = "label5";
@@ -358,6 +385,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 162);
             this.label2.Name = "label2";
@@ -367,6 +395,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 109);
             this.label1.Name = "label1";
@@ -383,15 +412,6 @@
             this.tbpSettings.TabIndex = 1;
             this.tbpSettings.Text = "Settings";
             this.tbpSettings.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 11);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(48, 13);
-            this.label8.TabIndex = 10;
-            this.label8.Text = "SELECT";
             // 
             // frmFM
             // 

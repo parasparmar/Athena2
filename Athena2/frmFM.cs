@@ -28,7 +28,6 @@ namespace Athena
         private string TaskName = string.Empty;
         private string[] stringSeparators = new string[] { "\r\n" };
         private List<MyDownloadTask> tasks = new List<MyDownloadTask>();
-
         readonly Helper db = new Helper();
         public frmFM()
         {
@@ -41,7 +40,66 @@ namespace Athena
             tasks = FMViewModel.GetTaskList();
             PopulateTaskList(tasks);
         }
+        private void btnDownload_Click(object sender, EventArgs e)
+        {
 
+            MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
+            var selectedtasks = tasks.Where(b => b.Selected == true).ToList();
+            int count = selectedtasks.Count;
+            DateTime FromDate = DateTime.Today.Subtract(new TimeSpan(hours: 1, minutes: 0, seconds: 0));
+            DateTime ToDate = DateTime.Today;
+            var workingDays = BusinessDay.WorkingDays(FromDate: FromDate, ToDate: ToDate);
+            Downloader d = new Downloader();
+            foreach (var item in selectedtasks)
+            {
+                var indvDownloads = item.IndividualDownloads.Where(i => i.Progress < 100 ).ToList();
+                
+                foreach (var day in workingDays)
+                {
+                
+                    Download a = new Download
+                    {
+                        At = day,
+                        LinkId = item.TaskId,
+                        Progress = 0,
+                        SourceLink = item.UrlFormat
+                    };
+                }
+
+            }
+
+            //d.DownloadTaskList(ref selectedtasks, FromDate, ToDate);
+
+            //FileDownloads fd = new FileDownloads
+            //{
+            //    Date = DateTime.Today,
+            //    SourceURL = "https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR030720.zip",
+            //    Name = "NSE EOD Data",
+            //    FileNameOnServer = "PR030720.zip",
+            //    DownloadFolder = "D:\\Desktop\\Stocks\\NSE",
+            //    FileNameAfterUnZip = "NSE EOD 030720.csv"
+            //};
+
+            //d.File(fd);
+
+
+            for (int i = 0; i < count; i++)
+            {
+
+                d.File(new Models.FileDownloads
+                {
+                    Date = selectedtasks[i].IndividualDownloads
+                    SourceURL = selectedtasks[i].SourceUrl,
+                    DownloadFolder = selectedtasks[i].DownloadLocation,
+                    FileNameAfterUnZip = URLParser.getDestinationFileName(selectedtasks[i].SourceUrl, selectedtasks[i].DownloadLocation),
+                });
+                progressBarTask1.Value = (int)((i / count) * 100);
+            }
+
+
+
+
+        }
         private void PopulateTaskList(List<MyDownloadTask> tasks)
         {
             if (tasks != null)
@@ -54,7 +112,6 @@ namespace Athena
                 clbTaskList.Items.Clear();
             }
         }
-
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             DialogResult d = fbDownloadLocation.ShowDialog();
@@ -62,55 +119,10 @@ namespace Athena
             saveFolderPath = fbDownloadLocation.SelectedPath;
             tbSaveFolderPath.Text = saveFolderPath;
         }
-
         private void tbSaveFolderPath_TextChanged(object sender, EventArgs e)
         {
             saveFolderPath = tbSaveFolderPath.Text;
             btnDownload.Enabled = true;
-        }
-
-        private void btnDownload_Click(object sender, EventArgs e)
-        {
-
-            MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
-            var selectedtasks = tasks.Where(b => b.Selected == true).ToList();
-            int count = selectedtasks.Count;
-            DateTime FromDate = DateTime.Today.Subtract(new TimeSpan(hours: 1, minutes: 0, seconds: 0));
-            DateTime ToDate = DateTime.Today;
-
-            Downloader d = new Downloader();
-
-
-            //d.DownloadTaskList(ref selectedtasks, FromDate, ToDate);
-
-            FileDownloads fd = new FileDownloads
-            {
-                Date = DateTime.Today,
-                SourceURL = "https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR030720.zip",
-                Name = "NSE EOD Data",
-                FileNameOnServer = "PR030720.zip",
-                DownloadFolder = "D:\\Desktop\\Stocks\\NSE",
-                FileNameAfterUnZip = "D:\\Desktop\\Stocks\\NSE\\NSE EOD 030720.csv"
-            };
-
-            d.File(fd);
-
-
-            for (int i = 0; i < count; i++)
-            {
-
-                //d.File(new Models.FileDownloads
-                //{
-                //    SourceURL = selectedtasks[i].SourceUrl,
-                //    DownloadFolder = selectedtasks[i].DownloadLocation,
-                //    FileNameAfterUnZip = URLParser.getDestinationFileName(selectedtasks[i].SourceUrl, selectedtasks[i].DownloadLocation),
-                //});
-                progressBarTask1.Value = (int)((i / count) * 100);
-            }
-
-            
-            
-
         }
 
         private void tbTaskName_TextChanged(object sender, EventArgs e)
@@ -118,7 +130,6 @@ namespace Athena
             TaskName = tbTaskName.Text;
             groupBoxTask1.Text = TaskName;
         }
-
         private void clbTaskList_SelectedIndexChanged(object sender, EventArgs e)
         {
             TaskName = clbTaskList.SelectedItem.ToString();
@@ -159,7 +170,6 @@ namespace Athena
         {
             s.Selected = false;
         }
-
         private void toggleSelectionOfTask(MyDownloadTask s)
         {
             s.Selected = s.Selected ? false : true;
@@ -174,7 +184,6 @@ namespace Athena
             }
 
         }
-
         private void btnSelectInvert_Click(object sender, EventArgs e)
         {
             tasks.ForEach(a => toggleSelectionOfTask(a));
@@ -192,7 +201,6 @@ namespace Athena
             }
 
         }
-
         private void clbTaskList_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
@@ -214,7 +222,6 @@ namespace Athena
                 MessageBox.Show("Invalid type for drag and drop.");
             }
         }
-
         private string TestOfDragDropFormats(DragEventArgs e)
         {
             Array data = ((IDataObject)e.Data).GetFormats() as Array;
@@ -232,7 +239,6 @@ namespace Athena
             Debug.WriteLine(allowedformats);
             return allowedformats;
         }
-
         private async Task retrieveBrowserData(string source)
         {
             //Use the default configuration for AngleSharp
@@ -249,12 +255,10 @@ namespace Athena
             //Serialize it back to the console
             Console.WriteLine(document.DocumentElement.OuterHtml);
         }
-
         private void btnRemoveTask_Click(object sender, EventArgs e)
         {
             clbTaskList.Items.Remove(clbTaskList.SelectedItems);
         }
-
         private void btnAddTask_Click(object sender, EventArgs e)
         {
             var myTask = new MyDownloadTask
@@ -270,7 +274,6 @@ namespace Athena
             tasks = FMViewModel.AddOrUpdateTasks(myTask);
             PopulateTaskList(tasks);
         }
-
         private void clbTaskList_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
@@ -279,7 +282,11 @@ namespace Athena
                 nmTaskId.Text = string.Empty;
                 var a = e.Data.GetData(DataFormats.Text).ToString();
                 tbSourceUrl.Text = a;
-                tbUrlFormat.Text = URLParser.Tokenize(new Uri(a));
+                Uri uriA = new Uri(a);
+                string formattedUrl = URLParser.Tokenize(uriA);
+                tbUrlFormat.Text = formattedUrl;
+                uriA = new Uri(formattedUrl);
+                tbDestinationFormat.Text = uriA.Segments.LastOrDefault();
                 MessageBox.Show($"Drag and drop of {a}");
 
                 var htmlFragment = e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
@@ -293,7 +300,6 @@ namespace Athena
                 MessageBox.Show("Invalid type for drag and drop.");
             }
         }
-
         private void btnRemoveThisTaskfromTaskList_Click(object sender, EventArgs e)
         {
             var taskId = (int)nmTaskId.Value;
@@ -304,12 +310,10 @@ namespace Athena
                 PopulateTaskList(tasks);
             }
         }
-
         private void btnManualTokens_Click(object sender, EventArgs e)
         {
 
         }
-
         private void btnReset_Click(object sender, EventArgs e)
         {
             tasks = FMViewModel.GetTaskList();
@@ -323,7 +327,6 @@ namespace Athena
             tbTaskStatus.ResetText();
             progressBarTask1.Value = 0;
         }
-
         private void clbTaskList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var taskName = clbTaskList.Items[e.Index].ToString();

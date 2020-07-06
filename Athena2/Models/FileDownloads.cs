@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Athena.Models
 {
-    public class FileDownloads
+
+
+    public class FileDownloads    
     {
 
         public string Name { get; set; }

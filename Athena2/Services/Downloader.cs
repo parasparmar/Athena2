@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+
 using System.IO;
 using Athena.Models;
 using Athena.ViewModels;
@@ -84,15 +85,15 @@ namespace Athena.Services
                     MemoryStream memStream = new MemoryStream(buffer);
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
-                    res = Extract.ZipExtracttoFile(memStream, currentTask.FileNameAfterUnZip);
+                    res = Extract.ZipExtracttoFile(strm: memStream, strDestDir: currentTask.DownloadFolder);
                     
                     try
                     {
-                        if (!System.IO.File.Exists(currentTask.FileNameAfterUnZip))
+                        if (!System.IO.File.Exists(path:currentTask.FileNameAfterUnZip))
                         {
                             // This statement ensures that the file is created,
                             // but the handle is not kept.
-                            using (FileStream fs = System.IO.File.Create(currentTask.FileNameAfterUnZip)) { }
+                            using (FileStream fs = System.IO.File.Create(path: currentTask.DownloadFolder + Path.DirectorySeparatorChar + currentTask.FileNameAfterUnZip)) { }
                         }
                     }
                     catch (Exception e)
@@ -280,7 +281,7 @@ namespace Athena.Services
                 HttpWebRequest request;
                 HttpWebResponse response;
 
-                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.SourceURL);
+                request = (HttpWebRequest)HttpWebRequest.Create(requestUriString: CurrentTask.SourceURL);
 
                 //IWebProxy proxy = request.Proxy;
                 //if (proxy != null)

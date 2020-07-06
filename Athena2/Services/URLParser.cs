@@ -17,33 +17,13 @@ namespace Athena.Services
         public static string[] DateFormats = new string[] { "ddMMyy", "ddMMyyyy", "ddMMMyy", "ddMMMyyyy", "MMMddyyyy", "MMddyyyy", "yyyyMMMdd", "yyyyMMdd", "yyMMMdd", "yyMMMdd" };
         public static string Tokenize(Uri sourceUrl)
         {
-            
+
             string s = sourceUrl.AbsoluteUri;
             var reg = DatesWithoutAlphabets();
-            var matchedDate = reg.Match(s).Value;           
+            var matchedDate = reg.Match(s).Value;
             DateTime dt;
-            foreach (var item in DateFormats)
+            if (matchedDate != null && matchedDate.Length > 0)
             {
-                if (DateTime.TryParseExact(matchedDate, item, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
-                {
-                    //parsed correctly                   
-                    s = s.Replace(dt.ToString(item), "{" + item + "}");
-                    return s;
-                }
-            }
-            return s;
-        }
-        public static string Tokenize(string sourceUrl)
-        {
-            var sourceurl = new Uri(sourceUrl);
-            string s = string.Empty;
-            if (sourceurl.IsWellFormedOriginalString())
-            {
-                
-                s = sourceurl.AbsoluteUri;
-                var reg = DatesWithoutAlphabets();
-                var matchedDate = reg.Match(s).Value;
-                DateTime dt;
                 foreach (var item in DateFormats)
                 {
                     if (DateTime.TryParseExact(matchedDate, item, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
@@ -54,7 +34,34 @@ namespace Athena.Services
                     }
                 }
             }
-            
+
+            return s;
+        }
+        public static string Tokenize(string sourceUrl)
+        {
+            var sourceurl = new Uri(sourceUrl);
+            string s = string.Empty;
+            if (sourceurl.IsWellFormedOriginalString())
+            {
+
+                s = sourceurl.AbsoluteUri;
+                var reg = DatesWithoutAlphabets();
+                var matchedDate = reg.Match(s).Value;
+                if (matchedDate != null && matchedDate.Length > 0)
+                {
+                    DateTime dt;
+                    foreach (var item in DateFormats)
+                    {
+                        if (DateTime.TryParseExact(matchedDate, item, CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                        {
+                            //parsed correctly                   
+                            s = s.Replace(dt.ToString(item), "{" + item + "}");
+                            return s;
+                        }
+                    }
+                }
+            }
+
             return s;
         }
         public static string getDestinationFileName(string sourceUrl, string destinationFolder)
