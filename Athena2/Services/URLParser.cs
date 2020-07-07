@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AngleSharp.Text;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Globalization;
@@ -78,6 +79,23 @@ namespace Athena.Services
 
             return combinedPath;
         }
+
+        public static List<string> getDownloadUrls(string formattedUrl, IEnumerable<DateTime> days)
+        {
+            List<string> Urls = new List<string>();
+            string dateFormat = string.Empty;
+            dateFormat = DateFormats.SingleOrDefault(a => formattedUrl.Contains(a));
+            if (dateFormat != null)
+            {
+                foreach (var day in days)
+                {
+                    Urls.Add(formattedUrl.Replace($"{{{dateFormat}}}", day.ToString(dateFormat)));
+                }
+            }
+            
+            return Urls;
+        }
+
         /// <summary>
         /// Paras Parmar : https://regexr.com/57bgg 
         /// Here's a regex that checks the right number of days per month, including for February during leap years:
