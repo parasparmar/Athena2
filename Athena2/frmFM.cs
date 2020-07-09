@@ -46,10 +46,10 @@ namespace Athena
             MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
             var selectedtasks = tasks.Where(b => b.Selected == true).ToList();
             int count = selectedtasks.Count;
-            DateTime FromDate = DateTime.Today.Subtract(new TimeSpan(hours: 1, minutes: 0, seconds: 0));
-            DateTime ToDate = DateTime.Today;
-            var workingDays = BusinessDay.WorkingDays(FromDate: FromDate, ToDate: ToDate);
-            var downloadables = URLParser.getDownloadUrls("https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR{ddMMyy}.zip", workingDays);
+
+            // Create a list of individual downloadable links that can be given to the downloader.
+
+            
 
             //Downloader d = new Downloader();
             //foreach (var item in selectedtasks)

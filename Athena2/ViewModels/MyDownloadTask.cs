@@ -20,7 +20,7 @@ namespace Athena.ViewModels
         public string DownloadLocation { get; set; }
         public string DestinationFileFormat { get; set; }
         public string TaskProgress { get; set; }
-        public IList<Download> IndividualDownloads { get; set; }        
         public bool Selected { get; set; }
+        public virtual IList<Download> IndividualDownloads { get; set; }        
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Athena.Models;
+using Athena.ViewModels;
 
 namespace Athena.Services
 {
@@ -200,7 +201,19 @@ namespace Athena.Services
 
         }
 
+        //To Do: create the Downloads tasks here and populate the database with it.
+        // Create a list of individual downloadable links that can be given to the downloader.
 
 
+        public List<FileDownloads> createFileDownloads(List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
+        {
+            List<FileDownloads> fdt = new List<FileDownloads>();
+            FromDate = DateTime.Today.Subtract(new TimeSpan(hours: 1, minutes: 0, seconds: 0));
+            ToDate = DateTime.Today;
+            var workingDays = BusinessDay.WorkingDays(FromDate: FromDate, ToDate: ToDate);
+            var downloadables = URLParser.getDownloadUrls("https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR{ddMMyy}.zip", workingDays);
+
+            return fdt;
+        }
     }
 }

@@ -176,8 +176,6 @@ namespace Athena.ViewModels
                         DestinationFileFormat = a.Link.DestinationFormat,
                         IndividualDownloads = a.Link.Download
                     }).ToList();
-
-
             }
             return tasks;
         }
