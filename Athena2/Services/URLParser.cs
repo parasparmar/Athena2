@@ -96,6 +96,17 @@ namespace Athena.Services
             return Urls;
         }
 
+        public static string getThisDownloadsUrl(string formattedUrl, DateTime day)
+        {            
+            string dateFormat = string.Empty;
+            dateFormat = DateFormats.SingleOrDefault(a => formattedUrl.Contains(a));
+            if (dateFormat != null)
+            {
+                return formattedUrl.Replace($"{{{dateFormat}}}", day.ToString(dateFormat));            
+            }
+            return string.Empty;
+        }
+
         /// <summary>
         /// Paras Parmar : https://regexr.com/57bgg 
         /// Here's a regex that checks the right number of days per month, including for February during leap years:

@@ -49,8 +49,12 @@ namespace Athena
 
             // Create a list of individual downloadable links that can be given to the downloader.
 
-            
-
+            var g = DownloadTaskFactory.createFileDownloads(selectedtasks, DateTime.Today.Subtract(new TimeSpan(1, 0, 0)), DateTime.Today);
+            Downloader d = new Downloader();
+            foreach (var item in g)
+            {
+                d.File(item);
+            }
             //Downloader d = new Downloader();
             //foreach (var item in selectedtasks)
             //{

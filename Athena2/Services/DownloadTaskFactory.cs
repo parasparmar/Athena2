@@ -205,13 +205,29 @@ namespace Athena.Services
         // Create a list of individual downloadable links that can be given to the downloader.
 
 
-        public List<FileDownloads> createFileDownloads(List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
+        public static List<FileDownloads> createFileDownloads(List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
         {
             List<FileDownloads> fdt = new List<FileDownloads>();
-            FromDate = DateTime.Today.Subtract(new TimeSpan(hours: 1, minutes: 0, seconds: 0));
-            ToDate = DateTime.Today;
+            //FromDate = DateTime.Today.Subtract(new TimeSpan(hours: 1, minutes: 0, seconds: 0));
+            //ToDate = DateTime.Today;
             var workingDays = BusinessDay.WorkingDays(FromDate: FromDate, ToDate: ToDate);
-            var downloadables = URLParser.getDownloadUrls("https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR{ddMMyy}.zip", workingDays);
+
+            foreach (var task in mdt)
+            {
+                foreach (var day in workingDays)
+                {
+                    task.IndividualDownloads.Add(new Download
+                    {
+                        At = day,
+                        LinkId = task.TaskId,
+                        Progress = 0,
+                        SourceLink = URLParser.getThisDownloadsUrl(task.UrlFormat, day),
+                        Status = "Pending"
+                    });
+                }
+            }
+
+            //var downloadables = URLParser.getDownloadUrls("https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR{ddMMyy}.zip", workingDays);
 
             return fdt;
         }
