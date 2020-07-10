@@ -218,23 +218,19 @@ namespace Athena.Services
             foreach (var task in mdt)
             {
                 foreach (var day in workingDays)
-                {
-                    task.IndividualDownloads.Add(new Download
-                    {
-                        At = day,
-                        LinkId = task.TaskId,
-                        Progress = 0,
-                        SourceLink = URLParser.getThisDownloadsUrl(task.UrlFormat, day),
-                        Status = "Pending"
-                    });
+                {   
+                    // TODO: Create a list of Downloads db entries so that we can update the database.
+
+                    // Create the actual List of downloadables here.
                     fdt.Add(new FileDownloads
                     {
-                        Date = day,
-                        DownloadFolder = task.DownloadLocation,
-                        FileNameOnServer = string.Empty,
-                        SourceURL = URLParser.getThisDownloadsUrl(task.UrlFormat, day),
-                        FileNameAfterUnZip = string.Empty,
-                        Name = task.TaskName
+                        TaskId = task.DownloadTaskId,
+                        Date = day,                        
+                        Url = URLParser.getThisDownloadsUrl(task.UrlFormat, day),
+                        Destination = task.DownloadLocation,
+                        FileName = task.DestinationFileFormat,
+                        Progress = task.TaskProgress,
+                        Status = task.TaskStatus
                     });
                 }
             }

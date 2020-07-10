@@ -11,7 +11,7 @@ namespace Athena.ViewModels
     class MyDownloadTask
     {
         [Required]
-        public int TaskId { get; set; }
+        public int DownloadTaskId { get; set; }
         [Required]
         public string TaskName { get; set; }
         [Required]
@@ -19,8 +19,9 @@ namespace Athena.ViewModels
         public string UrlFormat { get; set; }
         public string DownloadLocation { get; set; }
         public string DestinationFileFormat { get; set; }
-        public string TaskProgress { get; set; }
+        public int TaskProgress { get; set; }
+        public string TaskStatus { get; set; }
         public bool Selected { get; set; }
-        public virtual IList<Download> IndividualDownloads { get; set; }        
+        public virtual IList<Download> Downloads { get; set; }        
     }
 }

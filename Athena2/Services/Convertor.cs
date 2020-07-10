@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using CsvHelper;
 
-namespace Athena.App_Code
+namespace Athena.Services
 {
     class Convertor
     {

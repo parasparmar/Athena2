@@ -49,7 +49,7 @@ namespace Athena
 
             // Create a list of individual downloadable links that can be given to the downloader.
 
-            var g = DownloadTaskFactory.createFileDownloads(selectedtasks, DateTime.Today.Subtract(new TimeSpan(days:1, 0, 0, 0)), DateTime.Today);
+            var g = DownloadTaskFactory.createFileDownloads(selectedtasks, DateTime.Today.Subtract(new TimeSpan(days: 1, 0, 0, 0)), DateTime.Today);
             Downloader d = new Downloader();
             foreach (var item in g)
             {
@@ -92,24 +92,39 @@ namespace Athena
         {
             TaskName = clbTaskList.SelectedItem.ToString();
             var d = tasks.SingleOrDefault(a => a.TaskName == TaskName);
-            var destinationFormat = URLParser.Tokenize(d.SourceUrl);
-            Uri destFormat = new Uri(destinationFormat);
-            var f = destFormat.Segments;
-            var fileFormat = HttpUtility.UrlDecode(f[f.Length - 1]);
+
 
             if (d != null)
             {
-                nmTaskId.Value = d.TaskId;
+                nmTaskId.Value = d.DownloadTaskId;
                 tbTaskName.Text = d.TaskName;
                 tbSourceUrl.Text = d.SourceUrl;
                 tbUrlFormat.Text = d.UrlFormat;
                 tbTaskStatus.Text = d.TaskProgress;
                 tbSaveFolderPath.Text = d.DownloadLocation;
-                tbDestinationFormat.Text = fileFormat;
+                if (d.DestinationFileFormat == null)
+                {
+                    Tokenize(d);
+                }
+                else
+                {
+                    tbDestinationFormat.Text = d.DestinationFileFormat;
+                }
+
                 tbTaskName_TextChanged(this, new EventArgs { });
             }
             progressBarTask1.Value = 0;
         }
+
+        private void Tokenize(MyDownloadTask d)
+        {
+            var destinationFormat = URLParser.Tokenize(d.SourceUrl);
+            Uri destFormat = new Uri(destinationFormat);
+            var f = destFormat.Segments;
+            var fileFormat = HttpUtility.UrlDecode(f[f.Length - 1]);
+            tbDestinationFormat.Text = fileFormat;
+        }
+
         private void btnSelectAll_Click(object sender, EventArgs e)
         {
             tasks.ForEach(a => selectTask(a));
@@ -221,7 +236,7 @@ namespace Athena
         {
             var myTask = new MyDownloadTask
             {
-                TaskId = (int)nmTaskId.Value,
+                DownloadTaskId = (int)nmTaskId.Value,
                 TaskName = tbTaskName.Text.Trim(),
                 SourceUrl = tbSourceUrl.Text.Trim(),
                 UrlFormat = tbUrlFormat.Text.Trim(),
@@ -270,7 +285,21 @@ namespace Athena
         }
         private void btnManualTokens_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("This will manually tokenize the FileFormats and URL Formats");
+            var taskId = (int)nmTaskId.Value;
+            if(taskId!=null && taskId > 0)
+            {
+                using (Helper db = new Helper())
+                {
+                    var d = tasks.SingleOrDefault(a => a.DownloadTaskId==taskId);
+                    if (d != null)
+                    {
+                        Tokenize(d);
+                    }
+                }
+            }
 
+            
         }
         private void btnReset_Click(object sender, EventArgs e)
         {

@@ -19,7 +19,7 @@ namespace Athena.ViewModels
             {
               d = db.DownloadTasks
                     .Include(b=>b.Link.Download)
-                    .SingleOrDefault(a=>a.Id==t.TaskId)
+                    .SingleOrDefault(a=>a.Id==t.DownloadTaskId)
                     .Link
                     .Download
                     .ToList();
@@ -34,7 +34,7 @@ namespace Athena.ViewModels
             {
                 d = db.DownloadTasks
                       .Include(b => b.Link.Download)
-                      .SingleOrDefault(a => a.Id == t.TaskId)
+                      .SingleOrDefault(a => a.Id == t.DownloadTaskId)
                       .Link
                       .Download
                       .ToList();
@@ -53,7 +53,7 @@ namespace Athena.ViewModels
                 var records = db.DownloadTasks
                     .Include(b => b.Link)
                     .Include(c => c.Exchange)
-                    .SingleOrDefault(a => a.Id == t.TaskId);
+                    .SingleOrDefault(a => a.Id == t.DownloadTaskId);
                 int count = records != null ? 1 : 0;
                 bool isExistingTask = (count > 0) ? true : false;
 
@@ -118,7 +118,7 @@ namespace Athena.ViewModels
             List<MyDownloadTask> returnValue;
             using (Helper db = new Helper())
             {
-                var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.TaskId);
+                var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.DownloadTaskId);
                 int count = records != null ? 1 : 0;
                 bool isExistingTask = (count > 0) ? true : false;
                 if (isExistingTask)
@@ -143,14 +143,14 @@ namespace Athena.ViewModels
                     .Where(a => a.Id == id)
                     .Select(a => new MyDownloadTask
                     {
-                        TaskId = a.Id,
+                        DownloadTaskId = a.Id,
                         TaskName = a.Name,
                         DownloadLocation = a.Link.Destination,
                         Selected = false,
                         SourceUrl = a.Link.SourceURL,
                         UrlFormat = a.Link.FormattedURL,
                         DestinationFileFormat = a.Link.DestinationFormat,
-                        IndividualDownloads = a.Link.Download
+                        Downloads = a.Link.Download
                     }).FirstOrDefault();
             }
             return tasks;
@@ -158,8 +158,6 @@ namespace Athena.ViewModels
         
         // Operation : Populate Individual Task Details using the Drag and Drop Feature.
         // Operation : Reset the Individual Task List
-
-
         public static List<MyDownloadTask> GetTaskList()
         {
             List<MyDownloadTask> tasks = new List<MyDownloadTask>();
@@ -170,14 +168,14 @@ namespace Athena.ViewModels
                     .Include(a => a.Link.Download)
                     .Select(a => new MyDownloadTask
                     {
-                        TaskId = a.Id,
+                        DownloadTaskId = a.Id,
                         TaskName = a.Name,
                         DownloadLocation = a.Link.Destination,
                         Selected = false,
                         SourceUrl = a.Link.SourceURL,
                         UrlFormat = a.Link.FormattedURL,
                         DestinationFileFormat = a.Link.DestinationFormat,
-                        IndividualDownloads = a.Link.Download
+                        Downloads = a.Link.Download
                     }).ToList();
             }
             return tasks;

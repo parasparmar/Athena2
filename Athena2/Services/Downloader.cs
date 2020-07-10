@@ -60,7 +60,6 @@ namespace Athena.Services
                 return false;
             }
         }
-
         public bool DownloadedZipExtractor(HttpWebResponse response, FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.
@@ -111,9 +110,6 @@ namespace Athena.Services
                 return false;
             }
         }
-
-        
-
         public bool DownloadTaskList(ref List<FileDownloads> TaskList)
         {
             string DownloadLocation;
@@ -131,7 +127,6 @@ namespace Athena.Services
             //--------End of the Synchronous downloader region.
             return true;
         }
-
         public bool DownloadTaskList(ref List<MyDownloadTask> TaskList, DateTime fromDate, DateTime toDate)
         {
             // Convert the List<MyDownloadTask> to Individual FileDownloads and handover to the Download agent one by one
@@ -152,7 +147,7 @@ namespace Athena.Services
                 }
 
                 var theseDownloads = MyTask
-                    .IndividualDownloads
+                    .Downloads
                     .Where(a => a.Progress < 100 || a.Progress == 0).ToList();
                 foreach (var item in theseDownloads)
                 {
@@ -166,7 +161,7 @@ namespace Athena.Services
                     Download d = new Download
                     {
                         At = DateTime.Today,
-                        LinkId = MyTask.TaskId,
+                        LinkId = MyTask.DownloadTaskId,
                         SourceLink = MyTask.UrlFormat.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat)),
                         Progress = 0,
                         Status = "Scheduled"
@@ -198,7 +193,6 @@ namespace Athena.Services
 
             return true;
         }        
-
         private bool DownloadAgent(Download CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
@@ -251,7 +245,6 @@ namespace Athena.Services
                 return false;
             }
         }
-
         private bool DownloadAgent(FileDownloads CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.

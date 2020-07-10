@@ -137,7 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\BSE.cs" />
-    <Compile Include="App_Code\Convertor.cs" />
+    <Compile Include="Services\Convertor.cs" />
     <Compile Include="Models\Download.cs" />
     <Compile Include="Models\DownloadTask.cs" />
     <Compile Include="Models\Exchange.cs" />
