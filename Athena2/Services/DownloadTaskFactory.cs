@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using AngleSharp;
+using AngleSharp.Html.Dom;
 using Athena.Models;
 using Athena.ViewModels;
 
@@ -224,6 +227,15 @@ namespace Athena.Services
                         SourceLink = URLParser.getThisDownloadsUrl(task.UrlFormat, day),
                         Status = "Pending"
                     });
+                    fdt.Add(new FileDownloads
+                    {
+                        Date = day,
+                        DownloadFolder = task.DownloadLocation,
+                        FileNameOnServer = string.Empty,
+                        SourceURL = URLParser.getThisDownloadsUrl(task.UrlFormat, day),
+                        FileNameAfterUnZip = string.Empty,
+                        Name = task.TaskName
+                    });
                 }
             }
 
@@ -231,5 +243,10 @@ namespace Athena.Services
 
             return fdt;
         }
+
+
+
+
+
     }
 }

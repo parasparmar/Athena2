@@ -173,12 +173,7 @@ namespace Athena.Services
                     theseDownloads.Add(d);
                 }
 
-
-                using (Helper db = new Helper())
-                {
-                    db.Downloads.AddRange(newTasks);
-                    db.SaveChangesAsync();
-                }
+                PersistenceService.SaveDownloadsAsync(newTasks);
             }
 
 
@@ -196,29 +191,13 @@ namespace Athena.Services
                     FileNameAfterUnZip = "NSE EOD 030720"
                 };
                 this.File(fd);
-                //foreach (var item in downloads)
-                //{
-
-                //    //FileDownloads fd = new FileDownloads
-                //    //{
-                //    //    Date = item.At,
-                //    //    SourceURL = item.SourceLink,
-                //    //    Name = item.Link.Name,
-                //    //    FileNameOnServer = item.Link.SourceURL,
-                //    //    DownloadFolder = item.Link.Destination,
-                //    //    FileNameAfterUnZip = item.Link.DestinationFormat
-                //    //};
-
-                   
-
-                //}
-
             }
             MessageBox.Show("All Downloads Successful.");
 
             return true;
         }
 
+        
 
         private bool DownloadAgent(Download CurrentTask)
         {

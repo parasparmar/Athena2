@@ -55,24 +55,7 @@ namespace Athena
             {
                 d.File(item);
             }
-            //Downloader d = new Downloader();
-            //foreach (var item in selectedtasks)
-            //{
-            //    var indvDownloads = item.IndividualDownloads.Where(i => i.Progress < 100 ).ToList();
-                
-            //    foreach (var day in workingDays)
-            //    {
-                
-            //        Download a = new Download
-            //        {
-            //            At = day,
-            //            LinkId = item.TaskId,
-            //            Progress = 0,
-            //            SourceLink = item.UrlFormat
-            //        };
-            //    }
-
-            //}
+            
 
             //d.DownloadTaskList(ref selectedtasks, FromDate, ToDate);
 
@@ -89,19 +72,7 @@ namespace Athena
             //d.File(fd);
 
 
-            //for (int i = 0; i < count; i++)
-            //{
-
-            //    d.File(new Models.FileDownloads
-            //    {
-            //        Date = selectedtasks[i].IndividualDownloads
-            //        SourceURL = selectedtasks[i].SourceUrl,
-            //        DownloadFolder = selectedtasks[i].DownloadLocation,
-            //        FileNameAfterUnZip = URLParser.getDestinationFileName(selectedtasks[i].SourceUrl, selectedtasks[i].DownloadLocation),
-            //    });
-            //    progressBarTask1.Value = (int)((i / count) * 100);
-            //}
-
+            
 
 
 
