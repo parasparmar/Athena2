@@ -21,7 +21,7 @@ namespace Athena.Services
 
         // TaskList = This tracks the success or failure of each individual download.
         List<FileDownloads> TaskList = new List<FileDownloads>();
-        public bool File(FileDownloads CurrentTask)
+        public bool DownloadFile(FileDownloads CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
             try
@@ -60,6 +60,7 @@ namespace Athena.Services
                 return false;
             }
         }
+
         public bool DownloadedZipExtractor(HttpWebResponse response, FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.
@@ -111,6 +112,7 @@ namespace Athena.Services
             }
         }
 
+        
 
         public bool DownloadTaskList(ref List<FileDownloads> TaskList)
         {
@@ -190,14 +192,12 @@ namespace Athena.Services
                     DownloadFolder = "D:\\Desktop\\Stocks\\NSE",
                     FileNameAfterUnZip = "NSE EOD 030720"
                 };
-                this.File(fd);
+                this.DownloadFile(fd);
             }
             MessageBox.Show("All Downloads Successful.");
 
             return true;
-        }
-
-        
+        }        
 
         private bool DownloadAgent(Download CurrentTask)
         {

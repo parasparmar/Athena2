@@ -49,33 +49,14 @@ namespace Athena
 
             // Create a list of individual downloadable links that can be given to the downloader.
 
-            var g = DownloadTaskFactory.createFileDownloads(selectedtasks, DateTime.Today.Subtract(new TimeSpan(1, 0, 0)), DateTime.Today);
+            var g = DownloadTaskFactory.createFileDownloads(selectedtasks, DateTime.Today.Subtract(new TimeSpan(days:1, 0, 0, 0)), DateTime.Today);
             Downloader d = new Downloader();
             foreach (var item in g)
             {
-                d.File(item);
+                d.DownloadFile(item);
             }
-            
 
-            //d.DownloadTaskList(ref selectedtasks, FromDate, ToDate);
-
-            //FileDownloads fd = new FileDownloads
-            //{
-            //    Date = DateTime.Today,
-            //    SourceURL = "https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR030720.zip",
-            //    Name = "NSE EOD Data",
-            //    FileNameOnServer = "PR030720.zip",
-            //    DownloadFolder = "D:\\Desktop\\Stocks\\NSE",
-            //    FileNameAfterUnZip = "NSE EOD 030720.csv"
-            //};
-
-            //d.File(fd);
-
-
-            
-
-
-
+            MessageBox.Show($"Success. Downloading {TaskName} to {saveFolderPath} is complete.", "Success", MessageBoxButtons.OK);
         }
         private void PopulateTaskList(List<MyDownloadTask> tasks)
         {

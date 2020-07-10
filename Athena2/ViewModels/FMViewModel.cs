@@ -50,7 +50,10 @@ namespace Athena.ViewModels
             List<MyDownloadTask> returnValue = new List<MyDownloadTask>();
             using (Helper db = new Helper())
             {
-                var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.TaskId);
+                var records = db.DownloadTasks
+                    .Include(b => b.Link)
+                    .Include(c => c.Exchange)
+                    .SingleOrDefault(a => a.Id == t.TaskId);
                 int count = records != null ? 1 : 0;
                 bool isExistingTask = (count > 0) ? true : false;
 
