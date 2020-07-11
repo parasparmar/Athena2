@@ -38,14 +38,14 @@ namespace Athena
             // 0. onDate = The date component of the associated downloaded file.
             currentTask.Date = individual_Day.Date;
             // 1. SourceURL = The complete download path and file name
-            currentTask.SourceURL = ServerURI_WFileName;
+            currentTask.Url = ServerURI_WFileName;
             // 2. FileNameOnServer = Only the file name of the downloaded file. It will be concatenated with fbdDownloadLocation.SelectedPath to acheive the 
             // full path and file name of the local file.
-            currentTask.FileNameOnServer = ServerFile_NameOnly;
+            currentTask.FileName = ServerFile_NameOnly;
             // 3. LocalFile_NameOnly = The eventually Deflated(unzipped) file name.
-            currentTask.FileNameAfterUnZip = individual_Day.ToString("yyyyMMdd") + ".csv";
+            currentTask.FileName = individual_Day.ToString("yyyyMMdd") + ".csv";
             // 4. MarketFolder = The individual path to which each Market's file should be downloaded to.
-            currentTask.DownloadFolder = market;
+            currentTask.Destination = market;
             return currentTask;
 
         }

@@ -15,7 +15,7 @@ namespace Athena.Services
 {
     class URLParser
     {
-        public static string[] DateFormats = new string[] { "ddMMyy", "ddMMyyyy", "ddMMMyy", "ddMMMyyyy", "MMMddyyyy", "MMddyyyy", "yyyyMMMdd", "yyyyMMdd", "yyMMMdd", "yyMMMdd" };
+        public static string[] DateFormats = new string[] { "ddMMyy", "ddMMyyyy", "ddMMMyy", "ddMMMyyyy", "MMMddyyyy", "MMMddyy", "MMddyyyy", "yyyyMMdd", "yyyyMMMdd", "yyMMMdd" };
         public static string Tokenize(Uri sourceUrl)
         {
 
@@ -84,25 +84,33 @@ namespace Athena.Services
         {
             List<string> Urls = new List<string>();
             string dateFormat = string.Empty;
-            dateFormat = DateFormats.SingleOrDefault(a => formattedUrl.Contains(a));
+            int begin = formattedUrl.IndexOf('{') + 1;
+            int end = formattedUrl.IndexOf('}') - 1;
+            int chars = end - begin;
+            dateFormat = formattedUrl.Substring(begin+1, chars);
+            //dateFormat = DateFormats.Where(a => formattedUrl.Equals(a)).FirstOrDefault();
             if (dateFormat != null)
             {
                 foreach (var day in days)
                 {
-                    Urls.Add(formattedUrl.Replace($"{{{dateFormat}}}", day.ToString(dateFormat)));
+                    Urls.Add(formattedUrl.Replace($"{{{dateFormat}}}", day.ToString(dateFormat, CultureInfo.InvariantCulture)));
                 }
             }
-            
+
             return Urls;
         }
 
         public static string getThisDownloadsUrl(string formattedUrl, DateTime day)
-        {            
-            string dateFormat = string.Empty;
-            dateFormat = DateFormats.SingleOrDefault(a => formattedUrl.Contains(a));
+        {
+            string dateFormat = string.Empty;           
+            int begin = formattedUrl.IndexOf('{')+1;
+            int end = formattedUrl.IndexOf('}');
+            int chars = end - begin;
+            dateFormat = formattedUrl.Substring(begin, chars);
             if (dateFormat != null)
             {
-                return formattedUrl.Replace($"{{{dateFormat}}}", day.ToString(dateFormat));            
+                string retString = formattedUrl.Replace($"{{{dateFormat}}}", day.ToString(dateFormat, CultureInfo.InvariantCulture));
+                return retString;
             }
             return string.Empty;
         }

@@ -18,5 +18,14 @@ namespace Athena.Services
                 return await db.SaveChangesAsync();
             }
         }
+
+        public static int SaveDownloads(List<Download> downloads)
+        {
+            using (Helper db = new Helper())
+            {
+                db.Downloads.AddRange(downloads);
+                return db.SaveChanges();
+            }
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace Athena
             tasks = FMViewModel.GetTaskList();
             PopulateTaskList(tasks);
         }
-        private void btnDownload_Click(object sender, EventArgs e)
+        private async void btnDownload_Click(object sender, EventArgs e)
         {
 
             MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
@@ -48,15 +48,26 @@ namespace Athena
             int count = selectedtasks.Count;
 
             // Create a list of individual downloadable links that can be given to the downloader.
+            DateTime fromDate = new DateTime(2020, 7, 1);
+            DateTime toDate = new DateTime(2020, 7, 12);
 
-            var g = DownloadTaskFactory.createFileDownloads(selectedtasks, DateTime.Today.Subtract(new TimeSpan(days: 1, 0, 0, 0)), DateTime.Today);
+
+            //DateTime.Today.Subtract(new TimeSpan(days: 1, 0, 0, 0)), DateTime.Today
+
+            var g = DownloadTaskFactory.createFileDownloads(selectedtasks, fromDate, toDate);
             Downloader d = new Downloader();
             foreach (var item in g)
             {
-                d.DownloadFile(item);
+                if (d.DownloadFile(item))
+                {
+                    item.Progress = 100;
+                    item.Status = "Complete";                    
+                }
             }
+            
 
             MessageBox.Show($"Success. Downloading {TaskName} to {saveFolderPath} is complete.", "Success", MessageBoxButtons.OK);
+            
         }
         private void PopulateTaskList(List<MyDownloadTask> tasks)
         {
@@ -100,7 +111,7 @@ namespace Athena
                 tbTaskName.Text = d.TaskName;
                 tbSourceUrl.Text = d.SourceUrl;
                 tbUrlFormat.Text = d.UrlFormat;
-                tbTaskStatus.Text = d.TaskProgress;
+                tbTaskStatus.Text = d.TaskStatus;
                 tbSaveFolderPath.Text = d.DownloadLocation;
                 if (d.DestinationFileFormat == null)
                 {

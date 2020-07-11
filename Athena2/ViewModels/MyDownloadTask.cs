@@ -22,6 +22,6 @@ namespace Athena.ViewModels
         public int TaskProgress { get; set; }
         public string TaskStatus { get; set; }
         public bool Selected { get; set; }
-        public virtual IList<Download> Downloads { get; set; }        
+        public IList<Download> Downloads { get; set; }        
     }
 }

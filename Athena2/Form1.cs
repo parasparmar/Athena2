@@ -63,26 +63,26 @@ namespace Athena
             // Done 2 :  Collect the selected markets from clbMarkets into a chosenMarketsArray
             // initiated 21-01-2015 17.12 and resolved 22-01-2016 10.46
 
-         
+
             List<DateTime> AllMyDates = new List<DateTime>();
             //D:\Desktop\StockData
-            AllMyDates = BusinessDay.DateListGenerator(dtpFromDate.Value, dtpToDate.Value);
-            if (AllMyDates.Count > 0)
-            {
-                //// DateList Generator gets an ArrayList of Weekday dates between the given from and to dates.
-                List<string> chosenMarketsArray = new List<string>();
-                foreach (var i in clbMarkets.CheckedItems)
-                {
-                    chosenMarketsArray.Add(i.ToString());
-                }
-                //Done 3: Check for Internet Connectivity                
-                List<FileDownloads> T = new List<FileDownloads>();
-                DownloadTaskFactory a = new DownloadTaskFactory();
-                T = a.CreateTaskList(chosenMarketsArray, AllMyDates);
-                MyEngine.DownloadTaskList(ref T);
-                //// Done 5. On Download completion open MyFolder and show it to the user
-                System.Diagnostics.Process.Start("explorer", tbLocation.Text.ToString());
-            }
+            //AllMyDates = BusinessDay.DateListGenerator(dtpFromDate.Value, dtpToDate.Value);
+            //if (AllMyDates.Count > 0)
+            //{
+            //    //// DateList Generator gets an ArrayList of Weekday dates between the given from and to dates.
+            //    List<string> chosenMarketsArray = new List<string>();
+            //    foreach (var i in clbMarkets.CheckedItems)
+            //    {
+            //        chosenMarketsArray.Add(i.ToString());
+            //    }
+            //    //Done 3: Check for Internet Connectivity                
+            //    List<FileDownloads> T = new List<FileDownloads>();
+            //    DownloadTaskFactory a = new DownloadTaskFactory();
+            //    T = a.CreateTaskList(chosenMarketsArray, AllMyDates);
+            //    MyEngine.DownloadTaskList(ref T);
+            //    //// Done 5. On Download completion open MyFolder and show it to the user
+            //    System.Diagnostics.Process.Start("explorer", tbLocation.Text.ToString());
+            //}
         }
         private void tbLocation_Click(object sender, EventArgs e)
         {
@@ -171,7 +171,7 @@ namespace Athena
             if (FolderToScan.Length > 0)
             {
                 //Check How many confirm to the BSE Equity Pattern
-                IEnumerable<string> BSE_Dir = Directory.EnumerateDirectories(FolderToScan, "*bse*eq*", SearchOption.AllDirectories);                
+                IEnumerable<string> BSE_Dir = Directory.EnumerateDirectories(FolderToScan, "*bse*eq*", SearchOption.AllDirectories);
                 foreach (string dir in BSE_Dir)
                 {
                     //If Backup is checked, copy/backup the files to a peer folder suffixed with _Backup

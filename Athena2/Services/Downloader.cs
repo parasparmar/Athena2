@@ -29,7 +29,7 @@ namespace Athena.Services
                 HttpWebRequest request;
                 HttpWebResponse response;
 
-                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.SourceURL);
+                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.Url);
                 request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
                 request.Accept = "text/html, application/xhtml+xml, */*";
                 ////.Connection = "Keep-Alive";
@@ -63,7 +63,7 @@ namespace Athena.Services
         public bool DownloadedZipExtractor(HttpWebResponse response, FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.
-            //    ' Unzip it to the destination folder.
+            //    ' Unzip it to the FileName folder.
             if (response.ContentType == "application/zip" || response.ContentType == "application/x-zip-compressed")
             {
                 long intLen = response.ContentLength;
@@ -85,15 +85,15 @@ namespace Athena.Services
                     MemoryStream memStream = new MemoryStream(buffer);
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
-                    res = Extract.ZipExtracttoFile(strm: memStream, strDestDir: currentTask.DownloadFolder);
+                    res = Extract.ZipExtracttoFile(strm: memStream, strDestDir: currentTask.Destination);
                     
                     try
                     {
-                        if (!System.IO.File.Exists(path:currentTask.FileNameAfterUnZip))
+                        if (!System.IO.File.Exists(path:currentTask.Destination))
                         {
                             // This statement ensures that the file is created,
                             // but the handle is not kept.
-                            using (FileStream fs = System.IO.File.Create(path: currentTask.DownloadFolder + Path.DirectorySeparatorChar + currentTask.FileNameAfterUnZip)) { }
+                            using (FileStream fs = System.IO.File.Create(path: currentTask.Destination + Path.DirectorySeparatorChar + currentTask.FileName)) { }
                         }
                     }
                     catch (Exception e)
@@ -117,7 +117,7 @@ namespace Athena.Services
             foreach (var Task in TaskList)
             {
                 //To Do : Task.Local_FileName is only the file name and not yet concatenated with fbdDownloadLocation.SelectedPath. 24 - 01 - 2016 13.27
-                DownloadLocation = LocalBasePathToDownload + "\\" + Task.DownloadFolder;
+                DownloadLocation = LocalBasePathToDownload + "\\" + Task.Destination;
                 DownloadAgent(Task);
 
             }
@@ -127,7 +127,7 @@ namespace Athena.Services
             //--------End of the Synchronous downloader region.
             return true;
         }
-        public bool DownloadTaskList(ref List<MyDownloadTask> TaskList, DateTime fromDate, DateTime toDate)
+        public bool DownloadTaskList(ref List<FileDownloads> TaskList, DateTime fromDate, DateTime toDate)
         {
             // Convert the List<MyDownloadTask> to Individual FileDownloads and handover to the Download agent one by one
             // Let the agent be Async
@@ -136,7 +136,7 @@ namespace Athena.Services
             foreach (var MyTask in TaskList)
             {
                 // Get the Date format associated with this Link
-                string[] strArrSourceUrl = MyTask.UrlFormat.Split('{', '}');
+                string[] strArrSourceUrl = MyTask.FileName.Split('{', '}');
                 string recvdDateFormat = string.Empty;
                 foreach (var myUrl in strArrSourceUrl)
                 {
@@ -146,28 +146,24 @@ namespace Athena.Services
                     }
                 }
 
-                var theseDownloads = MyTask
-                    .Downloads
-                    .Where(a => a.Progress < 100 || a.Progress == 0).ToList();
-                foreach (var item in theseDownloads)
-                {
-                    item.SourceLink = item.SourceLink.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat));
-                }
+                //MyTask.Where(a => a.Progress < 100 || a.Progress == 0).ToList();
+                //MyTask.SourceLink = MyTask.SourceLink.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat));
+               
 
 
 
                 foreach (var item in dateList)
                 {
-                    Download d = new Download
-                    {
-                        At = DateTime.Today,
-                        LinkId = MyTask.DownloadTaskId,
-                        SourceLink = MyTask.UrlFormat.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat)),
-                        Progress = 0,
-                        Status = "Scheduled"
-                    };
-                    newTasks.Add(d);
-                    theseDownloads.Add(d);
+                    //Download d = new Download
+                    //{
+                    //    At = DateTime.Today,
+                    //    LinkId = MyTask.TaskId
+                    //    SourceLink = MyTask.UrlFormat.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat)),
+                    //    Progress = 0,
+                    //    Status = "Scheduled"
+                    //};
+                    //newTasks.Add(d);
+                    //theseDownloads.Add(d);
                 }
 
                 PersistenceService.SaveDownloadsAsync(newTasks);
@@ -181,11 +177,10 @@ namespace Athena.Services
                 FileDownloads fd = new FileDownloads
                 {
                     Date = DateTime.Today,
-                    SourceURL = "https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR030720.zip",
-                    Name = "NSE EOD Data",
-                    FileNameOnServer = "PR030720.zip",
-                    DownloadFolder = "D:\\Desktop\\Stocks\\NSE",
-                    FileNameAfterUnZip = "NSE EOD 030720"
+                    Url = "https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR030720.zip",
+                    FileName = "NSE EOD Data",
+                    Destination = "D:\\Desktop\\Stocks\\NSE",
+                    
                 };
                 this.DownloadFile(fd);
             }
@@ -226,12 +221,8 @@ namespace Athena.Services
                     //// Returns true if successful and false if not.
                     return DownloadedZipExtractor(response, new FileDownloads
                     {
-                        Date = CurrentTask.At,
-                        SourceURL = CurrentTask.SourceLink,
-                        Name = CurrentTask.Link.Name,
-                        FileNameOnServer = CurrentTask.Link.SourceURL,
-                        DownloadFolder = CurrentTask.Link.Destination,
-                        FileNameAfterUnZip = CurrentTask.Link.DestinationFormat
+                        // ToDo: Return the parameters that should go into file downloads
+                        
                     });
                 }
 
@@ -253,7 +244,7 @@ namespace Athena.Services
                 HttpWebRequest request;
                 HttpWebResponse response;
 
-                request = (HttpWebRequest)HttpWebRequest.Create(requestUriString: CurrentTask.SourceURL);
+                request = (HttpWebRequest)HttpWebRequest.Create(requestUriString: CurrentTask.Url);
 
                 //IWebProxy proxy = request.Proxy;
                 //if (proxy != null)
@@ -319,12 +310,12 @@ namespace Athena.Services
                     MemoryStream memStream = new MemoryStream(buffer);
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
-                    res = Extract.ZipExtracttoFile(memStream, LocalBasePathToDownload + "\\" + currentTask.DownloadFolder);
+                    res = Extract.ZipExtracttoFile(memStream, LocalBasePathToDownload + "\\" + currentTask.Destination);
 
 
-                    string WhatIDownloaded = (LocalBasePathToDownload + "\\" + currentTask.DownloadFolder + "\\" + res).ToString();
+                    string WhatIDownloaded = (LocalBasePathToDownload + "\\" + currentTask.Destination + "\\" + res).ToString();
                     WhatIDownloaded = WhatIDownloaded.Replace(".zip", "");
-                    string WhatToRenameTo = (LocalBasePathToDownload + "\\" + currentTask.DownloadFolder + "\\" + currentTask.FileNameAfterUnZip).ToString();
+                    string WhatToRenameTo = (LocalBasePathToDownload + "\\" + currentTask.Destination + "\\" + currentTask.FileName).ToString();
 
                     try
                     {
