@@ -41,7 +41,7 @@ namespace Athena.Services
                 response = (HttpWebResponse)request.GetResponse();
                 //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
                 //// Returns true if successful and false if not.
-                if (DownloadedZipExtractor(response, CurrentTask))
+                if (DownloadedZipExtractor(response, ref CurrentTask))
                 {
                     //// Tidy up the HTTPWebResponse
                     response.Close();
@@ -60,11 +60,11 @@ namespace Athena.Services
                 return false;
             }
         }
-        public bool DownloadedZipExtractor(HttpWebResponse response, FileDownloads currentTask)
+        public bool DownloadedZipExtractor(HttpWebResponse response, ref FileDownloads currentTask)
         {
             //    ' Take the HTTP Web response from Downloader.
             //    ' Unzip it to the FileName folder.
-            if (response.ContentType == "application/zip" || response.ContentType == "application/x-zip-compressed")
+            if (response.ContentType == "application/zip" || response.ContentType == "application/x-zip-compressed" || response.ContentEncoding == "gzip")
             {
                 long intLen = response.ContentLength;
                 using (Stream stmResponse = response.GetResponseStream())
@@ -86,19 +86,25 @@ namespace Athena.Services
                     string res = false.ToString();
                     //'' A wrapper function to Ionic.Zip library is used here.
                     res = Extract.ZipExtracttoFile(strm: memStream, strDestDir: currentTask.Destination);
-                    
+
                     try
                     {
-                        if (!System.IO.File.Exists(path:currentTask.Destination))
+                        if (!System.IO.File.Exists(path: currentTask.Destination))
                         {
                             // This statement ensures that the file is created,
                             // but the handle is not kept.
-                            using (FileStream fs = System.IO.File.Create(path: currentTask.Destination + Path.DirectorySeparatorChar + currentTask.FileName)) { }
+                            using (FileStream fs = System.IO.File.Create(path: currentTask.Destination + Path.DirectorySeparatorChar + currentTask.FileName))
+                            {
+                                currentTask.Progress = 100;
+                                currentTask.Status = "Complete";
+                            }
                         }
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("The process failed: {0}", e.ToString());
+                        currentTask.Progress = 0;
+                        currentTask.Status = "Pending";
                     }
 
                     //  File.Move(WhatIDownloaded, WhatToRenameTo);
@@ -110,23 +116,7 @@ namespace Athena.Services
                 return false;
             }
         }
-        public bool DownloadTaskList(ref List<FileDownloads> TaskList)
-        {
-            string DownloadLocation;
-            //---------- This is the Synchronous downloader.Everything we do leads upto this.
-            foreach (var Task in TaskList)
-            {
-                //To Do : Task.Local_FileName is only the file name and not yet concatenated with fbdDownloadLocation.SelectedPath. 24 - 01 - 2016 13.27
-                DownloadLocation = LocalBasePathToDownload + "\\" + Task.Destination;
-                DownloadAgent(Task);
-
-            }
-            //TODO: This block is entered into when the file has been downloaded and deflated. Now Increment Progress of file download
-            //tsStatusText.Text = "Downloaded : " & i & "of " & UBound(My2dMapOfDateURLRemoteLocalFiles, 1)
-            //TODO: Gracefully Handle the file download failure here.
-            //--------End of the Synchronous downloader region.
-            return true;
-        }
+        
         public bool DownloadTaskList(ref List<FileDownloads> TaskList, DateTime fromDate, DateTime toDate)
         {
             // Convert the List<MyDownloadTask> to Individual FileDownloads and handover to the Download agent one by one
@@ -148,7 +138,7 @@ namespace Athena.Services
 
                 //MyTask.Where(a => a.Progress < 100 || a.Progress == 0).ToList();
                 //MyTask.SourceLink = MyTask.SourceLink.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat));
-               
+
 
 
 
@@ -180,14 +170,14 @@ namespace Athena.Services
                     Url = "https://www1.nseindia.com/archives/equities/bhavcopy/pr/PR030720.zip",
                     FileName = "NSE EOD Data",
                     Destination = "D:\\Desktop\\Stocks\\NSE",
-                    
+
                 };
                 this.DownloadFile(fd);
             }
             MessageBox.Show("All Downloads Successful.");
 
             return true;
-        }        
+        }
         private bool DownloadAgent(Download CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
@@ -219,11 +209,14 @@ namespace Athena.Services
                 {
                     //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
                     //// Returns true if successful and false if not.
-                    return DownloadedZipExtractor(response, new FileDownloads
+                    ///
+
+                    var fd = new FileDownloads
                     {
                         // ToDo: Return the parameters that should go into file downloads
-                        
-                    });
+
+                    };
+                    return DownloadedZipExtractor(response, ref fd);
                 }
 
 
@@ -266,7 +259,7 @@ namespace Athena.Services
                 response = (HttpWebResponse)request.GetResponse();
                 //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
                 //// Returns true if successful and false if not.
-                if (DownloadedZipExtractor(response, CurrentTask))
+                if (DownloadedZipExtractor(response,ref CurrentTask))
                 {
                     //// Tidy up the HTTPWebResponse
                     response.Close();

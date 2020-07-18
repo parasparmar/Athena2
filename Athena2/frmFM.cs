@@ -48,27 +48,35 @@ namespace Athena
             int count = selectedtasks.Count;
 
             // Create a list of individual downloadable links that can be given to the downloader.
-            DateTime fromDate = new DateTime(2020, 7, 1);
-            DateTime toDate = new DateTime(2020, 7, 12);
+            DateTime toDate = DateTime.Today;
+            DateTime fromDate = toDate.Subtract(new TimeSpan(2, 0, 0));
 
 
             //DateTime.Today.Subtract(new TimeSpan(days: 1, 0, 0, 0)), DateTime.Today
 
             var g = DownloadTaskFactory.createFileDownloads(selectedtasks, fromDate, toDate);
             Downloader d = new Downloader();
-            foreach (var item in g)
+            using (Helper db = new Helper())
             {
-                if (d.DownloadFile(item))
+                foreach (var item in g)
                 {
-                    item.Progress = 100;
-                    item.Status = "Complete";                    
+                    if (d.DownloadFile(item))
+                    { 
+                        PersistenceService.SaveDownload(new Download
+                        {
+                            Id = item.Id,
+                            Progress = item.Progress,
+                            Status = item.Status
+                        });
+
+                    }
                 }
             }
-            
+
 
             MessageBox.Show($"Success. Downloading {TaskName} to {saveFolderPath} is complete.", "Success", MessageBoxButtons.OK);
-            
-        }
+
+        }        
         private void PopulateTaskList(List<MyDownloadTask> tasks)
         {
             if (tasks != null)
@@ -257,6 +265,7 @@ namespace Athena
             };
             tasks = FMViewModel.AddOrUpdateTasks(myTask);
             PopulateTaskList(tasks);
+            MessageBox.Show("This task has been saved to the tasklist");
         }
         private void clbTaskList_DragDrop(object sender, DragEventArgs e)
         {
@@ -298,11 +307,11 @@ namespace Athena
         {
             MessageBox.Show("This will manually tokenize the FileFormats and URL Formats");
             var taskId = (int)nmTaskId.Value;
-            if(taskId!=null && taskId > 0)
+            if (taskId != null && taskId > 0)
             {
                 using (Helper db = new Helper())
                 {
-                    var d = tasks.SingleOrDefault(a => a.DownloadTaskId==taskId);
+                    var d = tasks.SingleOrDefault(a => a.DownloadTaskId == taskId);
                     if (d != null)
                     {
                         Tokenize(d);
@@ -310,7 +319,7 @@ namespace Athena
                 }
             }
 
-            
+
         }
         private void btnReset_Click(object sender, EventArgs e)
         {
