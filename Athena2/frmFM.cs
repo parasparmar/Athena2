@@ -49,7 +49,7 @@ namespace Athena
 
             // Create a list of individual downloadable links that can be given to the downloader.
             DateTime toDate = DateTime.Today;
-            DateTime fromDate = toDate.Subtract(new TimeSpan(2, 0, 0));
+            DateTime fromDate = toDate.Subtract(new TimeSpan(3, 0, 0, 0));
 
 
             //DateTime.Today.Subtract(new TimeSpan(days: 1, 0, 0, 0)), DateTime.Today
@@ -61,13 +61,13 @@ namespace Athena
                 foreach (var item in g)
                 {
                     if (d.DownloadFile(item))
-                    { 
-                        PersistenceService.SaveDownload(new Download
-                        {
-                            Id = item.Id,
-                            Progress = item.Progress,
-                            Status = item.Status
-                        });
+                    {
+                        //PersistenceService.SaveDownload(new Download
+                        //{
+                        //    Id = item.Id,
+                        //    Progress = item.Progress,
+                        //    Status = item.Status
+                        //});
 
                     }
                 }
@@ -76,7 +76,7 @@ namespace Athena
 
             MessageBox.Show($"Success. Downloading {TaskName} to {saveFolderPath} is complete.", "Success", MessageBoxButtons.OK);
 
-        }        
+        }
         private void PopulateTaskList(List<MyDownloadTask> tasks)
         {
             if (tasks != null)

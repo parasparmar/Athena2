@@ -30,7 +30,8 @@ namespace Athena.Services
                 HttpWebResponse response;
 
                 request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.Url);
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
+                //request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
+                request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0";
                 request.Accept = "text/html, application/xhtml+xml, */*";
                 ////.Connection = "Keep-Alive";
                 request.Headers.Add("Accept-Language", "en-IN");
@@ -38,20 +39,9 @@ namespace Athena.Services
                 request.Headers.Add("DNT", "1");
                 request.CookieContainer = cookieJar;
 
-                response = (HttpWebResponse)request.GetResponse();
-                //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
-                //// Returns true if successful and false if not.
-                if (DownloadedZipExtractor(response, ref CurrentTask))
-                {
-                    //// Tidy up the HTTPWebResponse
-                    response.Close();
-                    return true;
-                }
-                else
-                {
-                    //// Tidy up the HTTPWebResponse
-                    response.Close();
-                    return false;
+                using (response = (HttpWebResponse)request.GetResponse())
+                {   
+                    return Extract.DownloadWriter(response, ref CurrentTask);
                 }
             }
             catch (Exception Ex)
@@ -60,63 +50,57 @@ namespace Athena.Services
                 return false;
             }
         }
-        public bool DownloadedZipExtractor(HttpWebResponse response, ref FileDownloads currentTask)
+        public class DownloadItems
         {
-            //    ' Take the HTTP Web response from Downloader.
-            //    ' Unzip it to the FileName folder.
-            if (response.ContentType == "application/zip" || response.ContentType == "application/x-zip-compressed" || response.ContentEncoding == "gzip")
+            public bool IsSuccess { get; set; }
+            public Exception Exception { get; set; }
+        }
+        public DownloadItems GetItemStream(string downloadURL = null, string filePath = null)
+        {
+            DownloadItems downloadItems = new DownloadItems();
+            try
             {
-                long intLen = response.ContentLength;
-                using (Stream stmResponse = response.GetResponseStream())
+                if (!string.IsNullOrEmpty(filePath))
                 {
-                    Decimal n = 0;
-                    Decimal numBytesRead = 0;
-                    Decimal numBytesToRead = (int)intLen;
-                    byte[] buffer = new byte[intLen];
-
-                    do
+                    using (FileStream fileStream = new System.IO.FileStream(filePath, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Write))
                     {
-
-                        n = stmResponse.Read(buffer, (int)numBytesRead, (Int32)numBytesToRead);
-                        numBytesRead += n;
-                        numBytesToRead -= n;
-                    } while (numBytesToRead > 0);
-
-                    MemoryStream memStream = new MemoryStream(buffer);
-                    string res = false.ToString();
-                    //'' A wrapper function to Ionic.Zip library is used here.
-                    res = Extract.ZipExtracttoFile(strm: memStream, strDestDir: currentTask.Destination);
-
-                    try
-                    {
-                        if (!System.IO.File.Exists(path: currentTask.Destination))
+                        if (!string.IsNullOrEmpty(downloadURL))
                         {
-                            // This statement ensures that the file is created,
-                            // but the handle is not kept.
-                            using (FileStream fs = System.IO.File.Create(path: currentTask.Destination + Path.DirectorySeparatorChar + currentTask.FileName))
+                            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(downloadURL);
+                            request.Method = WebRequestMethods.Http.Get;
+                            request.PreAuthenticate = true;
+                            request.UseDefaultCredentials = true;
+                            const int BUFFER_SIZE = 16 * 1024;
                             {
-                                currentTask.Progress = 100;
-                                currentTask.Status = "Complete";
+                                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                                {
+                                    using (var responseStream = response.GetResponseStream())
+                                    {
+                                        var buffer = new byte[BUFFER_SIZE];
+                                        int bytesRead;
+                                        do
+                                        {
+                                            bytesRead = responseStream.Read(buffer, 0, BUFFER_SIZE);
+                                            fileStream.Write(buffer, 0, bytesRead);
+                                        } while (bytesRead > 0);
+                                    }
+                                }
+                                fileStream.Close();
+                                downloadItems.IsSuccess = true;
                             }
                         }
+                        else
+                            downloadItems.IsSuccess = false;
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("The process failed: {0}", e.ToString());
-                        currentTask.Progress = 0;
-                        currentTask.Status = "Pending";
-                    }
-
-                    //  File.Move(WhatIDownloaded, WhatToRenameTo);
-                    return true;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                downloadItems.IsSuccess = false;
+                downloadItems.Exception = ex;
             }
+            return downloadItems;
         }
-        
         public bool DownloadTaskList(ref List<FileDownloads> TaskList, DateTime fromDate, DateTime toDate)
         {
             // Convert the List<MyDownloadTask> to Individual FileDownloads and handover to the Download agent one by one
@@ -158,8 +142,6 @@ namespace Athena.Services
 
                 PersistenceService.SaveDownloadsAsync(newTasks);
             }
-
-
             using (Helper db = new Helper())
             {
                 var downloads = db.Downloads.Include(a => a.Link).Where(b => b.Progress < 100).ToList();
@@ -175,182 +157,8 @@ namespace Athena.Services
                 this.DownloadFile(fd);
             }
             MessageBox.Show("All Downloads Successful.");
-
             return true;
         }
-        private bool DownloadAgent(Download CurrentTask)
-        {
-            //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
-            try
-            {
-                HttpWebRequest request;
-                HttpWebResponse response;
 
-                request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.SourceLink);
-
-                //IWebProxy proxy = request.Proxy;
-                //if (proxy != null)
-                //{
-                //    string proxyuri = proxy.GetProxy(request.RequestUri).ToString();
-                //    request.UseDefaultCredentials = true;
-                //    request.Proxy = new WebProxy(proxyuri, false);
-                //    request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-                //}
-
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
-                request.Accept = "text/html, application/xhtml+xml, */*";
-                ////.Connection = "Keep-Alive";
-                request.Headers.Add("Accept-Language", "en-IN");
-                request.Headers.Add("Accept-Encoding", "gzip, deflate");
-                request.Headers.Add("DNT", "1");
-                request.CookieContainer = cookieJar;
-
-                using (response = (HttpWebResponse)request.GetResponse())
-                {
-                    //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
-                    //// Returns true if successful and false if not.
-                    ///
-
-                    var fd = new FileDownloads
-                    {
-                        // ToDo: Return the parameters that should go into file downloads
-
-                    };
-                    return DownloadedZipExtractor(response, ref fd);
-                }
-
-
-
-
-            }
-            catch (Exception Ex)
-            {
-                Console.Write(Ex.Message.ToString());
-                return false;
-            }
-        }
-        private bool DownloadAgent(FileDownloads CurrentTask)
-        {
-            //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
-            try
-            {
-                HttpWebRequest request;
-                HttpWebResponse response;
-
-                request = (HttpWebRequest)HttpWebRequest.Create(requestUriString: CurrentTask.Url);
-
-                //IWebProxy proxy = request.Proxy;
-                //if (proxy != null)
-                //{
-                //    string proxyuri = proxy.GetProxy(request.RequestUri).ToString();
-                //    request.UseDefaultCredentials = true;
-                //    request.Proxy = new WebProxy(proxyuri, false);
-                //    request.Proxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-                //}
-
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
-                request.Accept = "text/html, application/xhtml+xml, */*";
-                ////.Connection = "Keep-Alive";
-                request.Headers.Add("Accept-Language", "en-IN");
-                request.Headers.Add("Accept-Encoding", "gzip, deflate");
-                request.Headers.Add("DNT", "1");
-                request.CookieContainer = cookieJar;
-
-                response = (HttpWebResponse)request.GetResponse();
-                //// DownloadedZipExtractor downloads and renames the expected ZIP from response into a localfile named DeflatedFileName
-                //// Returns true if successful and false if not.
-                if (DownloadedZipExtractor(response,ref CurrentTask))
-                {
-                    //// Tidy up the HTTPWebResponse
-                    response.Close();
-                    return true;
-                }
-                else
-                {
-                    //// Tidy up the HTTPWebResponse
-                    response.Close();
-                    return false;
-                }
-            }
-            catch (Exception Ex)
-            {
-                Console.Write(Ex.Message.ToString());
-                return false;
-            }
-        }
-        private bool DownloadWriterExtra(ref HttpWebResponse response, ref FileDownloads currentTask)
-        {
-            //    ' Take the HTTP Web response from Downloader.
-            //    ' Unzip it to the destination folder.
-            if (response.ContentType == "application/zip" || response.ContentType == "application/x-zip-compressed")
-            {
-                long intLen = response.ContentLength;
-                using (Stream stmResponse = response.GetResponseStream())
-                {
-                    Decimal n = 0;
-                    Decimal numBytesRead = 0;
-                    Decimal numBytesToRead = (int)intLen;
-                    byte[] buffer = new byte[intLen];
-
-                    do
-                    {
-
-                        n = stmResponse.Read(buffer, (int)numBytesRead, (Int32)numBytesToRead);
-                        numBytesRead += n;
-                        numBytesToRead -= n;
-                    } while (numBytesToRead > 0);
-
-                    MemoryStream memStream = new MemoryStream(buffer);
-                    string res = false.ToString();
-                    //'' A wrapper function to Ionic.Zip library is used here.
-                    res = Extract.ZipExtracttoFile(memStream, LocalBasePathToDownload + "\\" + currentTask.Destination);
-
-
-                    string WhatIDownloaded = (LocalBasePathToDownload + "\\" + currentTask.Destination + "\\" + res).ToString();
-                    WhatIDownloaded = WhatIDownloaded.Replace(".zip", "");
-                    string WhatToRenameTo = (LocalBasePathToDownload + "\\" + currentTask.Destination + "\\" + currentTask.FileName).ToString();
-
-                    try
-                    {
-                        if (!System.IO.File.Exists(WhatIDownloaded))
-                        {
-                            // This statement ensures that the file is created,
-                            // but the handle is not kept.
-                            using (FileStream fs = System.IO.File.Create(WhatIDownloaded)) { }
-                        }
-
-                        // Ensure that the target does not exist.
-                        if (System.IO.File.Exists(WhatToRenameTo))
-                            System.IO.File.Delete(WhatToRenameTo);
-
-                        // Move the file.
-                        System.IO.File.Move(WhatIDownloaded, WhatToRenameTo);
-                        //Console.WriteLine("{0} was moved to {1}.", path, path2);
-
-                        // See if the original exists now.
-                        if (System.IO.File.Exists(WhatIDownloaded))
-                        {
-                            // Console.WriteLine("The original file still exists, which is unexpected.");
-                        }
-                        else
-                        {
-                            //Console.WriteLine("The original file no longer exists, which is expected.");
-                        }
-
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("The process failed: {0}", e.ToString());
-                    }
-
-                    //  File.Move(WhatIDownloaded, WhatToRenameTo);
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 }

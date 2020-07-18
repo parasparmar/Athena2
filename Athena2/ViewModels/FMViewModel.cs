@@ -43,7 +43,6 @@ namespace Athena.ViewModels
             return d;
         }
 
-
         // Operation : Add MyDownloadTask to List<MyDownloadTask>.
         public static List<MyDownloadTask> AddOrUpdateTasks(MyDownloadTask t)
         {

@@ -18,5 +18,6 @@ namespace Athena.Models
         public string FileName { get; set; }
         public int Progress { get; set; }
         public string Status { get; set; }
+        public IList<string> Files { get; set; }
     }
 }

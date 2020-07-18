@@ -5,33 +5,111 @@ using System.Text;
 using System.Threading.Tasks;
 using Ionic.Zip;
 using System.IO;
+using System.Net;
+using Athena.Models;
 
 namespace Athena.Services
 {
     class Extract
-    {              
-        public static string ZipExtracttoFile(MemoryStream strm, string strDestDir)
+    {
+
+        public static bool DownloadWriter(HttpWebResponse response, ref FileDownloads currentTask)
         {
-            String ExtractedFileName;
-            try
+            // Make sure the directory exists. Create it if not.
+            if (!Directory.Exists(currentTask.Destination))
             {
-                using (ZipFile zip = ZipFile.Read(strm))
+                Directory.CreateDirectory(currentTask.Destination);
+            }
+            var downloadPath = currentTask.Destination + Path.DirectorySeparatorChar + currentTask.FileName;
+
+
+            if (response.ContentType.Contains("zip") || response.ContentEncoding.Contains("zip"))
+            {
+                //It's a zip, then extraction needed by Ionic Zip Library.
+                //'' A wrapper function to Ionic.Zip library is used here.
+                ZippedFiles(response: response, strDestDir: currentTask.Destination);
+            }
+            else
+            {
+                SingleFile(response, currentTask);
+            }
+            return true;
+        }
+
+
+        private static bool SingleFile(HttpWebResponse response, FileDownloads currentTask)
+        {
+            var downloadPath = currentTask.Destination + Path.DirectorySeparatorChar + currentTask.FileName;
+            const int BUFFER_SIZE = 16 * 1024;
+            long intLen = response.ContentLength;
+            byte[] buffer = new byte[intLen];
+            //NOt a zip, then no extraction needed.
+            using (FileStream fileStream = new FileStream(downloadPath, FileMode.OpenOrCreate, FileAccess.Write))
+            {
+                if (!string.IsNullOrEmpty(currentTask.Url))
                 {
-                    ExtractedFileName = zip.EntryFileNames.ToString();
-                    zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
-                    foreach (ZipEntry e in zip)
+                    using (var responseStream = response.GetResponseStream())
                     {
-                        e.Extract(strDestDir);
-                        ExtractedFileName = e.FileName.ToString();
+                        buffer = new byte[BUFFER_SIZE];
+                        int bytesRead;
+                        do
+                        {
+                            bytesRead = responseStream.Read(buffer, 0, BUFFER_SIZE);
+                            fileStream.Write(buffer, 0, bytesRead);
+                        } while (bytesRead > 0);
                     }
+                    fileStream.Close();
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
-            catch (Exception ex)
+        }
+
+        private static List<string> ZippedFiles(HttpWebResponse response, string strDestDir)
+        {
+            
+            //    ' Take the HTTP Web response from Downloader.
+            //    ' Unzip it to the FileName folder.
+            long intLen = response.ContentLength;
+            using (Stream stmResponse = response.GetResponseStream())
             {
-                Console.WriteLine($"exception: {ex.Message.ToString()}");
-                return false.ToString();
+                Decimal n = 0;
+                Decimal numBytesRead = 0;
+                Decimal numBytesToRead = (int)intLen;
+                byte[] buffer = new byte[intLen];
+
+                do
+                {
+                    n = stmResponse.Read(buffer, (int)numBytesRead, (Int32)numBytesToRead);
+                    numBytesRead += n;
+                    numBytesToRead -= n;
+                } while (numBytesToRead > 0);
+
+                MemoryStream memStream = new MemoryStream(buffer);
+                List<string> ExtractedFileName = new List<string>();
+                try
+                {
+                    using (ZipFile zip = ZipFile.Read(memStream))
+                    {
+                        ExtractedFileName = zip.EntryFileNames.ToList();
+                        zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
+                        foreach (ZipEntry e in zip)
+                        {
+                            e.Extract(strDestDir);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"exception: {ex.Message.ToString()}");
+                }
+                return ExtractedFileName;
             }
-            return ExtractedFileName;
+
+
         }
     }
 }
