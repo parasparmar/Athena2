@@ -12,14 +12,14 @@ namespace Athena.Services
     class PersistenceService
     {
 
-        public static async Task<int> SaveDownloadsAsync(List<Download> downloads)
-        {
-            using (Helper db = new Helper())
-            {
-                db.Downloads.AddRange(downloads);
-                return await db.SaveChangesAsync();
-            }
-        }
+        //public static async Task<int> SaveDownloadsAsync(List<Download> downloads)
+        //{
+        //    using (Helper db = new Helper())
+        //    {
+        //        db.Downloads.AddRange(downloads);
+        //        return await db.SaveChangesAsync();
+        //    }
+        //}
 
         public static int SaveDownloads(List<Download> downloads)
         {
@@ -30,20 +30,27 @@ namespace Athena.Services
             }
         }
 
-
-        public static int SaveDownloads(List<FileDownload> downloads)        
+        public static int SaveDownloads(List<MyDownloadTask> downloads)
         {
             using (Helper db = new Helper())
             {
-                //Download existingDownloads = db.Downloads.Where(a=> a.At == )
-
-
+                List<Download> d = new List<Download>();
+                foreach (var item in downloads)
+                {
+                    d.AddRange(item.FileDownloads.Select(a => new Download
+                    {
+                        Id = a.Id,
+                        At = a.Date,
+                        Progress = a.Progress,
+                        Status = a.Status,
+                        SourceLink = a.Url,
+                    }));
+                }
+                //TODO: Save the status of the file downloads to db;
 
 
                 return db.SaveChanges();
             }
-
-
         }
         public static int SaveDownload(Download d)
         {
@@ -81,7 +88,7 @@ namespace Athena.Services
                 if (d != null && d.DownloadTaskId != null)
                 {
                     dtd = db.DownloadTasks.Find(d.DownloadTaskId);
-                    dld = db.Downloads.Include(a => a.Link).Where(e => e.LinkId==1).FirstOrDefault();
+                    dld = db.Downloads.Include(a => a.Link).Where(e => e.LinkId == 1).FirstOrDefault();
                     if (dtd != null)
                     {
                         dld.LinkId = dtd.LinkId;

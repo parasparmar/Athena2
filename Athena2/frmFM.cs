@@ -74,6 +74,7 @@ namespace Athena
                     selectedTaskList[i].FileDownloads = fd;
                 }
             }
+            PersistenceService.SaveDownloads(selectedtasks);
 
 
             MessageBox.Show($"Success. Downloading {TaskName} to {saveFolderPath} is complete.", "Success", MessageBoxButtons.OK);
