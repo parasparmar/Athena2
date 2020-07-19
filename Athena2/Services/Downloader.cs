@@ -40,13 +40,14 @@ namespace Athena.Services
                 request.CookieContainer = cookieJar;
 
                 using (response = (HttpWebResponse)request.GetResponse())
-                {   
+                {
                     return Extract.Writer(response, ref CurrentTask);
                 }
             }
             catch (Exception Ex)
             {
-                Console.Write(Ex.Message.ToString());
+                CurrentTask.Status = Ex.Message.ToString();
+                CurrentTask.Progress = 0;
                 return false;
             }
         }

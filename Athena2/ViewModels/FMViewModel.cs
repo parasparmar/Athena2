@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Athena.Models;
 using System.Data.Entity;
+using Athena.Services;
 
 namespace Athena.ViewModels
 {
@@ -17,12 +18,12 @@ namespace Athena.ViewModels
             List<Download> d = new List<Download>();
             using (Helper db = new Helper())
             {
-              d = db.DownloadTasks
-                    .Include(b=>b.Link.Download)
-                    .SingleOrDefault(a=>a.Id==t.DownloadTaskId)
-                    .Link
-                    .Download
-                    .ToList();
+                d = db.DownloadTasks
+                      .Include(b => b.Link.Download)
+                      .SingleOrDefault(a => a.Id == t.DownloadTaskId)
+                      .Link
+                      .Download
+                      .ToList();
             }
             return d;
         }
@@ -70,6 +71,7 @@ namespace Athena.ViewModels
                 else
                 {
 
+
                     //Add a new record with this TaskName.
                     Link l = new Link
                     {
@@ -80,6 +82,10 @@ namespace Athena.ViewModels
                         DestinationFormat = t.DestinationFileFormat
                     };
                     db.Links.Add(l);
+
+                    Download download = new Download { At = DateTime.Today, LinkId = l.Id, Progress = 0, Status = "Pending", SourceLink = URLParser.getThisDownloadsUrl(t.UrlFormat, DateTime.Today) };
+                    db.Downloads.Add(download);
+
                     Exchange exchange = new Exchange();
                     if (l.SourceURL.ToLower().Contains("nseindia"))
                     {
@@ -136,6 +142,7 @@ namespace Athena.ViewModels
             MyDownloadTask tasks;
             using (Helper db = new Helper())
             {
+
                 tasks = db.DownloadTasks
                     .Include(a => a.Link)
                     .Include(a => a.Link.Download)
@@ -149,12 +156,23 @@ namespace Athena.ViewModels
                         SourceUrl = a.Link.SourceURL,
                         UrlFormat = a.Link.FormattedURL,
                         DestinationFileFormat = a.Link.DestinationFormat,
-                        Downloads = a.Link.Download
+                        FileDownloads = a.Link.Download.Select(b => new FileDownload
+                        {
+                            Id = b.Id,
+                            Date = b.At,
+                            Destination = b.Link.Destination,
+                            FileName = b.Link.DestinationFormat,
+                            Progress = b.Progress,
+                            Status = b.Status,
+                            TaskId = b.LinkId,
+                            Url = b.SourceLink
+                            //, ZippedFiles = b.
+                        }).ToList()
                     }).FirstOrDefault();
             }
             return tasks;
         }
-        
+
         // Operation : Populate Individual Task Details using the Drag and Drop Feature.
         // Operation : Reset the Individual Task List
         public static List<MyDownloadTask> GetTaskList()
@@ -174,7 +192,18 @@ namespace Athena.ViewModels
                         SourceUrl = a.Link.SourceURL,
                         UrlFormat = a.Link.FormattedURL,
                         DestinationFileFormat = a.Link.DestinationFormat,
-                        Downloads = a.Link.Download
+                        FileDownloads = a.Link.Download.Select(b => new FileDownload
+                        {
+                            Id = b.Id,
+                            Date = b.At,
+                            Destination = b.Link.Destination,
+                            FileName = b.Link.DestinationFormat,
+                            Progress = b.Progress,
+                            Status = b.Status,
+                            TaskId = b.LinkId,
+                            Url = b.SourceLink
+                            //, ZippedFiles = b.
+                        }).ToList()
                     }).ToList();
             }
             return tasks;

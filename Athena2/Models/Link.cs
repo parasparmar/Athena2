@@ -15,8 +15,7 @@ namespace Athena.Models
         public string SourceURL { get; set; }
         public string FormattedURL { get; set; }
         public string Destination { get; set; }
-        public string DestinationFormat { get; set; }
-
+        public string DestinationFormat { get; set; }        
         public virtual IList<Download> Download { get; set; }
     }
 }

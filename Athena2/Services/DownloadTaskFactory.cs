@@ -8,24 +8,15 @@ namespace Athena.Services
 {
     class DownloadTaskFactory
     {
-        public static List<FileDownload> createFileDownloads(List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
+        public static List<MyDownloadTask> createFileDownloads(List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
         {
-
-            using (Helper db = new Helper())
-            {
-                
-
-                
-            }
-
-            List<FileDownload> fdt = new List<FileDownload>();
+            List<FileDownload> fdt;
             var workingDays = BusinessDay.WorkingDays(FromDate: FromDate, ToDate: ToDate);
             foreach (var task in mdt)
             {
+                fdt = new List<FileDownload>();
                 foreach (var day in workingDays)
                 {
-
-
                     // Create the actual List of downloadables here.
                     fdt.Add(new FileDownload
                     {
@@ -41,8 +32,9 @@ namespace Athena.Services
                         Status = task.TaskStatus
                     });
                 }
+                task.FileDownloads = fdt;
             }
-            return fdt;
+            return mdt;
         }
     }
 }
