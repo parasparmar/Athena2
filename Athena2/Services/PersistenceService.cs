@@ -30,6 +30,21 @@ namespace Athena.Services
             }
         }
 
+
+        public static int SaveDownloads(List<FileDownload> downloads)        
+        {
+            using (Helper db = new Helper())
+            {
+                //Download existingDownloads = db.Downloads.Where(a=> a.At == )
+
+
+
+
+                return db.SaveChanges();
+            }
+
+
+        }
         public static int SaveDownload(Download d)
         {
             using (Helper db = new Helper())

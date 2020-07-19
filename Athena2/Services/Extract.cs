@@ -12,8 +12,7 @@ namespace Athena.Services
 {
     class Extract
     {
-
-        public static bool DownloadWriter(HttpWebResponse response, ref FileDownloads currentTask)
+        public static bool Writer(HttpWebResponse response, ref FileDownload currentTask)
         {
             // Make sure the directory exists. Create it if not.
             if (!Directory.Exists(currentTask.Destination))
@@ -27,17 +26,33 @@ namespace Athena.Services
             {
                 //It's a zip, then extraction needed by Ionic Zip Library.
                 //'' A wrapper function to Ionic.Zip library is used here.
-                ZippedFiles(response: response, strDestDir: currentTask.Destination);
+                if (ZippedFiles(response: response, ref currentTask))
+                {
+                    currentTask.Status = "Completed";
+                    currentTask.Progress = 100;
+                }
+                else
+                {
+                    currentTask.Status = "Failed";
+                    currentTask.Progress = 0;
+                }
             }
             else
             {
-                SingleFile(response, currentTask);
+                if (SingleFile(response, ref currentTask))
+                {
+                    currentTask.Status = "Completed";
+                    currentTask.Progress = 100;
+                }
+                else
+                {
+                    currentTask.Status = "Failed";
+                    currentTask.Progress = 0;
+                }
             }
             return true;
         }
-
-
-        private static bool SingleFile(HttpWebResponse response, FileDownloads currentTask)
+        private static bool SingleFile(HttpWebResponse response, ref FileDownload currentTask)
         {
             var downloadPath = currentTask.Destination + Path.DirectorySeparatorChar + currentTask.FileName;
             const int BUFFER_SIZE = 16 * 1024;
@@ -67,10 +82,9 @@ namespace Athena.Services
                 }
             }
         }
-
-        private static List<string> ZippedFiles(HttpWebResponse response, string strDestDir)
+        private static bool ZippedFiles(HttpWebResponse response, ref FileDownload currentTask)
         {
-            
+
             //    ' Take the HTTP Web response from Downloader.
             //    ' Unzip it to the FileName folder.
             long intLen = response.ContentLength;
@@ -89,24 +103,26 @@ namespace Athena.Services
                 } while (numBytesToRead > 0);
 
                 MemoryStream memStream = new MemoryStream(buffer);
-                List<string> ExtractedFileName = new List<string>();
+
                 try
                 {
                     using (ZipFile zip = ZipFile.Read(memStream))
                     {
-                        ExtractedFileName = zip.EntryFileNames.ToList();
+                        currentTask.ZippedFiles = zip.EntryFileNames.ToList();
                         zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
                         foreach (ZipEntry e in zip)
                         {
-                            e.Extract(strDestDir);
+                            e.Extract(currentTask.Destination);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"exception: {ex.Message.ToString()}");
+                    return false;
                 }
-                return ExtractedFileName;
+
+                return true;
             }
 
 

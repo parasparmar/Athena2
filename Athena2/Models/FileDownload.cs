@@ -8,7 +8,7 @@ namespace Athena.Models
 {
 
 
-    public class FileDownloads
+    public class FileDownload
     {
         public int Id { get; set; }
         public int TaskId { get; set; }
@@ -18,6 +18,6 @@ namespace Athena.Models
         public string FileName { get; set; }
         public int Progress { get; set; }
         public string Status { get; set; }
-        public IList<string> Files { get; set; }
+        public IList<string> ZippedFiles { get; set; }
     }
 }

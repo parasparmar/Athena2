@@ -140,7 +140,7 @@
     <Compile Include="Models\Download.cs" />
     <Compile Include="Models\DownloadTask.cs" />
     <Compile Include="Models\Exchange.cs" />
-    <Compile Include="Models\FileDownloads.cs" />
+    <Compile Include="Models\FileDownload.cs" />
     <Compile Include="frmFM.cs">
       <SubType>Form</SubType>
     </Compile>

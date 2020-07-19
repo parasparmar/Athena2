@@ -51,28 +51,21 @@ namespace Athena
             DateTime toDate = DateTime.Today;
             DateTime fromDate = toDate.Subtract(new TimeSpan(3, 0, 0, 0));
 
+            var fdList = DownloadTaskFactory.createFileDownloads(selectedtasks, fromDate, toDate);           
+            int fdCount = fdList.Count;
+            int remainingFdCount = 0;
 
-            //DateTime.Today.Subtract(new TimeSpan(days: 1, 0, 0, 0)), DateTime.Today
-
-            var g = DownloadTaskFactory.createFileDownloads(selectedtasks, fromDate, toDate);
             Downloader d = new Downloader();
             using (Helper db = new Helper())
             {
-                foreach (var item in g)
+                for (int i = 0; i < fdCount; i++)
                 {
-                    if (d.DownloadFile(item))
-                    {
-                        //PersistenceService.SaveDownload(new Download
-                        //{
-                        //    Id = item.Id,
-                        //    Progress = item.Progress,
-                        //    Status = item.Status
-                        //});
-
-                    }
+                    var fd = fdList[i];
+                    d.DownloadFile(ref fd);
+                    fdList[i] = fd;
                 }
             }
-
+            PersistenceService.SaveDownloads(fdList);
 
             MessageBox.Show($"Success. Downloading {TaskName} to {saveFolderPath} is complete.", "Success", MessageBoxButtons.OK);
 

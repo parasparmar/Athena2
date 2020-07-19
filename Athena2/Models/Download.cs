@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 namespace Athena.Models
 {
     class Download
-    {
-
-        //Id	Progress	LinkId	At(DateTime)	
+    {  
         public int Id { get; set; }
         public int LinkId { get; set; }
         public string SourceLink { get; set; }
