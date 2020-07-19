@@ -8,11 +8,11 @@ namespace Athena.Services
 {
     class DownloadTaskFactory
     {
-        public static List<MyDownloadTask> createFileDownloads(List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
+        public static List<MyDownloadTask> createFileDownloads(ref List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
         {
             List<FileDownload> fdt;
             var workingDays = BusinessDay.WorkingDays(FromDate: FromDate, ToDate: ToDate);
-            foreach (var task in mdt)
+            for(int i = 0; i< mdt.Count; i++)
             {
                 fdt = new List<FileDownload>();
                 foreach (var day in workingDays)
@@ -20,19 +20,19 @@ namespace Athena.Services
                     // Create the actual List of downloadables here.
                     fdt.Add(new FileDownload
                     {
-                        Id = task.DownloadTaskId,
-                        TaskId = task.DownloadTaskId,
+                        Id = mdt[i].DownloadTaskId,
+                        TaskId = mdt[i].DownloadTaskId,
                         Date = day,
                         // Give the exact url to download
-                        Url = URLParser.getThisDownloadsUrl(task.UrlFormat, day),
-                        Destination = task.DownloadLocation,
+                        Url = URLParser.getThisDownloadsUrl(mdt[i].UrlFormat, day),
+                        Destination = mdt[i].DownloadLocation,
                         // Give the extracted files renaming format
-                        FileName = URLParser.getThisDownloadsUrl(task.DestinationFileFormat, day),
-                        Progress = task.TaskProgress,
-                        Status = task.TaskStatus
+                        FileName = URLParser.getThisDownloadsUrl(mdt[i].DestinationFileFormat, day),
+                        Progress = mdt[i].TaskProgress,
+                        Status = mdt[i].TaskStatus
                     });
                 }
-                task.FileDownloads = fdt;
+                mdt[i].FileDownloads = fdt;
             }
             return mdt;
         }
