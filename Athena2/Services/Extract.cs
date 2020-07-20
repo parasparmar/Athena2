@@ -30,11 +30,13 @@ namespace Athena.Services
                 {
                     currentTask.Status = "Completed";
                     currentTask.Progress = 100;
+                    return true;
                 }
                 else
                 {
                     currentTask.Status = "Failed";
                     currentTask.Progress = 0;
+                    return false;
                 }
             }
             else
@@ -43,18 +45,20 @@ namespace Athena.Services
                 {
                     currentTask.Status = "Completed";
                     currentTask.Progress = 100;
+                    return true;
                 }
                 else
                 {
                     currentTask.Status = "Failed";
                     currentTask.Progress = 0;
+                    return false;
                 }
             }
             return true;
         }
         private static bool SingleFile(HttpWebResponse response, ref FileDownload currentTask)
         {
-            var downloadPath = currentTask.Destination + Path.DirectorySeparatorChar + currentTask.FileName;
+            var downloadPath = Path.Combine(currentTask.Destination, currentTask.FileName);
             const int BUFFER_SIZE = 16 * 1024;
             long intLen = response.ContentLength;
             byte[] buffer = new byte[intLen];
@@ -73,6 +77,8 @@ namespace Athena.Services
                             fileStream.Write(buffer, 0, bytesRead);
                         } while (bytesRead > 0);
                     }
+
+
                     fileStream.Close();
                     return true;
                 }
@@ -112,7 +118,13 @@ namespace Athena.Services
                         zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
                         foreach (ZipEntry e in zip)
                         {
-                            e.Extract(currentTask.Destination);
+                            e.Extract(currentTask.Destination,ExtractExistingFileAction.OverwriteSilently);
+                            var extractedFile = Path.Combine(currentTask.Destination, e.FileName);
+                            if (File.Exists(extractedFile))
+                            {
+                                var newFileName = Path.Combine(currentTask.Destination, currentTask.FileName);
+                                File.Move(extractedFile, newFileName);
+                            }
                         }
                     }
                 }
