@@ -19,7 +19,7 @@ namespace Athena.Services
             {
                 Directory.CreateDirectory(currentTask.Destination);
             }
-            var downloadPath = currentTask.Destination + Path.DirectorySeparatorChar + currentTask.FileName;
+            var downloadPath = Path.Combine(currentTask.Destination, currentTask.FileName);
 
 
             if (response.ContentType.Contains("zip") || response.ContentEncoding.Contains("zip"))
@@ -118,7 +118,7 @@ namespace Athena.Services
                         zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
                         foreach (ZipEntry e in zip)
                         {
-                            e.Extract(currentTask.Destination,ExtractExistingFileAction.OverwriteSilently);
+                            e.Extract(currentTask.Destination, ExtractExistingFileAction.OverwriteSilently);
                             var extractedFile = Path.Combine(currentTask.Destination, e.FileName);
                             if (File.Exists(extractedFile))
                             {
