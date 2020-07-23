@@ -9,7 +9,7 @@ using Athena.Models;
 
 namespace Athena
 {
-    class BSE : Exchange
+    class BSE
     {
         string ServerFile_NameOnly = string.Empty;
         string ServerURI_WFileName = string.Empty;
@@ -17,8 +17,8 @@ namespace Athena
         public static Stream OutputFile { get; private set; }
         public static string InputFile { get; private set; }
 
-        private Task currentTask = new Task();
-        public Task GetTask(DateTime individual_Day)
+        private FileDownloads currentTask = new FileDownloads();
+        public FileDownloads CreateBSETask(DateTime individual_Day)
         {
 
             // BSE India Bhav Copy http://www.bseindia.com/download/BhavCopy/Equity/EQ141015_CSV.ZIP
@@ -36,16 +36,16 @@ namespace Athena
 
 
             // 0. onDate = The date component of the associated downloaded file.
-            currentTask.MyDate = individual_Day.Date;
-            // 1. URIWithFileName = The complete download path and file name
-            currentTask.URIWithFileName = ServerURI_WFileName;
+            currentTask.Date = individual_Day.Date;
+            // 1. SourceURL = The complete download path and file name
+            currentTask.Url = ServerURI_WFileName;
             // 2. FileNameOnServer = Only the file name of the downloaded file. It will be concatenated with fbdDownloadLocation.SelectedPath to acheive the 
             // full path and file name of the local file.
-            currentTask.FileNameOnServer = ServerFile_NameOnly;
+            currentTask.FileName = ServerFile_NameOnly;
             // 3. LocalFile_NameOnly = The eventually Deflated(unzipped) file name.
-            currentTask.FileNameAfterUnZip = individual_Day.ToString("yyyyMMdd") + ".csv";
+            currentTask.FileName = individual_Day.ToString("yyyyMMdd") + ".csv";
             // 4. MarketFolder = The individual path to which each Market's file should be downloaded to.
-            currentTask.MarketFolder = market;
+            currentTask.Destination = market;
             return currentTask;
 
         }
