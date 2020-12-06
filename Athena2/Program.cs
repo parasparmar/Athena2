@@ -16,7 +16,7 @@ namespace Athena
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmFM());
+            Application.Run(new MainForm());
         }
     }
 }

@@ -22,14 +22,14 @@ using System.Web;
 
 namespace Athena
 {
-    public partial class frmFM : Form
+    public partial class MainForm : Form
     {
         private string saveFolderPath = string.Empty;
         private string TaskName = string.Empty;
-        private string[] stringSeparators = new string[] { "\r\n" };
+        private readonly string[] stringSeparators = new string[] { "\r\n" };
         private List<MyDownloadTask> tasks = new List<MyDownloadTask>();
-        readonly Helper db = new Helper();
-        public frmFM()
+        readonly Helper myDb = new Helper();
+        public MainForm()
         {
             InitializeComponent();
             progressBarTask1.Minimum = 0;
@@ -40,10 +40,10 @@ namespace Athena
             tasks = FMViewModel.GetTaskList();
             PopulateTaskList(tasks);
         }
-        private async void btnDownload_Click(object sender, EventArgs e)
+        private void BtnDownload_Click(object sender, EventArgs e)
         {
 
-            MessageBox.Show($"Downloading {TaskName} to {saveFolderPath}");
+            MessageBox.Show(text:$"Downloading {TaskName} to {saveFolderPath}");
             var selectedtasks = tasks.Where(b => b.Selected == true).ToList();
             int count = selectedtasks.Count;
 
@@ -80,37 +80,37 @@ namespace Athena
             MessageBox.Show($"Success. Downloading {TaskName} to {saveFolderPath} is complete.", "Success", MessageBoxButtons.OK);
 
         }
-        private void PopulateTaskList(List<MyDownloadTask> tasks)
+        private void PopulateTaskList(List<MyDownloadTask> myTasks)
         {
-            if (tasks != null)
+            if (myTasks != null)
             {
                 clbTaskList.Items.Clear();
-                clbTaskList.Items.AddRange(tasks.Select(a => a.TaskName).ToArray());
+                clbTaskList.Items.AddRange(myTasks.Select(a => a.TaskName).ToArray());
             }
             else
             {
                 clbTaskList.Items.Clear();
             }
         }
-        private void btnBrowse_Click(object sender, EventArgs e)
+        private void BtnBrowse_Click(object sender, EventArgs e)
         {
-            DialogResult d = fbDownloadLocation.ShowDialog();
+            fbDownloadLocation.ShowDialog();
             fbDownloadLocation.ShowNewFolderButton = true;
             saveFolderPath = fbDownloadLocation.SelectedPath;
             tbSaveFolderPath.Text = saveFolderPath;
         }
-        private void tbSaveFolderPath_TextChanged(object sender, EventArgs e)
+        private void TbSaveFolderPath_TextChanged(object sender, EventArgs e)
         {
             saveFolderPath = tbSaveFolderPath.Text;
             btnDownload.Enabled = true;
         }
 
-        private void tbTaskName_TextChanged(object sender, EventArgs e)
+        private void TbTaskName_TextChanged(object sender, EventArgs e)
         {
             TaskName = tbTaskName.Text;
             groupBoxTask1.Text = TaskName;
         }
-        private void clbTaskList_SelectedIndexChanged(object sender, EventArgs e)
+        private void ClbTaskList_SelectedIndexChanged(object sender, EventArgs e)
         {
             TaskName = clbTaskList.SelectedItem.ToString();
             var d = tasks.SingleOrDefault(a => a.TaskName == TaskName);
@@ -133,7 +133,7 @@ namespace Athena
                     tbDestinationFormat.Text = d.DestinationFileFormat;
                 }
 
-                tbTaskName_TextChanged(this, new EventArgs { });
+                TbTaskName_TextChanged(this, new EventArgs { });
             }
             progressBarTask1.Value = 0;
         }
@@ -157,15 +157,15 @@ namespace Athena
             }
 
         }
-        private void selectTask(MyDownloadTask s)
+        private static void selectTask(MyDownloadTask s)
         {
             s.Selected = true;
         }
-        private void unSelectTask(MyDownloadTask s)
+        private static void unSelectTask(MyDownloadTask s)
         {
             s.Selected = false;
         }
-        private void toggleSelectionOfTask(MyDownloadTask s)
+        private static void toggleSelectionOfTask(MyDownloadTask s)
         {
             s.Selected = s.Selected ? false : true;
         }

@@ -1,6 +1,6 @@
 ﻿namespace Athena
 {
-    partial class frmFM
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -17,7 +17,7 @@
             {
                 components.Dispose();
             }
-            db.Dispose();
+            myDb.Dispose();
             base.Dispose(disposing);
         }
 
@@ -29,7 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFM));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.btnDownload = new System.Windows.Forms.Button();
             this.tbSourceUrl = new System.Windows.Forms.TextBox();
             this.tab = new System.Windows.Forms.TabControl();
@@ -80,7 +80,7 @@
             this.btnDownload.TabIndex = 0;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = false;
-            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
+            this.btnDownload.Click += new System.EventHandler(this.BtnDownload_Click);
             // 
             // tbSourceUrl
             // 
@@ -194,7 +194,7 @@
             this.clbTaskList.Size = new System.Drawing.Size(421, 302);
             this.clbTaskList.TabIndex = 8;
             this.clbTaskList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbTaskList_ItemCheck);
-            this.clbTaskList.SelectedIndexChanged += new System.EventHandler(this.clbTaskList_SelectedIndexChanged);
+            this.clbTaskList.SelectedIndexChanged += new System.EventHandler(this.ClbTaskList_SelectedIndexChanged);
             this.clbTaskList.DragDrop += new System.Windows.Forms.DragEventHandler(this.clbTaskList_DragDrop);
             this.clbTaskList.DragEnter += new System.Windows.Forms.DragEventHandler(this.clbTaskList_DragEnter);
             // 
@@ -274,7 +274,7 @@
             this.tbTaskName.Name = "tbTaskName";
             this.tbTaskName.Size = new System.Drawing.Size(396, 20);
             this.tbTaskName.TabIndex = 2;
-            this.tbTaskName.TextChanged += new System.EventHandler(this.tbTaskName_TextChanged);
+            this.tbTaskName.TextChanged += new System.EventHandler(this.TbTaskName_TextChanged);
             // 
             // btnManualTokens
             // 
@@ -296,7 +296,7 @@
             this.btnBrowse.TabIndex = 6;
             this.btnBrowse.Text = "Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            this.btnBrowse.Click += new System.EventHandler(this.BtnBrowse_Click);
             // 
             // tbTaskStatus
             // 
@@ -361,7 +361,7 @@
             this.tbSaveFolderPath.ReadOnly = true;
             this.tbSaveFolderPath.Size = new System.Drawing.Size(260, 20);
             this.tbSaveFolderPath.TabIndex = 3;
-            this.tbSaveFolderPath.TextChanged += new System.EventHandler(this.tbSaveFolderPath_TextChanged);
+            this.tbSaveFolderPath.TextChanged += new System.EventHandler(this.TbSaveFolderPath_TextChanged);
             // 
             // label7
             // 
