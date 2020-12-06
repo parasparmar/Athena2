@@ -57,7 +57,7 @@ namespace Athena.Services
             using (Helper db = new Helper())
             {
                 Download dld = new Download();
-                if (d != null && d.Id != null)
+                if (d != null && d.Id >0)
                 {
                     dld = db.Downloads.Find(d.Id);
                     if (dld != null)
@@ -85,7 +85,7 @@ namespace Athena.Services
             {
                 DownloadTask dtd = new DownloadTask();
                 Download dld = new Download();
-                if (d != null && d.DownloadTaskId != null)
+                if (d != null && d.DownloadTaskId > 0)
                 {
                     dtd = db.DownloadTasks.Find(d.DownloadTaskId);
                     dld = db.Downloads.Include(a => a.Link).Where(e => e.LinkId == 1).FirstOrDefault();

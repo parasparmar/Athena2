@@ -54,7 +54,7 @@ namespace Athena.Services
                     return false;
                 }
             }
-            return true;
+            
         }
         private static bool SingleFile(HttpWebResponse response, ref FileDownload currentTask)
         {
@@ -108,22 +108,23 @@ namespace Athena.Services
                     numBytesToRead -= n;
                 } while (numBytesToRead > 0);
 
-                MemoryStream memStream = new MemoryStream(buffer);
-
                 try
                 {
-                    using (ZipFile zip = ZipFile.Read(memStream))
+                    using (MemoryStream memStream = new MemoryStream(buffer))
                     {
-                        currentTask.ZippedFiles = zip.EntryFileNames.ToList();
-                        zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
-                        foreach (ZipEntry e in zip)
+                        using (ZipFile zip = ZipFile.Read(memStream))
                         {
-                            e.Extract(currentTask.Destination, ExtractExistingFileAction.OverwriteSilently);
-                            var extractedFile = Path.Combine(currentTask.Destination, e.FileName);
-                            if (File.Exists(extractedFile))
+                            currentTask.ZippedFiles = zip.EntryFileNames.ToList();
+                            zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
+                            foreach (ZipEntry e in zip)
                             {
-                                var newFileName = Path.Combine(currentTask.Destination, currentTask.FileName);
-                                File.Move(extractedFile, newFileName);
+                                e.Extract(currentTask.Destination, ExtractExistingFileAction.OverwriteSilently);
+                                var extractedFile = Path.Combine(currentTask.Destination, e.FileName);
+                                if (File.Exists(extractedFile))
+                                {
+                                    var newFileName = Path.Combine(currentTask.Destination, currentTask.FileName);
+                                    File.Move(extractedFile, newFileName);
+                                }
                             }
                         }
                     }
@@ -133,7 +134,6 @@ namespace Athena.Services
                     Console.WriteLine($"exception: {ex.Message.ToString()}");
                     return false;
                 }
-
                 return true;
             }
 

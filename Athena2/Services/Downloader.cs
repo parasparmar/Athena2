@@ -19,8 +19,7 @@ namespace Athena.Services
         private CookieContainer cookieJar;
         public String LocalBasePathToDownload;
 
-        // TaskList = This tracks the success or failure of each individual download.
-        List<FileDownload> TaskList = new List<FileDownload>();
+       
         public bool DownloadFile(ref FileDownload CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.

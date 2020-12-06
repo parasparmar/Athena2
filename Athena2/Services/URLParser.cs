@@ -124,7 +124,7 @@ namespace Athena.Services
                     dateFormat = formattedUrl.Substring(begin+1, chars);
                     if (dateFormat != null)
                     {
-                        sb.Replace($"{{{dateFormat}}}", day.ToString(dateFormat, CultureInfo.InvariantCulture).ToUpper());
+                        sb.Replace($"{{{dateFormat}}}", day.ToString(dateFormat, CultureInfo.InvariantCulture).ToUpper(CultureInfo.InvariantCulture));
                     }
                     begin++;
                 }

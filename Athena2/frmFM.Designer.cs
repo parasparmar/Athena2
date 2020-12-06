@@ -137,7 +137,7 @@
             this.btnReset.TabIndex = 9;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            this.btnReset.Click += new System.EventHandler(this.BtnReset_Click);
             // 
             // btnRemoveTask
             // 
@@ -147,7 +147,7 @@
             this.btnRemoveTask.TabIndex = 9;
             this.btnRemoveTask.Text = "Remove";
             this.btnRemoveTask.UseVisualStyleBackColor = true;
-            this.btnRemoveTask.Click += new System.EventHandler(this.btnRemoveTask_Click);
+            this.btnRemoveTask.Click += new System.EventHandler(this.BtnRemoveTask_Click);
             // 
             // btnSelectInvert
             // 
@@ -157,7 +157,7 @@
             this.btnSelectInvert.TabIndex = 9;
             this.btnSelectInvert.Text = "Invert";
             this.btnSelectInvert.UseVisualStyleBackColor = true;
-            this.btnSelectInvert.Click += new System.EventHandler(this.btnSelectInvert_Click);
+            this.btnSelectInvert.Click += new System.EventHandler(this.BtnSelectInvert_Click);
             // 
             // btnSelectNone
             // 
@@ -167,7 +167,7 @@
             this.btnSelectNone.TabIndex = 9;
             this.btnSelectNone.Text = "None";
             this.btnSelectNone.UseVisualStyleBackColor = true;
-            this.btnSelectNone.Click += new System.EventHandler(this.btnSelectNone_Click);
+            this.btnSelectNone.Click += new System.EventHandler(this.BtnSelectNone_Click);
             // 
             // btnSelectAll
             // 
@@ -177,7 +177,7 @@
             this.btnSelectAll.TabIndex = 9;
             this.btnSelectAll.Text = "All";
             this.btnSelectAll.UseVisualStyleBackColor = true;
-            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
+            this.btnSelectAll.Click += new System.EventHandler(this.BtnSelectAll_Click);
             // 
             // clbTaskList
             // 
@@ -193,10 +193,10 @@
             this.clbTaskList.Name = "clbTaskList";
             this.clbTaskList.Size = new System.Drawing.Size(421, 302);
             this.clbTaskList.TabIndex = 8;
-            this.clbTaskList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.clbTaskList_ItemCheck);
+            this.clbTaskList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ClbTaskList_ItemCheck);
             this.clbTaskList.SelectedIndexChanged += new System.EventHandler(this.ClbTaskList_SelectedIndexChanged);
-            this.clbTaskList.DragDrop += new System.Windows.Forms.DragEventHandler(this.clbTaskList_DragDrop);
-            this.clbTaskList.DragEnter += new System.Windows.Forms.DragEventHandler(this.clbTaskList_DragEnter);
+            this.clbTaskList.DragDrop += new System.Windows.Forms.DragEventHandler(this.ClbTaskList_DragDrop);
+            this.clbTaskList.DragEnter += new System.Windows.Forms.DragEventHandler(this.ClbTaskList_DragEnter);
             // 
             // groupBoxTask1
             // 
@@ -246,7 +246,7 @@
             this.btnRemoveThisTaskfromTaskList.TabIndex = 8;
             this.btnRemoveThisTaskfromTaskList.Text = "Remove from Tasklist";
             this.btnRemoveThisTaskfromTaskList.UseVisualStyleBackColor = true;
-            this.btnRemoveThisTaskfromTaskList.Click += new System.EventHandler(this.btnRemoveThisTaskfromTaskList_Click);
+            this.btnRemoveThisTaskfromTaskList.Click += new System.EventHandler(this.BtnRemoveThisTaskfromTaskList_Click);
             // 
             // progressBarTask1
             // 
@@ -265,7 +265,7 @@
             this.btnAddTask.TabIndex = 8;
             this.btnAddTask.Text = "Add to Tasklist";
             this.btnAddTask.UseVisualStyleBackColor = true;
-            this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
+            this.btnAddTask.Click += new System.EventHandler(this.BtnAddTask_Click);
             // 
             // tbTaskName
             // 
@@ -285,7 +285,7 @@
             this.btnManualTokens.TabIndex = 6;
             this.btnManualTokens.Text = "Manual Tokens";
             this.btnManualTokens.UseVisualStyleBackColor = true;
-            this.btnManualTokens.Click += new System.EventHandler(this.btnManualTokens_Click);
+            this.btnManualTokens.Click += new System.EventHandler(this.BtnManualTokens_Click);
             // 
             // btnBrowse
             // 

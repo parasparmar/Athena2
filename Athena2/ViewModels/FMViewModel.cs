@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using Athena.Models;
 using System.Data.Entity;
 using Athena.Services;
+using System.Globalization;
 
 namespace Athena.ViewModels
 {
 
     class FMViewModel
     {
-
+        
+        
         public static List<Download> GetDownloads(MyDownloadTask t)
         {
             List<Download> d = new List<Download>();

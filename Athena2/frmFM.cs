@@ -147,9 +147,9 @@ namespace Athena
             tbDestinationFormat.Text = fileFormat;
         }
 
-        private void btnSelectAll_Click(object sender, EventArgs e)
+        private void BtnSelectAll_Click(object sender, EventArgs e)
         {
-            tasks.ForEach(a => selectTask(a));
+            tasks.ForEach(a => SelectTask(a));
             var itemCount = clbTaskList.Items.Count;
             for (int i = 0; i < itemCount; i++)
             {
@@ -157,21 +157,21 @@ namespace Athena
             }
 
         }
-        private static void selectTask(MyDownloadTask s)
+        private static void SelectTask(MyDownloadTask s)
         {
             s.Selected = true;
         }
-        private static void unSelectTask(MyDownloadTask s)
+        private static void UnSelectTask(MyDownloadTask s)
         {
             s.Selected = false;
         }
-        private static void toggleSelectionOfTask(MyDownloadTask s)
+        private static void ToggleSelectionOfTask(MyDownloadTask s)
         {
             s.Selected = s.Selected ? false : true;
         }
-        private void btnSelectNone_Click(object sender, EventArgs e)
+        private void BtnSelectNone_Click(object sender, EventArgs e)
         {
-            tasks.ForEach(a => unSelectTask(a));
+            tasks.ForEach(a => UnSelectTask(a));
             var itemCount = clbTaskList.Items.Count;
             for (int i = 0; i < itemCount; i++)
             {
@@ -179,9 +179,9 @@ namespace Athena
             }
 
         }
-        private void btnSelectInvert_Click(object sender, EventArgs e)
+        private void BtnSelectInvert_Click(object sender, EventArgs e)
         {
-            tasks.ForEach(a => toggleSelectionOfTask(a));
+            tasks.ForEach(a => ToggleSelectionOfTask(a));
             var itemCount = clbTaskList.Items.Count;
             for (int i = 0; i < itemCount; i++)
             {
@@ -196,7 +196,7 @@ namespace Athena
             }
 
         }
-        private void clbTaskList_DragEnter(object sender, DragEventArgs e)
+        private void ClbTaskList_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
@@ -217,7 +217,7 @@ namespace Athena
                 MessageBox.Show("Invalid type for drag and drop.");
             }
         }
-        private string TestOfDragDropFormats(DragEventArgs e)
+        private static string TestOfDragDropFormats(DragEventArgs e)
         {
             Array data = ((IDataObject)e.Data).GetFormats() as Array;
             StringBuilder sb = new StringBuilder();
@@ -234,7 +234,7 @@ namespace Athena
             Debug.WriteLine(allowedformats);
             return allowedformats;
         }
-        private async Task retrieveBrowserData(string source)
+        private async Task RetrieveBrowserData(string source)
         {
             //Use the default configuration for AngleSharp
             var config = Configuration.Default;
@@ -250,11 +250,11 @@ namespace Athena
             //Serialize it back to the console
             Console.WriteLine(document.DocumentElement.OuterHtml);
         }
-        private void btnRemoveTask_Click(object sender, EventArgs e)
+        private void BtnRemoveTask_Click(object sender, EventArgs e)
         {
             clbTaskList.Items.Remove(clbTaskList.SelectedItems);
         }
-        private void btnAddTask_Click(object sender, EventArgs e)
+        private void BtnAddTask_Click(object sender, EventArgs e)
         {
             var myTask = new MyDownloadTask
             {
@@ -270,7 +270,7 @@ namespace Athena
             PopulateTaskList(tasks);
             MessageBox.Show("This task has been saved to the tasklist");
         }
-        private void clbTaskList_DragDrop(object sender, DragEventArgs e)
+        private void ClbTaskList_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
             {
@@ -287,7 +287,7 @@ namespace Athena
 
                 var htmlFragment = e.Data.GetData(DataFormats.Html).ToString().Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
                 var source = htmlFragment[8];
-                retrieveBrowserData(source);
+                RetrieveBrowserData(source);
                 //var testing = TestOfDragDropFormats(e);
             }
             else
@@ -296,7 +296,7 @@ namespace Athena
                 MessageBox.Show("Invalid type for drag and drop.");
             }
         }
-        private void btnRemoveThisTaskfromTaskList_Click(object sender, EventArgs e)
+        private void BtnRemoveThisTaskfromTaskList_Click(object sender, EventArgs e)
         {
             var taskId = (int)nmTaskId.Value;
             if (taskId > 0)
@@ -306,11 +306,11 @@ namespace Athena
                 PopulateTaskList(tasks);
             }
         }
-        private void btnManualTokens_Click(object sender, EventArgs e)
+        private void BtnManualTokens_Click(object sender, EventArgs e)
         {
             MessageBox.Show("This will manually tokenize the FileFormats and URL Formats");
             var taskId = (int)nmTaskId.Value;
-            if (taskId != null && taskId > 0)
+            if (taskId > 0)
             {
                 using (Helper db = new Helper())
                 {
@@ -324,7 +324,7 @@ namespace Athena
 
 
         }
-        private void btnReset_Click(object sender, EventArgs e)
+        private void BtnReset_Click(object sender, EventArgs e)
         {
             tasks = FMViewModel.GetTaskList();
             PopulateTaskList(tasks);
@@ -337,7 +337,7 @@ namespace Athena
             tbTaskStatus.ResetText();
             progressBarTask1.Value = 0;
         }
-        private void clbTaskList_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void ClbTaskList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var taskName = clbTaskList.Items[e.Index].ToString();
             var thisTask = tasks.SingleOrDefault(a => a.TaskName == taskName);
