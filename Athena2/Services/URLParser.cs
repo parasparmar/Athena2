@@ -15,7 +15,7 @@ namespace Athena.Services
 {
     class URLParser
     {
-        public static string[] DateFormats = new string[] { "ddMMyy", "ddMMyyyy", "ddMMMyy", "ddMMMyyyy", "MMMddyyyy", "MMMddyy", "MMddyyyy", "yyyyMMdd", "yyyyMMMdd", "yyMMMdd", "yyyy", "yy", "MM", "MMM", "dd", "ddd" };
+        public static string[] DateFormats = new string[] { "ddMMyy", "ddMMyyyy", "ddMMMyy", "ddMMMyyyy", "MMMddyyyy", "MMMddyy", "MMddyyyy", "yyyyMMdd", "yyyyMMMdd", "yyMMMdd", "yyyy", "YYYY", "yy", "MM", "MMM", "dd", "ddd" };
         public static string Tokenize(Uri sourceUrl)
         {
 
