@@ -178,6 +178,7 @@
     <Compile Include="Services\URLParser.cs" />
     <Compile Include="ViewModels\FMViewModel.cs" />
     <Compile Include="ViewModels\MyDownloadTask.cs" />
+    <Compile Include="Views\TaskDetails.cs" />
     <EmbeddedResource Include="frmFM.resx">
       <DependentUpon>frmFM.cs</DependentUpon>
     </EmbeddedResource>

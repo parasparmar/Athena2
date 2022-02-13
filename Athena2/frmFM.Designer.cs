@@ -63,6 +63,10 @@
             this.tbpSettings = new System.Windows.Forms.TabPage();
             this.saveToFile = new System.Windows.Forms.SaveFileDialog();
             this.fbDownloadLocation = new System.Windows.Forms.FolderBrowserDialog();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.tab.SuspendLayout();
             this.tbpDownload.SuspendLayout();
             this.groupBoxTask1.SuspendLayout();
@@ -200,6 +204,10 @@
             // 
             // groupBoxTask1
             // 
+            this.groupBoxTask1.Controls.Add(this.label10);
+            this.groupBoxTask1.Controls.Add(this.label9);
+            this.groupBoxTask1.Controls.Add(this.dateTimePicker2);
+            this.groupBoxTask1.Controls.Add(this.dateTimePicker1);
             this.groupBoxTask1.Controls.Add(this.nmTaskId);
             this.groupBoxTask1.Controls.Add(this.btnRemoveThisTaskfromTaskList);
             this.groupBoxTask1.Controls.Add(this.progressBarTask1);
@@ -413,7 +421,41 @@
             this.tbpSettings.Text = "Settings";
             this.tbpSettings.UseVisualStyleBackColor = true;
             // 
-            // frmFM
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(247, 25);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(131, 20);
+            this.dateTimePicker1.TabIndex = 10;
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Location = new System.Drawing.Point(383, 25);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(132, 20);
+            this.dateTimePicker2.TabIndex = 11;
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(244, 9);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(56, 13);
+            this.label9.TabIndex = 12;
+            this.label9.Text = "From Date";
+            // 
+            // label10
+            // 
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(380, 9);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(46, 13);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "To Date";
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -421,7 +463,7 @@
             this.ClientSize = new System.Drawing.Size(975, 366);
             this.Controls.Add(this.tab);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "frmFM";
+            this.Name = "MainForm";
             this.Text = "Financial Markets - Data Downloader";
             this.tab.ResumeLayout(false);
             this.tbpDownload.ResumeLayout(false);
@@ -468,5 +510,9 @@
         private System.Windows.Forms.TextBox tbDestinationFormat;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
     }
 }
