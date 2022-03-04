@@ -15,10 +15,10 @@ using Athena.Services;
 using Athena.Models;
 using Athena.ViewModels;
 using System.Globalization;
-
 using System.Data.Entity;
 using System.Drawing.Text;
 using System.Web;
+using static System.Console;
 
 namespace Athena
 {
@@ -43,13 +43,13 @@ namespace Athena
         private void BtnDownload_Click(object sender, EventArgs e)
         {
 
-            MessageBox.Show(text:$"Downloading {TaskName} to {saveFolderPath}");
+            WriteLine($"Downloading {TaskName} to {saveFolderPath}");
             var selectedtasks = tasks.Where(b => b.Selected == true).ToList();
             int count = selectedtasks.Count;
 
             // Create a list of individual downloadable links that can be given to the downloader.
-            DateTime toDate = DateTime.Today;
-            DateTime fromDate = toDate.Subtract(new TimeSpan(3, 0, 0, 0));
+            DateTime fromDate = dtpFromDate.Value > DateTime.Today ? DateTime.Today.Date : dtpFromDate.Value.Date;
+            DateTime toDate = dtpToDate.Value > DateTime.Today ? DateTime.Today.Date : dtpToDate.Value.Date;
 
 
 

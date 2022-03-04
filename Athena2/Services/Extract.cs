@@ -118,13 +118,7 @@ namespace Athena.Services
                             zip.ExtractExistingFile = ExtractExistingFileAction.OverwriteSilently;
                             foreach (ZipEntry e in zip)
                             {
-                                e.Extract(currentTask.Destination, ExtractExistingFileAction.OverwriteSilently);
-                                var extractedFile = Path.Combine(currentTask.Destination, e.FileName);
-                                if (File.Exists(extractedFile))
-                                {
-                                    var newFileName = Path.Combine(currentTask.Destination, currentTask.FileName);
-                                    File.Move(extractedFile, newFileName);
-                                }
+                                e.Extract(currentTask.Destination, ExtractExistingFileAction.OverwriteSilently);                                                                
                             }
                         }
                     }
