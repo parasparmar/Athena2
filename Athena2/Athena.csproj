@@ -19,26 +19,27 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>ftp://sg1-wts1.my-hosting-panel.com/virtual_athena_downloads/</PublishUrl>
+    <PublishUrl>D:\ATHENA_PUBLISHED\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
+    <UpdateMode>Background</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://athena.parasparmar.com/downloads/</InstallUrl>
+    <InstallUrl>https://parasparmar.com/athena/downloads/</InstallUrl>
     <UpdateUrl>https://athena.parasparmar.com/downloads/</UpdateUrl>
-    <SupportUrl>https://athena.parasparmar.com/support/</SupportUrl>
-    <ErrorReportUrl>https://athena.parasparmar.com/info/</ErrorReportUrl>
+    <SupportUrl>https://parasparmar.com/support/</SupportUrl>
+    <ErrorReportUrl>https://parasparmar.com/athena/info/</ErrorReportUrl>
     <ProductName>Athena</ProductName>
     <PublisherName>Paras Parmar</PublisherName>
     <SuiteName>Financial Markets Suite</SuiteName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
-    <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>0</ApplicationRevision>
+    <WebPage>publish.html</WebPage>
+    <AutorunEnabled>true</AutorunEnabled>
+    <DisallowUrlActivation>true</DisallowUrlActivation>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -69,19 +70,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>C617CB77B382FC8102AF58667E525C0B228211F6</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>31BC97ADEFA02203EF30F327A1F983216AF68245</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Athena2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>Athena_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>msn.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>Internet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AngleSharp, Version=0.16.1.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
@@ -225,7 +232,9 @@
     <Content Include="Database\athena.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Athena_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30204.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Athena", "Athena2\Athena.csproj", "{E3014609-1567-42AF-9701-59EEB6686C14}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AthenaTests", "AthenaTests\AthenaTests.csproj", "{C03C04A8-766F-4190-9D4B-4F93A9E3B150}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AthenaUI", "AthenaUI\AthenaUI.csproj", "{4AD2455A-486A-4086-ADE8-D50A88D59E36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C03C04A8-766F-4190-9D4B-4F93A9E3B150}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C03C04A8-766F-4190-9D4B-4F93A9E3B150}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C03C04A8-766F-4190-9D4B-4F93A9E3B150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD2455A-486A-4086-ADE8-D50A88D59E36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD2455A-486A-4086-ADE8-D50A88D59E36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD2455A-486A-4086-ADE8-D50A88D59E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD2455A-486A-4086-ADE8-D50A88D59E36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
