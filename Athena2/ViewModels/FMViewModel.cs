@@ -17,17 +17,18 @@ namespace Athena.ViewModels
         
         public static List<Download> GetDownloads(MyDownloadTask t)
         {
-            List<Download> d = new List<Download>();
+            
             using (Helper db = new Helper())
             {
-                d = db.DownloadTasks
+               var d = db.DownloadTasks
                       .Include(b => b.Link.Download)
                       .SingleOrDefault(a => a.Id == t.DownloadTaskId)
                       .Link
                       .Download
                       .ToList();
+                return d;
             }
-            return d;
+            
         }
 
         public static List<Download> GetOrCreateDownloads(MyDownloadTask t)
