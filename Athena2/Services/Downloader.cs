@@ -11,6 +11,7 @@ using Athena.ViewModels;
 using System.Data;
 using System.Data.Entity;
 using System.Windows.Forms;
+using System.Net.Http;
 
 namespace Athena.Services
 {
@@ -19,7 +20,7 @@ namespace Athena.Services
         private CookieContainer cookieJar;
         public String LocalBasePathToDownload;
 
-       
+
         public bool DownloadFile(ref FileDownload CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
@@ -27,14 +28,21 @@ namespace Athena.Services
             {
                 HttpWebRequest request;
                 HttpWebResponse response;
+                using (HttpClient client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(CurrentTask.Url);
+                    
+                    
 
+                }
                 request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.Url);
                 //request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
-                request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0";
-                request.Accept = "text/html, application/xhtml+xml, */*";
+                //request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0";
+                request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203";
+                request.Accept = "*/*";
                 ////.Connection = "Keep-Alive";
                 request.Headers.Add("Accept-Language", "en-IN");
-                request.Headers.Add("Accept-Encoding", "gzip, deflate");
+                request.Headers.Add("Accept-Encoding", "gzip, deflate, br");
                 request.Headers.Add("DNT", "1");
                 request.CookieContainer = cookieJar;
 

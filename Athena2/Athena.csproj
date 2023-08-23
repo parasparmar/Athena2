@@ -243,11 +243,11 @@
     <Compile Include="Models\DownloadTask.cs" />
     <Compile Include="Models\Exchange.cs" />
     <Compile Include="Models\FileDownload.cs" />
-    <Compile Include="frmFM.cs">
+    <Compile Include="AthenaForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFM.Designer.cs">
-      <DependentUpon>frmFM.cs</DependentUpon>
+    <Compile Include="AthenaForm.Designer.cs">
+      <DependentUpon>AthenaForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\HelperDbContext.cs" />
     <Compile Include="Models\Link.cs" />
@@ -264,8 +264,8 @@
     <Compile Include="ViewModels\FMViewModel.cs" />
     <Compile Include="ViewModels\MyDownloadTask.cs" />
     <Compile Include="Views\TaskDetails.cs" />
-    <EmbeddedResource Include="frmFM.resx">
-      <DependentUpon>frmFM.cs</DependentUpon>
+    <EmbeddedResource Include="AthenaForm.resx">
+      <DependentUpon>AthenaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
