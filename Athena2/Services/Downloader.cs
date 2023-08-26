@@ -21,7 +21,7 @@ namespace Athena.Services
         public String LocalBasePathToDownload;
 
 
-        public bool DownloadFile(ref FileDownload CurrentTask)
+        public bool DownloadFile(FileDownload CurrentTask)
         {
             //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
             try

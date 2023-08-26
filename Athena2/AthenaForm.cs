@@ -68,7 +68,7 @@ namespace Athena
                     for (int j = 0; j < fd.Count; j++)
                     {
                         var myFd = fd[j];
-                        d.DownloadFile(ref myFd);
+                        d.DownloadFile(myFd);
                         fd[j] = myFd;
                     }
                     selectedTaskList[i].FileDownloads = fd;
