@@ -7,7 +7,6 @@ using System.Linq;
 
 namespace Athena.ViewModels
 {
-
     class FMViewModel
     {
         

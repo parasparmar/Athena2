@@ -38,7 +38,7 @@ namespace Athena
         {
 
             WriteLine($"Downloading {TaskName} to {saveFolderPath}");
-            var selectedtasks = tasks.Where(b => b.Selected).ToList();            
+            var selectedtasks = tasks.Where(b => b.Selected).ToList();
 
             // Create a list of individual downloadable links that can be given to the downloader.
             DateTime fromDate = dtpFromDate.Value > DateTime.Today ? DateTime.Today.Date : dtpFromDate.Value.Date;
@@ -48,7 +48,7 @@ namespace Athena
             using (Helper db = new Helper())
             {
                 var selectedTaskList = DownloadTaskFactory.createFileDownloads(ref selectedtasks, fromDate, toDate);
-                int selectedTaskListCount = selectedTaskList.Count;                
+                int selectedTaskListCount = selectedTaskList.Count;
                 for (int i = 0; i < selectedTaskListCount; i++)
                 {
                     var fd = selectedTaskList[i].FileDownloads;
@@ -100,30 +100,31 @@ namespace Athena
 
         private void ClbTaskList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TaskName = clbTaskList.SelectedItem.ToString();
-            var d = tasks.SingleOrDefault(a => a.TaskName == TaskName);
-
-
-            if (d != null)
+            if (clbTaskList.SelectedItem != null)
             {
-                nmTaskId.Value = d.DownloadTaskId;
-                tbTaskName.Text = d.TaskName;
-                tbSourceUrl.Text = d.SourceUrl;
-                tbUrlFormat.Text = d.UrlFormat;
-                tbTaskStatus.Text = d.TaskStatus;
-                tbSaveFolderPath.Text = d.DownloadLocation;
-                if (d.DestinationFileFormat == null)
+                TaskName = clbTaskList.SelectedItem.ToString();
+                var d = tasks.SingleOrDefault(a => a.TaskName == TaskName);
+                if (d != null)
                 {
-                    Tokenize(d);
-                }
-                else
-                {
-                    tbDestinationFormat.Text = d.DestinationFileFormat;
-                }
+                    nmTaskId.Value = d.DownloadTaskId;
+                    tbTaskName.Text = d.TaskName;
+                    tbSourceUrl.Text = d.SourceUrl;
+                    tbUrlFormat.Text = d.UrlFormat;
+                    tbTaskStatus.Text = d.TaskStatus;
+                    tbSaveFolderPath.Text = d.DownloadLocation;
+                    if (d.DestinationFileFormat == null)
+                    {
+                        Tokenize(d);
+                    }
+                    else
+                    {
+                        tbDestinationFormat.Text = d.DestinationFileFormat;
+                    }
 
-                TbTaskName_TextChanged(this, new EventArgs { });
+                    TbTaskName_TextChanged(this, new EventArgs { });
+                }
+                progressBarTask1.Value = 0;
             }
-            progressBarTask1.Value = 0;
         }
 
         private void Tokenize(MyDownloadTask d)
