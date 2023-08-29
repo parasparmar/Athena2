@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Athena.Models;
+using System;
 using System.Net;
-
-using System.IO;
-using Athena.Models;
-using Athena.ViewModels;
-using System.Data;
-using System.Data.Entity;
-using System.Windows.Forms;
-using System.Net.Http;
 
 namespace Athena.Services
 {
@@ -28,13 +17,6 @@ namespace Athena.Services
             {
                 HttpWebRequest request;
                 HttpWebResponse response;
-                using (HttpClient client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(CurrentTask.Url);
-                    
-                    
-
-                }
                 request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.Url);
                 //request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
                 //request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0";

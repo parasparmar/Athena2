@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Athena.Models;
-using System.Data.Entity;
+﻿using Athena.Models;
 using Athena.Services;
-using System.Globalization;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 
 namespace Athena.ViewModels
 {

@@ -1,23 +1,17 @@
-﻿using System;
+﻿using AngleSharp;
+using AngleSharp.Dom;
+using Athena.Models;
+using Athena.Services;
+using Athena.ViewModels;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using AngleSharp;
-using AngleSharp.Dom;
-using Athena.Services;
-using Athena.Models;
-using Athena.ViewModels;
-using System.Globalization;
-using System.Data.Entity;
-using System.Drawing.Text;
 using System.Web;
+using System.Windows.Forms;
 using static System.Console;
 
 namespace Athena
@@ -44,24 +38,17 @@ namespace Athena
         {
 
             WriteLine($"Downloading {TaskName} to {saveFolderPath}");
-            var selectedtasks = tasks.Where(b => b.Selected == true).ToList();
-            int count = selectedtasks.Count;
+            var selectedtasks = tasks.Where(b => b.Selected).ToList();            
 
             // Create a list of individual downloadable links that can be given to the downloader.
             DateTime fromDate = dtpFromDate.Value > DateTime.Today ? DateTime.Today.Date : dtpFromDate.Value.Date;
             DateTime toDate = dtpToDate.Value > DateTime.Today ? DateTime.Today.Date : dtpToDate.Value.Date;
 
-
-
-
             Downloader d = new Downloader();
             using (Helper db = new Helper())
             {
                 var selectedTaskList = DownloadTaskFactory.createFileDownloads(ref selectedtasks, fromDate, toDate);
-                int selectedTaskListCount = selectedTaskList.Count;
-
-
-                selectedTaskListCount = selectedTaskList.Count;
+                int selectedTaskListCount = selectedTaskList.Count;                
                 for (int i = 0; i < selectedTaskListCount; i++)
                 {
                     var fd = selectedTaskList[i].FileDownloads;
@@ -75,11 +62,9 @@ namespace Athena
                 }
             }
             PersistenceService.SaveDownloads(selectedtasks);
-
-
             MessageBox.Show($"Success. Downloading {TaskName} to {saveFolderPath} is complete.", "Success", MessageBoxButtons.OK);
-
         }
+
         private void PopulateTaskList(List<MyDownloadTask> myTasks)
         {
             if (myTasks != null)
@@ -92,6 +77,7 @@ namespace Athena
                 clbTaskList.Items.Clear();
             }
         }
+
         private void BtnBrowse_Click(object sender, EventArgs e)
         {
             fbDownloadLocation.ShowDialog();
@@ -99,6 +85,7 @@ namespace Athena
             saveFolderPath = fbDownloadLocation.SelectedPath;
             tbSaveFolderPath.Text = saveFolderPath;
         }
+
         private void TbSaveFolderPath_TextChanged(object sender, EventArgs e)
         {
             saveFolderPath = tbSaveFolderPath.Text;
@@ -110,6 +97,7 @@ namespace Athena
             TaskName = tbTaskName.Text;
             groupBoxTask1.Text = TaskName;
         }
+
         private void ClbTaskList_SelectedIndexChanged(object sender, EventArgs e)
         {
             TaskName = clbTaskList.SelectedItem.ToString();
@@ -157,18 +145,22 @@ namespace Athena
             }
 
         }
+
         private static void SelectTask(MyDownloadTask s)
         {
             s.Selected = true;
         }
+
         private static void UnSelectTask(MyDownloadTask s)
         {
             s.Selected = false;
         }
+
         private static void ToggleSelectionOfTask(MyDownloadTask s)
         {
             s.Selected = s.Selected ? false : true;
         }
+
         private void BtnSelectNone_Click(object sender, EventArgs e)
         {
             tasks.ForEach(a => UnSelectTask(a));
@@ -179,6 +171,7 @@ namespace Athena
             }
 
         }
+
         private void BtnSelectInvert_Click(object sender, EventArgs e)
         {
             tasks.ForEach(a => ToggleSelectionOfTask(a));
@@ -196,6 +189,7 @@ namespace Athena
             }
 
         }
+
         private void ClbTaskList_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
@@ -217,6 +211,7 @@ namespace Athena
                 MessageBox.Show("Invalid type for drag and drop.");
             }
         }
+
         private static string TestOfDragDropFormats(DragEventArgs e)
         {
             Array data = ((IDataObject)e.Data).GetFormats() as Array;
@@ -234,6 +229,7 @@ namespace Athena
             Debug.WriteLine(allowedformats);
             return allowedformats;
         }
+
         private async Task RetrieveBrowserData(string source)
         {
             //Use the default configuration for AngleSharp
@@ -250,10 +246,12 @@ namespace Athena
             //Serialize it back to the console
             Console.WriteLine(document.DocumentElement.OuterHtml);
         }
+
         private void BtnRemoveTask_Click(object sender, EventArgs e)
         {
             clbTaskList.Items.Remove(clbTaskList.SelectedItems);
         }
+
         private void BtnAddTask_Click(object sender, EventArgs e)
         {
             var myTask = new MyDownloadTask
@@ -270,6 +268,7 @@ namespace Athena
             PopulateTaskList(tasks);
             MessageBox.Show("This task has been saved to the tasklist");
         }
+
         private void ClbTaskList_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.Text))
@@ -296,6 +295,7 @@ namespace Athena
                 MessageBox.Show("Invalid type for drag and drop.");
             }
         }
+
         private void BtnRemoveThisTaskfromTaskList_Click(object sender, EventArgs e)
         {
             var taskId = (int)nmTaskId.Value;
@@ -306,6 +306,7 @@ namespace Athena
                 PopulateTaskList(tasks);
             }
         }
+
         private void BtnManualTokens_Click(object sender, EventArgs e)
         {
             MessageBox.Show("This will manually tokenize the FileFormats and URL Formats");
@@ -324,6 +325,7 @@ namespace Athena
 
 
         }
+
         private void BtnReset_Click(object sender, EventArgs e)
         {
             tasks = FMViewModel.GetTaskList();
@@ -337,6 +339,7 @@ namespace Athena
             tbTaskStatus.ResetText();
             progressBarTask1.Value = 0;
         }
+
         private void ClbTaskList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var taskName = clbTaskList.Items[e.Index].ToString();
