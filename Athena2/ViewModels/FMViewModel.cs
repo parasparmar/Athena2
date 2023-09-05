@@ -12,8 +12,7 @@ namespace Athena.ViewModels
         
         
         public static List<Download> GetDownloads(MyDownloadTask t)
-        {
-            
+        {            
             using (Helper db = new Helper())
             {
                var d = db.DownloadTasks
@@ -23,13 +22,12 @@ namespace Athena.ViewModels
                       .Download
                       .ToList();
                 return d;
-            }
-            
+            }            
         }
 
         public static List<Download> GetOrCreateDownloads(MyDownloadTask t)
         {
-            List<Download> d = new List<Download>();
+            List<Download> d;
             using (Helper db = new Helper())
             {
                 d = db.DownloadTasks
@@ -38,8 +36,7 @@ namespace Athena.ViewModels
                       .Link
                       .Download
                       .ToList();
-            }
-            var today = DateTime.Today;
+            }            
             return d;
         }
 

@@ -53,7 +53,7 @@ namespace Athena.Services
         public static List<DateTime> getMissingDates(string FolderToScan)
         {
 
-            //List<DateTime> MissingDates = new List<DateTime>();
+            
             string P = Path.GetFullPath(FolderToScan);
             List<string> Directories = Directory.EnumerateDirectories(P).ToList<string>();
             List<string> Files = new List<string>();
