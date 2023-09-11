@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <DockPanel LastChildFill="False"/>
+        
         <TabControl Grid.Column="2">
             <TabItem Header="TabItem">
                 <Grid Background="#FFE5E5E5"/>
@@ -16,8 +16,8 @@
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>
-        <StackPanel/>
-        <StackPanel Grid.Column="1"/>
+        <TreeView/>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
