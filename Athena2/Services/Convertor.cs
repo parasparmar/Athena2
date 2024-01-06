@@ -29,13 +29,7 @@ namespace Athena.Services
             set
             {
                 if (File.Exists(value)) { MyPath = value; } else { return; }
-
             }
-
-
         }
-        
-            
-
     }
 }

@@ -250,12 +250,6 @@
     <Compile Include="Services\Extract.cs" />
     <Compile Include="Services\PersistenceService.cs" />
     <Compile Include="Services\URLParser.cs" />
-    <Compile Include="Settings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Settings.Designer.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\FMViewModel.cs" />
     <Compile Include="ViewModels\MyDownloadTask.cs" />
     <Compile Include="Views\TaskDetails.cs" />
