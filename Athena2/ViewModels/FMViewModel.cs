@@ -172,6 +172,7 @@ namespace Athena.ViewModels
         // Operation : Populate Individual Task Details using the Drag and Drop Feature.
         // Operation : Reset the Individual Task List
         public static List<MyDownloadTask> GetTaskList()
+        
         {
             List<MyDownloadTask> tasks = new List<MyDownloadTask>();
             using (Helper db = new Helper())

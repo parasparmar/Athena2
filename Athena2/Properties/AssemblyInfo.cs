@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Created by Paras Parmar (parasparmar@gmail.com)")]
 [assembly: AssemblyProduct("Athena")]
-[assembly: AssemblyCopyright("Copyright ©  2017 - 2020")]
+[assembly: AssemblyCopyright("Copyright ©  2017 - 2030")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

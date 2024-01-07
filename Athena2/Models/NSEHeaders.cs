@@ -16,6 +16,5 @@ namespace Athena.Models
         public string LOW { get; set; }
         public string CLOSE { get; set; }
         public string TOTTRDQTY { get; set; }
-
     }
 }

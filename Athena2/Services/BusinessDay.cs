@@ -22,7 +22,6 @@ namespace Athena.Services
                     if (theDate.DayOfWeek != DayOfWeek.Saturday && theDate.DayOfWeek != DayOfWeek.Sunday)
                     {
                         T.Add(theDate);
-
                     }
                     theDate = theDate.AddDays(1);
                 }
@@ -42,7 +41,6 @@ namespace Athena.Services
                     if (theDate.DayOfWeek != DayOfWeek.Saturday && theDate.DayOfWeek != DayOfWeek.Sunday)
                     {
                         T.Add(theDate);
-
                     }
                     theDate = theDate.AddDays(1);
                 }
