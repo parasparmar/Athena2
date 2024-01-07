@@ -246,9 +246,8 @@
     <Compile Include="Services\Extract.cs" />
     <Compile Include="Services\PersistenceService.cs" />
     <Compile Include="Services\URLParser.cs" />
-    <Compile Include="ViewModels\FMViewModel.cs" />
-    <Compile Include="ViewModels\MyDownloadTask.cs" />
-    <Compile Include="Views\TaskDetails.cs" />
+    <Compile Include="Models\FMViewModel.cs" />
+    <Compile Include="Models\MyDownloadTask.cs" />
     <EmbeddedResource Include="AthenaForm.resx">
       <DependentUpon>AthenaForm.cs</DependentUpon>
     </EmbeddedResource>

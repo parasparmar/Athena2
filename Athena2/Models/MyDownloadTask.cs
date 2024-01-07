@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Athena.ViewModels
+namespace Athena.Models
 {
     class MyDownloadTask
     {
