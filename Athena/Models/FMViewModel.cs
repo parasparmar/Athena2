@@ -1,9 +1,5 @@
-﻿using Athena.Models;
-using Athena.Services;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using Athena.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Athena.Models
 {

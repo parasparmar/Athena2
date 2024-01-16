@@ -1,14 +1,16 @@
-﻿namespace Athena
+﻿using System.Resources;
+
+namespace Athena
 {
-    partial class MainForm
+    partial class AthenaForm
     {
         /// <summary>
-        /// Required designer variable.
+        ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Clean up any resources being used.
+        ///  Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -17,19 +19,19 @@
             {
                 components.Dispose();
             }
-            myDb.Dispose();
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AthenaForm));
             this.btnDownload = new System.Windows.Forms.Button();
             this.tbSourceUrl = new System.Windows.Forms.TextBox();
             this.tab = new System.Windows.Forms.TabControl();
@@ -186,7 +188,7 @@
             // clbTaskList
             // 
             this.clbTaskList.AllowDrop = true;
-            this.clbTaskList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.clbTaskList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.clbTaskList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.clbTaskList.CheckOnClick = true;
@@ -472,7 +474,6 @@
             this.groupBoxTask1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmTaskId)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -498,7 +499,7 @@
         private System.Windows.Forms.Button btnSelectNone;
         private System.Windows.Forms.Button btnSelectInvert;
         private System.Windows.Forms.Button btnAddTask;
-        private System.Windows.Forms.Button btnRemoveTask;                
+        private System.Windows.Forms.Button btnRemoveTask;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.TextBox tbUrlFormat;
         private System.Windows.Forms.Label label5;

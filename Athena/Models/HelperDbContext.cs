@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Windows.Forms;
 
 namespace Athena.Models
 {
@@ -16,13 +11,19 @@ namespace Athena.Models
         public DbSet<Exchange> Exchanges { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
 
-        public Helper(): base("name=DefaultConnection")
+        public Helper(): base()
         {
             // Turn off the Migrations, (NOT a code first Db)
-            Database.SetInitializer<Helper>(null);
+            //Database.SetInitializer<Helper>(null);
+    //        var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+    //.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test")
+    //.Options;
         }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {            
+            optionsBuilder.UseSqlite("Data Source='\\Database\\athena.db'");
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Database does not pluralize table names
             //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

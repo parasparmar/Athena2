@@ -20,7 +20,8 @@ namespace Athena.Services
                 request = (HttpWebRequest)HttpWebRequest.Create(CurrentTask.Url);
                 //request.UserAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
                 //request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0";
-                request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203";
+                string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203";
+                request.Headers.Set(HttpRequestHeader.UserAgent, userAgent);
                 request.Accept = "*/*";
                 ////.Connection = "Keep-Alive";
                 request.Headers.Add("Accept-Language", "en-IN");

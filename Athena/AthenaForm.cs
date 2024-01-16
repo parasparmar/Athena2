@@ -1,30 +1,26 @@
-﻿using AngleSharp;
+using AngleSharp;
 using AngleSharp.Dom;
+using System.Configuration;
+using System.Diagnostics;
+using System.Text;
+using System.Web;
+using System;
 using Athena.Models;
 using Athena.Services;
-
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Windows.Forms;
 using static System.Console;
 
 namespace Athena
 {
-    public partial class MainForm : Form
+    public partial class AthenaForm : Form
     {
         private string saveFolderPath = string.Empty;
         private string TaskName = string.Empty;
         private readonly string[] stringSeparators = new string[] { "\r\n" };
         private List<MyDownloadTask> tasks = new List<MyDownloadTask>();
         readonly Helper myDb = new Helper();
-        public MainForm()
+        public AthenaForm()
         {
+            InitializeComponent();
             InitializeComponent();
             progressBarTask1.Minimum = 0;
             progressBarTask1.Maximum = 100;
@@ -234,7 +230,7 @@ namespace Athena
         private async Task RetrieveBrowserData(string source)
         {
             //Use the default configuration for AngleSharp
-            var config = Configuration.Default;
+            var config = AngleSharp.Configuration.Default;
 
             //Create a new context for evaluating webpages with the given config
             var context = BrowsingContext.New(config);
