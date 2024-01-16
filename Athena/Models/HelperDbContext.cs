@@ -20,6 +20,8 @@ namespace Athena.Models
             DbPath = Assembly.GetExecutingAssembly().Location;
             DbPath = DbPath.Replace(Assembly.GetExecutingAssembly().Location, "Database");
             DbPath = Path.Join(DbPath, "athena.db");
+
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
