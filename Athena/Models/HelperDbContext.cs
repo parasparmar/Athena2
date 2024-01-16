@@ -17,11 +17,9 @@ namespace Athena.Models
         {
             //var folder = Environment.SpecialFolder.LocalApplicationData;
             //var path = Environment.GetFolderPath(folder);
-            var path = Assembly.GetExecutingAssembly().Location;
-            path = path.Replace(Assembly.GetExecutingAssembly().Location, "Database");
-            path = Path.Join(path.ToString(), "athena.db");
-
-            DbPath = path;
+            DbPath = Assembly.GetExecutingAssembly().Location;
+            DbPath = DbPath.Replace(Assembly.GetExecutingAssembly().Location, "Database");
+            DbPath = Path.Join(DbPath, "athena.db");
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
