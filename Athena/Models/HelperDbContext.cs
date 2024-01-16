@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Athena.Models
@@ -10,24 +12,20 @@ namespace Athena.Models
         public DbSet<Link> Links { get; set; }
         public DbSet<Exchange> Exchanges { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-
-        public Helper(): base()
+        public string DbPath { get; }
+        public Helper()
         {
-            // Turn off the Migrations, (NOT a code first Db)
-            //Database.SetInitializer<Helper>(null);
-    //        var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-    //.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test")
-    //.Options;
+            //var folder = Environment.SpecialFolder.LocalApplicationData;
+            //var path = Environment.GetFolderPath(folder);
+            var path = Assembly.GetExecutingAssembly().Location;
+            path = path.Replace(Assembly.GetExecutingAssembly().Location, "Database");
+            path = Path.Join(path.ToString(), "athena.db");
+
+            DbPath = path;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {            
-            optionsBuilder.UseSqlite("Data Source='\\Database\\athena.db'");
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Database does not pluralize table names
-            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            base.OnModelCreating(modelBuilder);
+            optionsBuilder.UseSqlite($"Data Source={DbPath}");
         }
     }
 }

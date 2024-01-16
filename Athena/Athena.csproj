@@ -10,15 +10,11 @@
 
   <ItemGroup>
     <None Remove="AthenaUseCase.txt" />
-    <None Remove="Database\athena.db" />
     <None Remove="msn.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="AthenaUseCase.txt" />
-    <Content Include="Database\athena.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="msn.ico" />
   </ItemGroup>
 
@@ -27,6 +23,12 @@
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Database\athena.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
