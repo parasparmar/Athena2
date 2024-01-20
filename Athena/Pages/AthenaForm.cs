@@ -1,12 +1,10 @@
 using AngleSharp;
 using AngleSharp.Dom;
-using System.Configuration;
+using Athena.Models;
+using Athena.Services;
 using System.Diagnostics;
 using System.Text;
 using System.Web;
-using System;
-using Athena.Models;
-using Athena.Services;
 using static System.Console;
 
 namespace Athena
@@ -87,13 +85,6 @@ namespace Athena
             saveFolderPath = tbSaveFolderPath.Text;
             btnDownload.Enabled = true;
         }
-
-        private void TbTaskName_TextChanged(object sender, EventArgs e)
-        {
-            TaskName = tbTaskName.Text;
-            groupBoxTask1.Text = TaskName;
-        }
-
         private void ClbTaskList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (clbTaskList.SelectedItem != null)
@@ -117,7 +108,7 @@ namespace Athena
                         tbDestinationFormat.Text = d.DestinationFileFormat;
                     }
 
-                    TbTaskName_TextChanged(this, new EventArgs { });
+                    
                 }
                 progressBarTask1.Value = 0;
             }

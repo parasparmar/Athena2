@@ -17,5 +17,13 @@ namespace Athena.Models
         public string Destination { get; set; }
         public string DestinationFormat { get; set; }        
         public virtual IList<Download> Download { get; set; }
+
+        internal Download Download1
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
