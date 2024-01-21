@@ -19,12 +19,7 @@ namespace Athena
         public AthenaForm()
         {
             InitializeComponent();
-            InitializeComponent();
-            progressBarTask1.Minimum = 0;
-            progressBarTask1.Maximum = 100;
-            progressBarTask1.Value = 0;
             btnDownload.Enabled = false;
-
             tasks = FMViewModel.GetTaskList();
             PopulateTaskList(tasks);
         }
@@ -96,8 +91,7 @@ namespace Athena
                     nmTaskId.Value = d.DownloadTaskId;
                     tbTaskName.Text = d.TaskName;
                     tbSourceUrl.Text = d.SourceUrl;
-                    tbUrlFormat.Text = d.UrlFormat;
-                    tbTaskStatus.Text = d.TaskStatus;
+                    tbUrlFormat.Text = d.UrlFormat;                    
                     tbSaveFolderPath.Text = d.DownloadLocation;
                     if (d.DestinationFileFormat == null)
                     {
@@ -110,7 +104,6 @@ namespace Athena
 
                     
                 }
-                progressBarTask1.Value = 0;
             }
         }
 
@@ -323,8 +316,7 @@ namespace Athena
             tbSourceUrl.ResetText();
             tbUrlFormat.ResetText();
             tbSaveFolderPath.ResetText();
-            tbDestinationFormat.ResetText();
-            tbTaskStatus.ResetText();
+            tbDestinationFormat.ResetText();            
             progressBarTask1.Value = 0;
         }
 

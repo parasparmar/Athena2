@@ -12,10 +12,10 @@ namespace Athena.Models
             using (Helper db = new Helper())
             {
                var d = db.DownloadTasks
-                      .Include(b => b.Link.Download)
+                      .Include(b => b.Link.Downloads)
                       .SingleOrDefault(a => a.Id == t.DownloadTaskId)
                       .Link
-                      .Download
+                      .Downloads
                       .ToList();
                 return d;
             }            
@@ -27,10 +27,10 @@ namespace Athena.Models
             using (Helper db = new Helper())
             {
                 d = db.DownloadTasks
-                      .Include(b => b.Link.Download)
+                      .Include(b => b.Link.Downloads)
                       .SingleOrDefault(a => a.Id == t.DownloadTaskId)
                       .Link
-                      .Download
+                      .Downloads
                       .ToList();
             }            
             return d;
@@ -75,7 +75,7 @@ namespace Athena.Models
                     };
                     db.Links.Add(l);
 
-                    Download download = new Download { At = DateTime.Today, LinkId = l.Id, Progress = 0, Status = "Pending", SourceLink = URLParser.getThisDownloadsUrl(t.UrlFormat, DateTime.Today) };
+                    Download download = new Download { At = DateTime.Today, LinkId = l.Id, Status = "Pending", SourceLink = URLParser.getThisDownloadsUrl(t.UrlFormat, DateTime.Today) };
                     db.Downloads.Add(download);
 
                     Exchange exchange = new Exchange();
@@ -137,7 +137,7 @@ namespace Athena.Models
 
                 tasks = db.DownloadTasks
                     .Include(a => a.Link)
-                    .Include(a => a.Link.Download)
+                    .Include(a => a.Link.Downloads)
                     .Where(a => a.Id == id)
                     .Select(a => new MyDownloadTask
                     {
@@ -148,13 +148,12 @@ namespace Athena.Models
                         SourceUrl = a.Link.SourceURL,
                         UrlFormat = a.Link.FormattedURL,
                         DestinationFileFormat = a.Link.DestinationFormat,
-                        FileDownloads = a.Link.Download.Select(b => new FileDownload
+                        FileDownloads = a.Link.Downloads.Select(b => new FileDownload
                         {
                             Id = b.Id,
                             Date = b.At,
                             Destination = b.Link.Destination,
-                            FileName = b.Link.DestinationFormat,
-                            Progress = b.Progress,
+                            FileName = b.Link.DestinationFormat,                            
                             Status = b.Status,
                             TaskId = b.LinkId,
                             Url = b.SourceLink
@@ -175,7 +174,7 @@ namespace Athena.Models
             {
                 tasks = db.DownloadTasks
                     .Include(a => a.Link)
-                    .Include(a => a.Link.Download)
+                    .Include(a => a.Link.Downloads)
                     .Select(a => new MyDownloadTask
                     {
                         DownloadTaskId = a.Id,
@@ -185,13 +184,12 @@ namespace Athena.Models
                         SourceUrl = a.Link.SourceURL,
                         UrlFormat = a.Link.FormattedURL,
                         DestinationFileFormat = a.Link.DestinationFormat,
-                        FileDownloads = a.Link.Download.Select(b => new FileDownload
+                        FileDownloads = a.Link.Downloads.Select(b => new FileDownload
                         {
                             Id = b.Id,
                             Date = b.At,
                             Destination = b.Link.Destination,
-                            FileName = b.Link.DestinationFormat,
-                            Progress = b.Progress,
+                            FileName = b.Link.DestinationFormat,                            
                             Status = b.Status,
                             TaskId = b.LinkId,
                             Url = b.SourceLink

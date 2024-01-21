@@ -26,9 +26,7 @@ namespace Athena.Services
                         Url = URLParser.getThisDownloadsUrl(mdt[i].UrlFormat, day),
                         Destination = mdt[i].DownloadLocation,
                         // Give the extracted files renaming format
-                        FileName = URLParser.getThisDownloadsUrl(mdt[i].DestinationFileFormat, day),
-                        Progress = mdt[i].TaskProgress,
-                        Status = mdt[i].TaskStatus
+                        FileName = URLParser.getThisDownloadsUrl(mdt[i].DestinationFileFormat, day)                        
                     });
                 }
                 mdt[i].FileDownloads = fdt;

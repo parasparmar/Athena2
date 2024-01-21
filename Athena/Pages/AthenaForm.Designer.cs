@@ -34,42 +34,39 @@ namespace Athena
             tbSourceUrl = new TextBox();
             tab = new TabControl();
             tbpDownload = new TabPage();
-            label8 = new Label();
+            lblSelect = new Label();
             btnReset = new Button();
             btnRemoveTask = new Button();
             btnSelectInvert = new Button();
             btnSelectNone = new Button();
             btnSelectAll = new Button();
             clbTaskList = new CheckedListBox();
-            groupBoxTask1 = new GroupBox();
-            label10 = new Label();
-            label9 = new Label();
+            gbTaskDetails = new GroupBox();
+            lblTodate = new Label();
+            lblFromDate = new Label();
             dtpToDate = new DateTimePicker();
             dtpFromDate = new DateTimePicker();
             nmTaskId = new NumericUpDown();
             btnRemoveThisTaskfromTaskList = new Button();
-            progressBarTask1 = new ProgressBar();
             btnAddTask = new Button();
             tbTaskName = new TextBox();
             btnManualTokens = new Button();
             btnBrowse = new Button();
-            tbTaskStatus = new TextBox();
             tbDestinationFormat = new TextBox();
             tbUrlFormat = new TextBox();
-            label4 = new Label();
-            label6 = new Label();
-            label3 = new Label();
+            lblTaskId = new Label();
+            lblTaskName = new Label();
             tbSaveFolderPath = new TextBox();
-            label7 = new Label();
-            label5 = new Label();
-            label2 = new Label();
-            label1 = new Label();
+            lblFileNameFormat = new Label();
+            lblUrlFormat = new Label();
+            lblDownloadLocation = new Label();
+            lblSourceURL = new Label();
             tbpSettings = new TabPage();
             saveToFile = new SaveFileDialog();
             fbDownloadLocation = new FolderBrowserDialog();
             tab.SuspendLayout();
             tbpDownload.SuspendLayout();
-            groupBoxTask1.SuspendLayout();
+            gbTaskDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nmTaskId).BeginInit();
             SuspendLayout();
             // 
@@ -111,14 +108,14 @@ namespace Athena
             // tbpDownload
             // 
             tbpDownload.AutoScroll = true;
-            tbpDownload.Controls.Add(label8);
+            tbpDownload.Controls.Add(lblSelect);
             tbpDownload.Controls.Add(btnReset);
             tbpDownload.Controls.Add(btnRemoveTask);
             tbpDownload.Controls.Add(btnSelectInvert);
             tbpDownload.Controls.Add(btnSelectNone);
             tbpDownload.Controls.Add(btnSelectAll);
             tbpDownload.Controls.Add(clbTaskList);
-            tbpDownload.Controls.Add(groupBoxTask1);
+            tbpDownload.Controls.Add(gbTaskDetails);
             tbpDownload.Location = new Point(4, 24);
             tbpDownload.Margin = new Padding(4, 3, 4, 3);
             tbpDownload.Name = "tbpDownload";
@@ -128,15 +125,15 @@ namespace Athena
             tbpDownload.Text = "Download";
             tbpDownload.UseVisualStyleBackColor = true;
             // 
-            // label8
+            // lblSelect
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(9, 13);
-            label8.Margin = new Padding(4, 0, 4, 0);
-            label8.Name = "label8";
-            label8.Size = new Size(45, 15);
-            label8.TabIndex = 10;
-            label8.Text = "SELECT";
+            lblSelect.AutoSize = true;
+            lblSelect.Location = new Point(9, 13);
+            lblSelect.Margin = new Padding(4, 0, 4, 0);
+            lblSelect.Name = "lblSelect";
+            lblSelect.Size = new Size(45, 15);
+            lblSelect.TabIndex = 10;
+            lblSelect.Text = "SELECT";
             // 
             // btnReset
             // 
@@ -212,62 +209,59 @@ namespace Athena
             clbTaskList.DragDrop += ClbTaskList_DragDrop;
             clbTaskList.DragEnter += ClbTaskList_DragEnter;
             // 
-            // groupBoxTask1
+            // gbTaskDetails
             // 
-            groupBoxTask1.Controls.Add(label10);
-            groupBoxTask1.Controls.Add(label9);
-            groupBoxTask1.Controls.Add(dtpToDate);
-            groupBoxTask1.Controls.Add(dtpFromDate);
-            groupBoxTask1.Controls.Add(nmTaskId);
-            groupBoxTask1.Controls.Add(btnRemoveThisTaskfromTaskList);
-            groupBoxTask1.Controls.Add(progressBarTask1);
-            groupBoxTask1.Controls.Add(btnAddTask);
-            groupBoxTask1.Controls.Add(tbTaskName);
-            groupBoxTask1.Controls.Add(btnManualTokens);
-            groupBoxTask1.Controls.Add(btnBrowse);
-            groupBoxTask1.Controls.Add(tbTaskStatus);
-            groupBoxTask1.Controls.Add(btnDownload);
-            groupBoxTask1.Controls.Add(tbDestinationFormat);
-            groupBoxTask1.Controls.Add(tbUrlFormat);
-            groupBoxTask1.Controls.Add(label4);
-            groupBoxTask1.Controls.Add(tbSourceUrl);
-            groupBoxTask1.Controls.Add(label6);
-            groupBoxTask1.Controls.Add(label3);
-            groupBoxTask1.Controls.Add(tbSaveFolderPath);
-            groupBoxTask1.Controls.Add(label7);
-            groupBoxTask1.Controls.Add(label5);
-            groupBoxTask1.Controls.Add(label2);
-            groupBoxTask1.Controls.Add(label1);
-            groupBoxTask1.Location = new Point(374, 31);
-            groupBoxTask1.Margin = new Padding(4, 3, 4, 3);
-            groupBoxTask1.Name = "groupBoxTask1";
-            groupBoxTask1.Padding = new Padding(4, 3, 4, 3);
-            groupBoxTask1.Size = new Size(611, 355);
-            groupBoxTask1.TabIndex = 7;
-            groupBoxTask1.TabStop = false;
-            groupBoxTask1.Text = "Task Name";
+            gbTaskDetails.Controls.Add(lblTodate);
+            gbTaskDetails.Controls.Add(lblFromDate);
+            gbTaskDetails.Controls.Add(dtpToDate);
+            gbTaskDetails.Controls.Add(dtpFromDate);
+            gbTaskDetails.Controls.Add(nmTaskId);
+            gbTaskDetails.Controls.Add(btnRemoveThisTaskfromTaskList);
+            gbTaskDetails.Controls.Add(btnAddTask);
+            gbTaskDetails.Controls.Add(tbTaskName);
+            gbTaskDetails.Controls.Add(btnManualTokens);
+            gbTaskDetails.Controls.Add(btnBrowse);
+            gbTaskDetails.Controls.Add(btnDownload);
+            gbTaskDetails.Controls.Add(tbDestinationFormat);
+            gbTaskDetails.Controls.Add(tbUrlFormat);
+            gbTaskDetails.Controls.Add(tbSourceUrl);
+            gbTaskDetails.Controls.Add(lblTaskId);
+            gbTaskDetails.Controls.Add(lblTaskName);
+            gbTaskDetails.Controls.Add(tbSaveFolderPath);
+            gbTaskDetails.Controls.Add(lblFileNameFormat);
+            gbTaskDetails.Controls.Add(lblUrlFormat);
+            gbTaskDetails.Controls.Add(lblDownloadLocation);
+            gbTaskDetails.Controls.Add(lblSourceURL);
+            gbTaskDetails.Location = new Point(374, 31);
+            gbTaskDetails.Margin = new Padding(4, 3, 4, 3);
+            gbTaskDetails.Name = "gbTaskDetails";
+            gbTaskDetails.Padding = new Padding(4, 3, 4, 3);
+            gbTaskDetails.Size = new Size(611, 355);
+            gbTaskDetails.TabIndex = 7;
+            gbTaskDetails.TabStop = false;
+            gbTaskDetails.Text = "Task Details";
             // 
-            // label10
+            // lblTodate
             // 
-            label10.Anchor = AnchorStyles.Top;
-            label10.AutoSize = true;
-            label10.Location = new Point(443, 10);
-            label10.Margin = new Padding(4, 0, 4, 0);
-            label10.Name = "label10";
-            label10.Size = new Size(46, 15);
-            label10.TabIndex = 12;
-            label10.Text = "To Date";
+            lblTodate.Anchor = AnchorStyles.Top;
+            lblTodate.AutoSize = true;
+            lblTodate.Location = new Point(443, 10);
+            lblTodate.Margin = new Padding(4, 0, 4, 0);
+            lblTodate.Name = "lblTodate";
+            lblTodate.Size = new Size(46, 15);
+            lblTodate.TabIndex = 12;
+            lblTodate.Text = "To Date";
             // 
-            // label9
+            // lblFromDate
             // 
-            label9.Anchor = AnchorStyles.Top;
-            label9.AutoSize = true;
-            label9.Location = new Point(285, 10);
-            label9.Margin = new Padding(4, 0, 4, 0);
-            label9.Name = "label9";
-            label9.Size = new Size(62, 15);
-            label9.TabIndex = 12;
-            label9.Text = "From Date";
+            lblFromDate.Anchor = AnchorStyles.Top;
+            lblFromDate.AutoSize = true;
+            lblFromDate.Location = new Point(285, 10);
+            lblFromDate.Margin = new Padding(4, 0, 4, 0);
+            lblFromDate.Name = "lblFromDate";
+            lblFromDate.Size = new Size(62, 15);
+            lblFromDate.TabIndex = 12;
+            lblFromDate.Text = "From Date";
             // 
             // dtpToDate
             // 
@@ -307,15 +301,6 @@ namespace Athena
             btnRemoveThisTaskfromTaskList.Text = "Remove from Tasklist";
             btnRemoveThisTaskfromTaskList.UseVisualStyleBackColor = true;
             btnRemoveThisTaskfromTaskList.Click += BtnRemoveThisTaskfromTaskList_Click;
-            // 
-            // progressBarTask1
-            // 
-            progressBarTask1.Anchor = AnchorStyles.Top;
-            progressBarTask1.Location = new Point(138, 283);
-            progressBarTask1.Margin = new Padding(4, 3, 4, 3);
-            progressBarTask1.Name = "progressBarTask1";
-            progressBarTask1.Size = new Size(304, 23);
-            progressBarTask1.TabIndex = 7;
             // 
             // btnAddTask
             // 
@@ -362,16 +347,6 @@ namespace Athena
             btnBrowse.UseVisualStyleBackColor = true;
             btnBrowse.Click += BtnBrowse_Click;
             // 
-            // tbTaskStatus
-            // 
-            tbTaskStatus.Anchor = AnchorStyles.Top;
-            tbTaskStatus.Location = new Point(138, 253);
-            tbTaskStatus.Margin = new Padding(4, 3, 4, 3);
-            tbTaskStatus.Name = "tbTaskStatus";
-            tbTaskStatus.ReadOnly = true;
-            tbTaskStatus.Size = new Size(461, 23);
-            tbTaskStatus.TabIndex = 2;
-            // 
             // tbDestinationFormat
             // 
             tbDestinationFormat.Anchor = AnchorStyles.Top;
@@ -390,38 +365,27 @@ namespace Athena
             tbUrlFormat.Size = new Size(461, 23);
             tbUrlFormat.TabIndex = 2;
             // 
-            // label4
+            // lblTaskId
             // 
-            label4.Anchor = AnchorStyles.Top;
-            label4.AutoSize = true;
-            label4.Location = new Point(14, 256);
-            label4.Margin = new Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(77, 15);
-            label4.TabIndex = 5;
-            label4.Text = "Task Progress";
+            lblTaskId.Anchor = AnchorStyles.Top;
+            lblTaskId.AutoSize = true;
+            lblTaskId.Location = new Point(14, 31);
+            lblTaskId.Margin = new Padding(4, 0, 4, 0);
+            lblTaskId.Name = "lblTaskId";
+            lblTaskId.Size = new Size(42, 15);
+            lblTaskId.TabIndex = 5;
+            lblTaskId.Text = "Task Id";
             // 
-            // label6
+            // lblTaskName
             // 
-            label6.Anchor = AnchorStyles.Top;
-            label6.AutoSize = true;
-            label6.Location = new Point(14, 31);
-            label6.Margin = new Padding(4, 0, 4, 0);
-            label6.Name = "label6";
-            label6.Size = new Size(42, 15);
-            label6.TabIndex = 5;
-            label6.Text = "Task Id";
-            // 
-            // label3
-            // 
-            label3.Anchor = AnchorStyles.Top;
-            label3.AutoSize = true;
-            label3.Location = new Point(15, 62);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(64, 15);
-            label3.TabIndex = 5;
-            label3.Text = "Task Name";
+            lblTaskName.Anchor = AnchorStyles.Top;
+            lblTaskName.AutoSize = true;
+            lblTaskName.Location = new Point(15, 62);
+            lblTaskName.Margin = new Padding(4, 0, 4, 0);
+            lblTaskName.Name = "lblTaskName";
+            lblTaskName.Size = new Size(64, 15);
+            lblTaskName.TabIndex = 5;
+            lblTaskName.Text = "Task Name";
             // 
             // tbSaveFolderPath
             // 
@@ -434,49 +398,49 @@ namespace Athena
             tbSaveFolderPath.TabIndex = 3;
             tbSaveFolderPath.TextChanged += TbSaveFolderPath_TextChanged;
             // 
-            // label7
+            // lblFileNameFormat
             // 
-            label7.Anchor = AnchorStyles.Top;
-            label7.AutoSize = true;
-            label7.Location = new Point(15, 219);
-            label7.Margin = new Padding(4, 0, 4, 0);
-            label7.Name = "label7";
-            label7.Size = new Size(101, 15);
-            label7.TabIndex = 5;
-            label7.Text = "File Name Format";
+            lblFileNameFormat.Anchor = AnchorStyles.Top;
+            lblFileNameFormat.AutoSize = true;
+            lblFileNameFormat.Location = new Point(15, 219);
+            lblFileNameFormat.Margin = new Padding(4, 0, 4, 0);
+            lblFileNameFormat.Name = "lblFileNameFormat";
+            lblFileNameFormat.Size = new Size(101, 15);
+            lblFileNameFormat.TabIndex = 5;
+            lblFileNameFormat.Text = "File Name Format";
             // 
-            // label5
+            // lblUrlFormat
             // 
-            label5.Anchor = AnchorStyles.Top;
-            label5.AutoSize = true;
-            label5.Location = new Point(14, 157);
-            label5.Margin = new Padding(4, 0, 4, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(69, 15);
-            label5.TabIndex = 5;
-            label5.Text = "URL Format";
+            lblUrlFormat.Anchor = AnchorStyles.Top;
+            lblUrlFormat.AutoSize = true;
+            lblUrlFormat.Location = new Point(14, 157);
+            lblUrlFormat.Margin = new Padding(4, 0, 4, 0);
+            lblUrlFormat.Name = "lblUrlFormat";
+            lblUrlFormat.Size = new Size(69, 15);
+            lblUrlFormat.TabIndex = 5;
+            lblUrlFormat.Text = "URL Format";
             // 
-            // label2
+            // lblDownloadLocation
             // 
-            label2.Anchor = AnchorStyles.Top;
-            label2.AutoSize = true;
-            label2.Location = new Point(14, 187);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(110, 15);
-            label2.TabIndex = 5;
-            label2.Text = "Download Location";
+            lblDownloadLocation.Anchor = AnchorStyles.Top;
+            lblDownloadLocation.AutoSize = true;
+            lblDownloadLocation.Location = new Point(14, 187);
+            lblDownloadLocation.Margin = new Padding(4, 0, 4, 0);
+            lblDownloadLocation.Name = "lblDownloadLocation";
+            lblDownloadLocation.Size = new Size(110, 15);
+            lblDownloadLocation.TabIndex = 5;
+            lblDownloadLocation.Text = "Download Location";
             // 
-            // label1
+            // lblSourceURL
             // 
-            label1.Anchor = AnchorStyles.Top;
-            label1.AutoSize = true;
-            label1.Location = new Point(14, 126);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(67, 15);
-            label1.TabIndex = 5;
-            label1.Text = "Source URL";
+            lblSourceURL.Anchor = AnchorStyles.Top;
+            lblSourceURL.AutoSize = true;
+            lblSourceURL.Location = new Point(14, 126);
+            lblSourceURL.Margin = new Padding(4, 0, 4, 0);
+            lblSourceURL.Name = "lblSourceURL";
+            lblSourceURL.Size = new Size(67, 15);
+            lblSourceURL.TabIndex = 5;
+            lblSourceURL.Text = "Source URL";
             // 
             // tbpSettings
             // 
@@ -502,8 +466,8 @@ namespace Athena
             tab.ResumeLayout(false);
             tbpDownload.ResumeLayout(false);
             tbpDownload.PerformLayout();
-            groupBoxTask1.ResumeLayout(false);
-            groupBoxTask1.PerformLayout();
+            gbTaskDetails.ResumeLayout(false);
+            gbTaskDetails.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nmTaskId).EndInit();
             ResumeLayout(false);
         }
@@ -516,16 +480,15 @@ namespace Athena
         private System.Windows.Forms.TabPage tbpDownload;
         private System.Windows.Forms.TabPage tbpSettings;
         private System.Windows.Forms.TextBox tbSaveFolderPath;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblDownloadLocation;
+        private System.Windows.Forms.Label lblSourceURL;
         private System.Windows.Forms.SaveFileDialog saveToFile;
         private System.Windows.Forms.FolderBrowserDialog fbDownloadLocation;
         private System.Windows.Forms.Button btnBrowse;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblTaskName;
         private System.Windows.Forms.TextBox tbTaskName;
-        private System.Windows.Forms.GroupBox groupBoxTask1;
+        private System.Windows.Forms.GroupBox gbTaskDetails;
         private System.Windows.Forms.ProgressBar progressBarTask1;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckedListBox clbTaskList;
         private System.Windows.Forms.Button btnSelectAll;
         private System.Windows.Forms.Button btnSelectNone;
@@ -534,18 +497,17 @@ namespace Athena
         private System.Windows.Forms.Button btnRemoveTask;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.TextBox tbUrlFormat;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblUrlFormat;
         private System.Windows.Forms.Button btnManualTokens;
         private System.Windows.Forms.Button btnRemoveThisTaskfromTaskList;
         private System.Windows.Forms.NumericUpDown nmTaskId;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox tbTaskStatus;
+        private System.Windows.Forms.Label lblTaskId;        
         private System.Windows.Forms.TextBox tbDestinationFormat;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblFileNameFormat;
+        private System.Windows.Forms.Label lblSelect;
         private System.Windows.Forms.DateTimePicker dtpToDate;
         private System.Windows.Forms.DateTimePicker dtpFromDate;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblFromDate;
+        private System.Windows.Forms.Label lblTodate;
     }
 }

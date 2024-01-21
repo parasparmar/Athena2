@@ -14,18 +14,8 @@ namespace Athena.Models
         public string SourceUrl { get; set; }
         public string UrlFormat { get; set; }
         public string DownloadLocation { get; set; }
-        public string DestinationFileFormat { get; set; }
-        public int TaskProgress { get; set; }
-        public string TaskStatus { get; set; }
+        public string DestinationFileFormat { get; set; }                
         public bool Selected { get; set; }
-        public IList<FileDownload> FileDownloads { get; set; }
-
-        public FileDownload FileDownload
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public IList<FileDownload> FileDownloads { get; set; }        
     }
 }

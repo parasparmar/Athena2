@@ -36,8 +36,7 @@ namespace Athena.Services
             }
             catch (Exception Ex)
             {
-                CurrentTask.Status = Ex.Message.ToString();
-                CurrentTask.Progress = 0;
+                CurrentTask.Status = Ex.Message.ToString();                
                 return false;
             }
         }
@@ -111,7 +110,7 @@ namespace Athena.Services
         //            }
         //        }
 
-        //        //MyTask.Where(a => a.Progress < 100 || a.Progress == 0).ToList();
+        
         //        //MyTask.SourceLink = MyTask.SourceLink.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat));
 
 
@@ -123,8 +122,7 @@ namespace Athena.Services
         //            //{
         //            //    At = DateTime.Today,
         //            //    LinkId = MyTask.TaskId
-        //            //    SourceLink = MyTask.UrlFormat.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat)),
-        //            //    Progress = 0,
+        //            //    SourceLink = MyTask.UrlFormat.Replace("{" + recvdDateFormat + "}", DateTime.Today.ToString(recvdDateFormat)),        
         //            //    Status = "Scheduled"
         //            //};
         //            //newTasks.Add(d);
@@ -135,8 +133,6 @@ namespace Athena.Services
         //    }
         //    using (Helper db = new Helper())
         //    {
-        //        var downloads = db.Downloads.Include(a => a.Link).Where(b => b.Progress < 100).ToList();
-
         //        FileDownloads fd = new FileDownloads
         //        {
         //            Date = DateTime.Today,

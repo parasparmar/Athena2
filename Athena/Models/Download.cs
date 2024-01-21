@@ -12,7 +12,6 @@ namespace Athena.Models
         public int LinkId { get; set; }
         public string SourceLink { get; set; }
         public string Status { get; set; }
-        public int Progress { get; set; }
         public DateTime At { get; set; }
         public virtual Link Link { get; set; }
     }

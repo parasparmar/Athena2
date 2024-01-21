@@ -34,8 +34,7 @@ namespace Athena.Services
                     d.AddRange(item.FileDownloads.Select(a => new Download
                     {
                         Id = a.Id,
-                        At = a.Date,
-                        Progress = a.Progress,
+                        At = a.Date,                        
                         Status = a.Status,
                         SourceLink = a.Url,
                     }));
@@ -56,8 +55,7 @@ namespace Athena.Services
                     dld = db.Downloads.Find(d.Id);
                     if (dld != null)
                     {
-                        dld.LinkId = d.LinkId;
-                        dld.Progress = d.Progress;
+                        dld.LinkId = d.LinkId;                        
                         dld.SourceLink = d.SourceLink;
                         dld.Status = d.Status;
                         dld.At = d.At;
@@ -85,11 +83,8 @@ namespace Athena.Services
                     dld = db.Downloads.Include(a => a.Link).Where(e => e.LinkId == 1).FirstOrDefault();
                     if (dtd != null)
                     {
-                        dld.LinkId = dtd.LinkId;
-                        dld.Progress = d.TaskProgress;
+                        dld.LinkId = dtd.LinkId;                        
                         dld.SourceLink = d.SourceUrl;
-                        dld.Status = d.TaskStatus;
-                        //dld.At = d.
                     }
                     else
                     {

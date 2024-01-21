@@ -28,14 +28,12 @@ namespace Athena.Services
                 //'' A wrapper function to Ionic.Zip library is used here.
                 if (ZippedFiles(response: response, ref currentTask))
                 {
-                    currentTask.Status = "Completed";
-                    currentTask.Progress = 100;
+                    currentTask.Status = "Completed";                    
                     return true;
                 }
                 else
                 {
-                    currentTask.Status = "Failed";
-                    currentTask.Progress = 0;
+                    currentTask.Status = "Failed";                    
                     return false;
                 }
             }
@@ -43,14 +41,12 @@ namespace Athena.Services
             {
                 if (SingleFile(response, ref currentTask))
                 {
-                    currentTask.Status = "Completed";
-                    currentTask.Progress = 100;
+                    currentTask.Status = "Completed";                    
                     return true;
                 }
                 else
                 {
-                    currentTask.Status = "Failed";
-                    currentTask.Progress = 0;
+                    currentTask.Status = "Failed";                    
                     return false;
                 }
             }
