@@ -1,13 +1,10 @@
 ﻿using Athena.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Athena.Services
 {
-    class DownloadTaskFactory
+    public class DownloadTaskFactory
     {
-        public static List<MyDownloadTask> createFileDownloads(ref List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
+        public static List<MyDownloadTask> createFileDownloads(List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
         {
             List<FileDownload> fdt;
             var workingDays = BusinessDay.WorkingDays(FromDate: FromDate, ToDate: ToDate);

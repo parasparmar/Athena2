@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using System.IO;
-using System.Windows.Forms;
 
 namespace Athena.Models
 {
@@ -20,8 +18,6 @@ namespace Athena.Models
             DbPath = Assembly.GetExecutingAssembly().Location;
             DbPath = DbPath.Replace(Assembly.GetExecutingAssembly().Location, "Database");
             DbPath = Path.Join(DbPath, "athena.db");
-
-
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

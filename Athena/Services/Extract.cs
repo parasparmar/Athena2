@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Athena.Models;
 using Ionic.Zip;
-using System.IO;
 using System.Net;
-using Athena.Models;
 
 namespace Athena.Services
 {
     class Extract
     {
-        public static bool Writer(HttpWebResponse response, ref FileDownload currentTask)
+        public static bool Writer(HttpWebResponse response, FileDownload currentTask)
         {
             // Make sure the directory exists. Create it if not.
             if (!Directory.Exists(currentTask.Destination))
@@ -20,13 +14,11 @@ namespace Athena.Services
                 Directory.CreateDirectory(currentTask.Destination);
             }
             var downloadPath = Path.Combine(currentTask.Destination, currentTask.FileName);
-
-
             if (response.ContentType.Contains("zip") || response.ContentEncoding.Contains("zip"))
             {
                 //It's a zip, then extraction needed by Ionic Zip Library.
                 //'' A wrapper function to Ionic.Zip library is used here.
-                if (ZippedFiles(response: response, ref currentTask))
+                if (ZippedFiles(response: response, currentTask))
                 {
                     currentTask.Status = "Completed";                    
                     return true;
@@ -39,7 +31,7 @@ namespace Athena.Services
             }
             else
             {
-                if (SingleFile(response, ref currentTask))
+                if (SingleFile(response, currentTask))
                 {
                     currentTask.Status = "Completed";                    
                     return true;
@@ -49,10 +41,9 @@ namespace Athena.Services
                     currentTask.Status = "Failed";                    
                     return false;
                 }
-            }
-            
+            }            
         }
-        private static bool SingleFile(HttpWebResponse response, ref FileDownload currentTask)
+        private static bool SingleFile(HttpWebResponse response, FileDownload currentTask)
         {
             var downloadPath = Path.Combine(currentTask.Destination, currentTask.FileName);
             const int BUFFER_SIZE = 16 * 1024;
@@ -84,7 +75,7 @@ namespace Athena.Services
                 }
             }
         }
-        private static bool ZippedFiles(HttpWebResponse response, ref FileDownload currentTask)
+        private static bool ZippedFiles(HttpWebResponse response, FileDownload currentTask)
         {
 
             //    ' Take the HTTP Web response from Downloader.

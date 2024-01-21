@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using CsvHelper;
-
-namespace Athena.Services
+﻿namespace Athena.Services
 {
-    class Convertor
+    public class Convertor
     {
         /**
          The Convertor handles the conversion of the downloaded files to an output format more suitable for the end users analytics.

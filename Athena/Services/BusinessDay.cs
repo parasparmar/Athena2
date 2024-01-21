@@ -1,15 +1,7 @@
-﻿ using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-
-namespace Athena.Services
+﻿namespace Athena.Services
 {
-    class BusinessDay
+    public class BusinessDay
     {
-
         // Gets a list of trading dates
         public static List<DateTime> DateListGenerator(DateTime FromDate, DateTime ToDate)
         {

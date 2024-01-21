@@ -1,9 +1,9 @@
-﻿using Athena.Services;
+﻿using Athena.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Athena.Models
+namespace Athena.Services
 {
-    class FMViewModel
+    public class FMViewModel
     {
         
         

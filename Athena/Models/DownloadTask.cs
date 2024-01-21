@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Athena.Models
+﻿namespace Athena.Models
 {
 
     class DownloadTask
