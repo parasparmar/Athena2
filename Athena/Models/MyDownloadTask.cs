@@ -2,7 +2,7 @@
 
 namespace Athena.Models
 {
-    class MyDownloadTask
+    public class MyDownloadTask
     {
         [Required]
         public int DownloadTaskId { get; set; }

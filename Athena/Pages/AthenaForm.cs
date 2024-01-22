@@ -36,7 +36,7 @@ namespace Athena
             Downloader d = new Downloader();
             using (Helper db = new Helper())
             {
-                var selectedTaskList = DownloadTaskFactory.createFileDownloads(ref selectedtasks, fromDate, toDate);
+                var selectedTaskList = DownloadTaskFactory.createFileDownloads(selectedtasks, fromDate, toDate);
                 int selectedTaskListCount = selectedTaskList.Count;
                 for (int i = 0; i < selectedTaskListCount; i++)
                 {

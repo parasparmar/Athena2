@@ -2,7 +2,7 @@
 
 namespace Athena.Models
 {
-    class Link
+    public class Link
     {
 
 
@@ -15,13 +15,5 @@ namespace Athena.Models
         public string Destination { get; set; }
         public string DestinationFormat { get; set; }        
         public virtual IList<Download> Downloads { get; set; }
-
-        internal Download Download1
-        {
-            get => default;
-            set
-            {
-            }
-        }
     }
 }

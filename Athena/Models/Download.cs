@@ -1,6 +1,6 @@
 ﻿namespace Athena.Models
 {
-    class Download
+    public class Download
     {  
         public int Id { get; set; }
         public int LinkId { get; set; }
