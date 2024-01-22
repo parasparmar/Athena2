@@ -1,6 +1,6 @@
 ﻿namespace Athena.Services
 {
-    public class BusinessDay
+    public class BusinessDayService
     {
         // Gets a list of trading dates
         public static List<DateTime> DateListGenerator(DateTime FromDate, DateTime ToDate)

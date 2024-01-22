@@ -4,7 +4,7 @@ using System.Net;
 
 namespace Athena.Services
 {
-    class Extract
+    public class ExtractionService
     {
         public static bool Writer(HttpWebResponse response, FileDownload currentTask)
         {

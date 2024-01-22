@@ -75,7 +75,7 @@ namespace Athena.Services
                     };
                     db.Links.Add(l);
 
-                    Download download = new Download { At = DateTime.Today, LinkId = l.Id, Status = "Pending", SourceLink = URLParser.getThisDownloadsUrl(t.UrlFormat, DateTime.Today) };
+                    Download download = new Download { At = DateTime.Today, LinkId = l.Id, Status = "Pending", SourceLink = URLParsingService.getThisDownloadsUrl(t.UrlFormat, DateTime.Today) };
                     db.Downloads.Add(download);
 
                     Exchange exchange = new Exchange();

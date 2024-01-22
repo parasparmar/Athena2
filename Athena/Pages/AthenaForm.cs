@@ -23,6 +23,7 @@ namespace Athena
             tasks = FMViewModel.GetTaskList();
             PopulateTaskList(tasks);
         }
+
         private void BtnDownload_Click(object sender, EventArgs e)
         {
 
@@ -33,10 +34,10 @@ namespace Athena
             DateTime fromDate = dtpFromDate.Value > DateTime.Today ? DateTime.Today.Date : dtpFromDate.Value.Date;
             DateTime toDate = dtpToDate.Value > DateTime.Today ? DateTime.Today.Date : dtpToDate.Value.Date;
 
-            Downloader d = new Downloader();
+            DownloadService d = new DownloadService();
             using (Helper db = new Helper())
             {
-                var selectedTaskList = DownloadTaskFactory.createFileDownloads(selectedtasks, fromDate, toDate);
+                var selectedTaskList = d.createFileDownloads(selectedtasks, fromDate, toDate);
                 int selectedTaskListCount = selectedTaskList.Count;
                 for (int i = 0; i < selectedTaskListCount; i++)
                 {
@@ -100,16 +101,14 @@ namespace Athena
                     else
                     {
                         tbDestinationFormat.Text = d.DestinationFileFormat;
-                    }
-
-                    
+                    }                   
                 }
             }
         }
 
         private void Tokenize(MyDownloadTask d)
         {
-            var destinationFormat = URLParser.Tokenize(d.SourceUrl);
+            var destinationFormat = URLParsingService.Tokenize(d.SourceUrl);
             Uri destFormat = new Uri(destinationFormat);
             var f = destFormat.Segments;
             var fileFormat = HttpUtility.UrlDecode(f[f.Length - 1]);
@@ -259,7 +258,7 @@ namespace Athena
                 var a = e.Data.GetData(DataFormats.Text).ToString();
                 tbSourceUrl.Text = a;
                 Uri uriA = new Uri(a);
-                string formattedUrl = URLParser.Tokenize(uriA);
+                string formattedUrl = URLParsingService.Tokenize(uriA);
                 tbUrlFormat.Text = formattedUrl;
                 uriA = new Uri(formattedUrl);
                 tbDestinationFormat.Text = uriA.Segments.LastOrDefault();
