@@ -1,4 +1,5 @@
 ﻿using Athena.Models;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace Athena.Services;
@@ -45,6 +46,7 @@ public class FMViewModel
                 .Include(b => b.Link)
                 .Include(c => c.Exchange)
                 .SingleOrDefault(a => a.Id == t.DownloadTaskId);
+
             int count = records != null ? 1 : 0;
             bool isExistingTask = (count > 0) ? true : false;
 

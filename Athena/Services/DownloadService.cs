@@ -1,6 +1,5 @@
 ﻿using Athena.Models;
 using System.Net;
-using System.Net.Http.Headers;
 namespace Athena.Services;
 
 public class DownloadService
