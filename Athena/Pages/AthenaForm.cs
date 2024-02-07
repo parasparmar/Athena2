@@ -14,8 +14,7 @@ namespace Athena
         private string saveFolderPath = string.Empty;
         private string TaskName = string.Empty;
         private readonly string[] stringSeparators = new string[] { "\r\n" };
-        private List<MyDownloadTask> tasks = new List<MyDownloadTask>();
-        readonly Helper myDb = new Helper();
+        private List<MyDownloadTask> tasks = new List<MyDownloadTask>();        
         public AthenaForm()
         {
             InitializeComponent();
@@ -35,21 +34,18 @@ namespace Athena
             DateTime toDate = dtpToDate.Value > DateTime.Today ? DateTime.Today.Date : dtpToDate.Value.Date;
 
             DownloadService d = new DownloadService();
-            using (Helper db = new Helper())
+            var selectedTaskList = d.createFileDownloads(selectedtasks, fromDate, toDate);
+            int selectedTaskListCount = selectedTaskList.Count;
+            for (int i = 0; i < selectedTaskListCount; i++)
             {
-                var selectedTaskList = d.createFileDownloads(selectedtasks, fromDate, toDate);
-                int selectedTaskListCount = selectedTaskList.Count;
-                for (int i = 0; i < selectedTaskListCount; i++)
+                var fd = selectedTaskList[i].FileDownloads;
+                for (int j = 0; j < fd.Count; j++)
                 {
-                    var fd = selectedTaskList[i].FileDownloads;
-                    for (int j = 0; j < fd.Count; j++)
-                    {
-                        var myFd = fd[j];
-                        d.DownloadFile(myFd);
-                        fd[j] = myFd;
-                    }
-                    selectedTaskList[i].FileDownloads = fd;
+                    var myFd = fd[j];
+                    d.DownloadFile(myFd);
+                    fd[j] = myFd;
                 }
+                selectedTaskList[i].FileDownloads = fd;
             }
             PersistenceService.SaveDownloads(selectedtasks);
             MessageBox.Show($"Success. Downloading {TaskName} to {saveFolderPath} is complete.", "Success", MessageBoxButtons.OK);
@@ -92,7 +88,7 @@ namespace Athena
                     nmTaskId.Value = d.DownloadTaskId;
                     tbTaskName.Text = d.TaskName;
                     tbSourceUrl.Text = d.SourceUrl;
-                    tbUrlFormat.Text = d.UrlFormat;                    
+                    tbUrlFormat.Text = d.UrlFormat;
                     tbSaveFolderPath.Text = d.DownloadLocation;
                     if (d.DestinationFileFormat == null)
                     {
@@ -101,7 +97,7 @@ namespace Athena
                     else
                     {
                         tbDestinationFormat.Text = d.DestinationFileFormat;
-                    }                   
+                    }
                 }
             }
         }
@@ -315,7 +311,7 @@ namespace Athena
             tbSourceUrl.ResetText();
             tbUrlFormat.ResetText();
             tbSaveFolderPath.ResetText();
-            tbDestinationFormat.ResetText();            
+            tbDestinationFormat.ResetText();
             progressBarTask1.Value = 0;
         }
 

@@ -1,6 +1,6 @@
 ﻿using Athena.Models;
-using Mapster;
-using Microsoft.EntityFrameworkCore;
+using LinqToDB;
+
 
 namespace Athena.Services;
 public class FMViewModel
@@ -9,22 +9,27 @@ public class FMViewModel
 
     public static List<Download> GetDownloads(MyDownloadTask t)
     {
-        using (Helper db = new Helper())
+        using (AthenaDb db = new AthenaDb())
         {
             var d = db.DownloadTasks
-                   .Include(b => b.Link.Downloads)
-                   .SingleOrDefault(a => a.Id == t.DownloadTaskId)
-                   .Link
-                   .Downloads
-                   .ToList();
-            return d;
+                .Where(a=>a.Id==t.DownloadTaskId)
+                .Include(b=>b.Link.Downloads)                                
+                .ToList();
+            
+            //var d = db.DownloadTasks
+            //       .Include(b => b.Link.Downloads)
+            //       .SingleOrDefault(a => a.Id == t.DownloadTaskId)
+            //       .Link
+            //       .Downloads
+            //       .ToList();
+            //return d;
         }
     }
 
     public static List<Download> GetOrCreateDownloads(MyDownloadTask t)
     {
         List<Download> d;
-        using (Helper db = new Helper())
+        using (AthenaDb db = new AthenaDb())
         {
             d = db.DownloadTasks
                   .Include(b => b.Link.Downloads)
@@ -40,7 +45,7 @@ public class FMViewModel
     public static List<MyDownloadTask> AddOrUpdateTasks(MyDownloadTask t)
     {
         List<MyDownloadTask> returnValue = new List<MyDownloadTask>();
-        using (Helper db = new Helper())
+        using (AthenaDb db = new AthenaDb())
         {
             var records = db.DownloadTasks
                 .Include(b => b.Link)
@@ -114,7 +119,7 @@ public class FMViewModel
     public static List<MyDownloadTask> RemoveTasks(MyDownloadTask t)
     {
         List<MyDownloadTask> returnValue;
-        using (Helper db = new Helper())
+        using (AthenaDb db = new AthenaDb())
         {
             var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.DownloadTaskId);
             int count = records != null ? 1 : 0;
@@ -133,7 +138,7 @@ public class FMViewModel
     public static MyDownloadTask GetMyDownloadTaskById(int id)
     {
         MyDownloadTask tasks;
-        using (Helper db = new Helper())
+        using (AthenaDb db = new AthenaDb())
         {
 
             tasks = db.DownloadTasks
@@ -171,7 +176,7 @@ public class FMViewModel
 
     {
         List<MyDownloadTask> tasks = new List<MyDownloadTask>();
-        using (Helper db = new Helper())
+        using (AthenaDb db = new AthenaDb())
         {
             tasks = db.DownloadTasks
                 .Include(a => a.Link)

@@ -16,7 +16,14 @@ public class DownloadService
         //ISSUE : Although the Synchronous downloader works. It will freeze the UI. This is a known devil.
         try
         {
-
+            /*
+             * URL of the file to download
+             * UserAgent for the browser to emulate
+             * Destination Folder to place the file in.
+             * Destination FileName to rename the file to.
+             * RETURNS
+             * ZippedFiles Status - Success or failure for the download of each file
+            */
             HttpWebRequest request;
             HttpWebResponse response;
             request = (HttpWebRequest)WebRequest.Create(CurrentTask.Url);
