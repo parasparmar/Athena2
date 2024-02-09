@@ -13,8 +13,7 @@ public class FMViewModel
         {
             var d = db.DownloadTasks
                 .Where(a=>a.Id==t.DownloadTaskId)
-                .Include(b=>b.Link.Downloads)                                
-                .ToList();
+                .Include(b=>b.Link.Downloads).ToList();
             
             //var d = db.DownloadTasks
             //       .Include(b => b.Link.Downloads)

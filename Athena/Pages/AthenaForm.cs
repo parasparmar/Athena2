@@ -289,7 +289,7 @@ namespace Athena
             var taskId = (int)nmTaskId.Value;
             if (taskId > 0)
             {
-                using (Helper db = new Helper())
+                using (AthenaDb db = new AthenaDb())
                 {
                     var d = tasks.SingleOrDefault(a => a.DownloadTaskId == taskId);
                     if (d != null)
