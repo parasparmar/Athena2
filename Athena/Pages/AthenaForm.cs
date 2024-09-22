@@ -14,7 +14,7 @@ namespace Athena
         private string saveFolderPath = string.Empty;
         private string TaskName = string.Empty;
         private readonly string[] stringSeparators = new string[] { "\r\n" };
-        private List<MyDownloadTask> tasks = new List<MyDownloadTask>();        
+        private List<MyDownloadTask> tasks = new List<MyDownloadTask>();
         public AthenaForm()
         {
             InitializeComponent();
@@ -289,14 +289,13 @@ namespace Athena
             var taskId = (int)nmTaskId.Value;
             if (taskId > 0)
             {
-                using (AthenaDb db = new AthenaDb())
+                using AthenaDb db = new AthenaDb();
+                var d = tasks.SingleOrDefault(a => a.DownloadTaskId == taskId);
+                if (d != null)
                 {
-                    var d = tasks.SingleOrDefault(a => a.DownloadTaskId == taskId);
-                    if (d != null)
-                    {
-                        Tokenize(d);
-                    }
+                    Tokenize(d);
                 }
+
             }
 
 

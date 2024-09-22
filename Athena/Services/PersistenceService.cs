@@ -8,13 +8,11 @@ namespace Athena.Services
     {
         public static int SaveDownloads(List<Download> downloads)
         {
-            using (AthenaDb db = new AthenaDb())
-            {
-                //db.Downloads.AddRange(downloads);
-                var status = db.Downloads.BulkCopy(downloads);
-                Console.WriteLine("RowsCopied : " + status.RowsCopied);
-                return (int)status.RowsCopied;
-            }
+            using AthenaDb db = new AthenaDb();
+            //db.Downloads.AddRange(downloads);
+            var status = db.Downloads.BulkCopy(downloads);
+            Console.WriteLine("RowsCopied : " + status.RowsCopied);
+            return (int)status.RowsCopied;
         }
         public static int SaveDownloads(List<MyDownloadTask> downloads)
         {
@@ -59,25 +57,25 @@ namespace Athena.Services
             using AthenaDb db = new AthenaDb();
             var dtd = new DownloadTask();
             var dld = new Download();
-
+            int j = 0;
             if (d != null && d.DownloadTaskId > 0)
             {
                 dtd = db.DownloadTasks.Find(d.DownloadTaskId);
 
-                dld = db.Downloads.LoadWith(a => a.LinkId).Where(e => e.LinkId == 1).FirstOrDefault();
+                dld = db.Downloads.Where(e => e.LinkId == 1).LoadWith(a => a.LinkId).FirstOrDefault();
                 if (dtd != null)
                 {
-                    dld.LinkId = dtd.LinkId;
+                    dld.LinkId = (long)dtd.LinkId;
                     dld.SourceLink = d.SourceUrl;
                 }
                 else
                 {
-                    db.Downloads.Add(dld);
-                    db.Entry(dld).State = EntityState.Added;
+                    j = db.Insert<Download>(dld);
+                    //db.Entry(dld).State = EntityState.Added;
                 }
 
             }
-            return db.SaveChanges();
+            return j;
 
         }
     }
