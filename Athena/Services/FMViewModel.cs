@@ -13,15 +13,15 @@ public class FMViewModel
 
         var d = db.DownloadTasks
             .Where(a => a.Id == t.DownloadTaskId)
-            .Include(b => b.Link.Downloads).ToList();
+            .LoadWith(b => b.Link.Downloads).ToList();
 
         //var d = db.DownloadTasks
-        //       .Include(b => b.Link.Downloads)
+        //       .LoadWith(b => b.Link.Downloads)
         //       .SingleOrDefault(a => a.Id == t.DownloadTaskId)
         //       .Link
         //       .Downloads
         //       .ToList();
-        //return d;
+        return d;
 
     }
 
@@ -30,7 +30,7 @@ public class FMViewModel
         List<Download> d;
         using AthenaDb db = new AthenaDb();
         d = db.DownloadTasks
-              .Include(b => b.Link.Downloads)
+              .LoadWith(b => b.Link.Downloads)
               .SingleOrDefault(a => a.Id == t.DownloadTaskId)
               .Link
               .Downloads
@@ -45,8 +45,8 @@ public class FMViewModel
         using AthenaDb db = new AthenaDb();
 
         var records = db.DownloadTasks
-            .Include(b => b.Link)
-            .Include(c => c.Exchange)
+            .LoadWith(b => b.Link)
+            .LoadWith(c => c.Exchange)
             .SingleOrDefault(a => a.Id == t.DownloadTaskId);
 
         int count = records != null ? 1 : 0;
@@ -117,7 +117,7 @@ public class FMViewModel
     {
         List<MyDownloadTask> returnValue;
         using AthenaDb db = new AthenaDb();
-        var records = db.DownloadTasks.Include(b => b.Link).Include(c => c.Exchange).SingleOrDefault(a => a.Id == t.DownloadTaskId);
+        var records = db.DownloadTasks.LoadWith(b => b.Link).LoadWith(c => c.Exchange).SingleOrDefault(a => a.Id == t.DownloadTaskId);
         int count = records != null ? 1 : 0;
         bool isExistingTask = (count > 0) ? true : false;
         if (isExistingTask)
@@ -136,8 +136,8 @@ public class FMViewModel
         MyDownloadTask tasks;
         using AthenaDb db = new AthenaDb();
         tasks = db.DownloadTasks
-            .Include(a => a.Link)
-            .Include(a => a.Link.Downloads)
+            .LoadWith(a => a.Link)
+            .LoadWith(a => a.Link.Downloads)
             .Where(a => a.Id == id)
             .Select(a => new MyDownloadTask
             {
@@ -171,8 +171,8 @@ public class FMViewModel
         using AthenaDb db = new AthenaDb();
 
         tasks = db.DownloadTasks
-            .Include(a => a.Link)
-            .Include(a => a.Link.Downloads)
+            .LoadWith(a => a.Link)
+            .LoadWith(a => a.Link.Downloads)
             .Select(a => new MyDownloadTask
             {
                 DownloadTaskId = a.Id,

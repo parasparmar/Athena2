@@ -110,10 +110,10 @@ namespace Athena.Services
                 StringBuilder sb = new StringBuilder(formattedUrl);
                 for (int i = 0; i < beginTokenCount; i++)
                 {
-                    begin = formattedUrl.IndexOf('{', begin) ;
+                    begin = formattedUrl.IndexOf('{', begin);
                     end = formattedUrl.IndexOf('}', begin);
                     chars = end - (begin + 1);
-                    dateFormat = formattedUrl.Substring(begin+1, chars);
+                    dateFormat = formattedUrl.Substring(begin + 1, chars);
                     if (dateFormat != null)
                     {
                         sb.Replace($"{{{dateFormat}}}", day.ToString(dateFormat, CultureInfo.InvariantCulture).ToUpper(CultureInfo.InvariantCulture));

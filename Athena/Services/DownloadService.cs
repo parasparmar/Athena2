@@ -4,7 +4,7 @@ namespace Athena.Services;
 
 public class DownloadService
 {
-    #pragma warning disable SYSLIB0014
+#pragma warning disable SYSLIB0014
     private CookieContainer cookieJar;
     /// <summary>
     /// Downloads a File given the FileDownload object which encapsulates the current file to be downloaded and its associated source and destinations.
@@ -50,7 +50,7 @@ public class DownloadService
         }
 
     }
-    #pragma warning restore SYSLIB0014
+#pragma warning restore SYSLIB0014
     public List<MyDownloadTask> createFileDownloads(List<MyDownloadTask> mdt, DateTime FromDate, DateTime ToDate)
     {
         List<FileDownload> fdt;

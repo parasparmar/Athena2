@@ -43,7 +43,7 @@
         public static List<DateTime> getMissingDates(string FolderToScan)
         {
 
-            
+
             string P = Path.GetFullPath(FolderToScan);
             List<string> Directories = Directory.EnumerateDirectories(P).ToList<string>();
             List<string> Files = new List<string>();
